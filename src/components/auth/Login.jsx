@@ -3,11 +3,13 @@ import { Fragment, useState } from "react";
 import useSession from "../../hooks/useSession";
 import { Field, Form, Formik } from "formik";
 import signInSchema from "../../validation/signInSchema";
+import Lottie from "lottie-react";
+import LoginAnimation from "../../assets/lottie/animation_lnkidi4p.json";
 
 // eslint-disable-next-line react/prop-types
 const Login = ({ isOpen, setIsOpen }) => {
   const loginInitialValues = {
-    username: "",
+    email: "",
     password: "",
   };
   const [loginError, setLoginError] = useState(null);
@@ -35,7 +37,7 @@ const Login = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 backdrop-blur-sm bg-black/30" />
         </Transition.Child>
 
         <Transition.Child
@@ -47,9 +49,9 @@ const Login = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="bg-white w-fit border rounded-md p-4 min-w-[400px] flex flex-col gap-4">
-            <Dialog.Title className="text-center font-bold">
-              Sign In
+          <Dialog.Panel className="bg-[#2D354B] rounded-xl p-4 flex max-w-[400px] w-full m-4 flex-col gap-4">
+            <Dialog.Title className="flex justify-center font-bold w-full">
+              <Lottie animationData={LoginAnimation} className="h-48 w-48" />
             </Dialog.Title>
             {loginError && (
               <span className="p-1 w-full bg-red-200 border text-red-700 text-sm text-center border-red-700">
@@ -62,18 +64,18 @@ const Login = ({ isOpen, setIsOpen }) => {
               onSubmit={handleSubmit}
             >
               {({ errors, touched }) => (
-                <Form className="flex flex-col gap-2">
+                <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
                     <Field
                       className="w-full p-1 border rounded focus:outline-blue-500"
-                      id="username"
-                      name="username"
-                      placeholder="Username"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
                       autoComplete="off"
                     />
-                    {errors.username && touched.username ? (
+                    {errors.email && touched.email ? (
                       <span className="text-red-500 text-xs italic">
-                        {errors.username}
+                        {errors.email}
                       </span>
                     ) : null}
                   </div>
@@ -94,7 +96,7 @@ const Login = ({ isOpen, setIsOpen }) => {
                   </div>
                   <button
                     type="submit"
-                    className="bg-blue-500 rounded text-white p-1"
+                    className="bg-blue-500 rounded text-white p-1 font-productSansBlack"
                   >
                     Sign In
                   </button>

@@ -2,22 +2,29 @@ import clsx from "clsx";
 import useChatService from "../../services/useChatService";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Typewriter from "typewriter-effect";
 import { Icon } from "@iconify/react";
+import autoAnimate from "@formkit/auto-animate";
+import Lottie from "lottie-react";
+import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
+import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [aiResponse, setAiResponse] = useState("");
   const { sendQuestion, getConversation, addMessage } = useChatService();
   const { id } = useParams();
   const nav = useNavigate();
   const messageRef = useRef(null);
+  const animateMessage = useRef(null);
 
   const scrollToBottom = () => {
     messageRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    animateMessage.current && autoAnimate(animateMessage.current);
+  }, [animateMessage]);
 
   useEffect(() => {
     if (messageRef.current) {
@@ -36,6 +43,7 @@ function Chat() {
 
   const handleSend = async (e) => {
     e.preventDefault();
+    if (!query) return;
     setIsLoading(true);
     setConversations((prev) => [...prev, query]);
     setQuery("");
@@ -47,7 +55,7 @@ function Chat() {
       console.log("chat =>", error);
       conversationResponse = data;
     } else {
-      const { data, error } = await addMessage({ message: query });
+      const { data } = await addMessage({ message: query });
       conversationResponse = data;
     }
 
@@ -55,11 +63,9 @@ function Chat() {
       ...prevConversations,
       conversationResponse,
     ]);
-    // setAiResponse(conversationResponse);
 
     setIsLoading(false);
   };
-  console.log(aiResponse);
   const messageElements = conversations?.map((message, key) => (
     <div
       className={clsx(
@@ -75,39 +81,45 @@ function Chat() {
   ));
 
   return (
-    <div className="h-screen flex flex-col relative overflow-hidden bg-[#2D354B] ">
-      <div className="flex justify-between p-5 items-center">
+    <div className="h-screen flex flex-col relative overflow-hidden w-full bg-[#2D354B] ">
+      <div className="flex justify-between p-5 items-center w-full">
         <Icon
-          className="h-[32px] w-[32px] text-[#ADAEB3]"
-          icon={"mingcute:arrow-left-circle-line"}
+          className="h-[32px] w-[32px] text-[#ADAEB3] lg:opacity-0 lg:pointer-events-none"
+          icon={"ion:chevron-back-circle-outline"}
           onClick={() => nav("/")}
         />
-        <div className="flex flex-col">
-          <span className="text-white font-bold text-center">DHVChat</span>
-          <span className="text-[#ADAEB3] text-sm">AI Chat Assistant</span>
+        <div className="flex gap-3 items-center">
+          <div className="h-[63px] w-[63px] rounded-full overflow-hidden">
+            <img
+              src={DHSVU_LOGO}
+              alt="dhvsu"
+              className="w-full h-full object-center object-cover"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-white font-bold">DHVChat</span>
+            <span className="text-[#ADAEB3] text-sm">AI Chat Assistant</span>
+          </div>
         </div>
         <Icon
-          icon={"iconamoon:menu-kebab-vertical-bold"}
+          icon={"material-symbols:light-mode"}
           className="h-[32px] w-[32px] text-[#ADAEB3]"
         />
       </div>
       <div className="h-80 w-80 bottom-0 right-[-100px] bg-[#35243D] rounded-full absolute "></div>
       <div className="bg-[#202533] flex flex-col h-[85%] overflow-hidden bg-opacity-60 backdrop-filter relative backdrop-blur-3xl mt-auto rounded-t-[46px]">
-        <div className="flex-1 h-full p-5 overflow-y-auto flex flex-col gap-5 pb-[10px]">
+        <div
+          ref={animateMessage}
+          className="flex-1 h-full p-5 overflow-y-auto flex flex-col gap-5 pb-[10px]"
+        >
           {messageElements}
-          {/* {aiResponse && (
-            <div className="w-fit p-2 text-left bg-pink-900 mr-auto max-w-[75%] px-6 rounded-[1.5rem] rounded-bl-none py-[13px] text-white">
-              <Typewriter
-                onInit={(typewriter) => {
-                  typewriter.typeString(aiResponse).start();
-                }}
+          {isLoading ? (
+            <div className="text-left bg-[#585C68] mr-auto max-w-[75%] px-6 rounded-[1.5rem] rounded-bl-none py-[13px] text-white  w-fit p-2">
+              <Lottie
+                animationData={chatbot}
+                className="h-14 w-14 text-white "
               />
             </div>
-          )} */}
-          {isLoading ? (
-            <span className="text-left animate-pulse bg-[#585C68] mr-auto max-w-[75%] rounded-full px-6 text-white py-[13px]">
-              thinking...
-            </span>
           ) : null}
           <div ref={messageRef} />
         </div>
