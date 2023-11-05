@@ -5,15 +5,18 @@ export default function useKnowledege() {
   const { post, get } = useApiHandler();
 
   const addKnowledge = useCallback(
-    async (payload) => {
+    async payload => {
       return await post("/knowledges", payload);
     },
     [post]
   );
 
-  const getKnowledges = useCallback(async () => {
-    return await get("/knowledges");
-  }, [get]);
+  const getKnowledges = useCallback(
+    async payload => {
+      return await get("/knowledges", payload);
+    },
+    [get]
+  );
 
   return {
     addKnowledge,
