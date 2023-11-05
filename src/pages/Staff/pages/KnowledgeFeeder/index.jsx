@@ -30,7 +30,7 @@ const KnowledgeFeeder = () => {
     if (!searchValue) {
       (async () => {
         setIsLoading(true);
-        const knowledges = await getKnowledges({ limit: 5 });
+        const knowledges = await getKnowledges({ limit: 20 });
         setKnowledges(knowledges?.items);
         setIsLoading(false);
       })();
@@ -98,11 +98,11 @@ const KnowledgeFeeder = () => {
       >
         Knowledge Feeder
       </h1>
-      <div className="flex h-full w-full items-center gap-5">
-        <div className="h-full w-[70%] rounded-md bg-black/50 p-5">
+      <div className="flex h-full w-full items-center gap-5 overflow-y-scroll">
+        <div className="relative flex h-full w-[70%] overflow-y-scroll rounded-md bg-black/50 p-5">
           <table
             ref={parentAnimate}
-            className="flex h-full w-full flex-col  gap-4 text-white"
+            className="absolute left-0 top-0 flex  h-full w-full flex-col gap-4 text-white"
           >
             <tr className="flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left font-productSansBlack">
               <th className="flex-1">Subject</th>
