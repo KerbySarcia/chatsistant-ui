@@ -7,6 +7,7 @@ import autoAnimate from "@formkit/auto-animate";
 import Lottie from "lottie-react";
 import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
+import useSession from "../../hooks/useSession";
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
@@ -17,6 +18,7 @@ function Chat() {
   const nav = useNavigate();
   const messageRef = useRef(null);
   const animateMessage = useRef(null);
+  const { signOut } = useSession();
 
   const scrollToBottom = () => {
     messageRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,16 +38,16 @@ function Chat() {
     if (id !== "try-now") {
       (async () => {
         const conversation = await getConversation(id);
-        setConversations(conversation.conversation_history);
+        setConversations(conversation?.conversation_history);
       })();
     }
   }, []);
 
-  const handleSend = async (e) => {
+  const handleSend = async e => {
     e.preventDefault();
     if (!query) return;
     setIsLoading(true);
-    setConversations((prev) => [...prev, query]);
+    setConversations(prev => [...prev, query]);
     setQuery("");
 
     let conversationResponse = [];
@@ -59,7 +61,7 @@ function Chat() {
       conversationResponse = data;
     }
 
-    setConversations((prevConversations) => [
+    setConversations(prevConversations => [
       ...prevConversations,
       conversationResponse,
     ]);
@@ -70,8 +72,8 @@ function Chat() {
     <div
       className={clsx(
         key % 2 === 0
-          ? "text-left bg-[#8C6A71] ml-auto max-w-[60%] px-6 rounded-[1.5rem] rounded-br-none py-[13px] text-white"
-          : "text-left bg-[#585C68] mr-auto max-w-[75%] px-6 rounded-[1.5rem] rounded-bl-none py-[13px] text-white",
+          ? "ml-auto max-w-[60%] rounded-[1.5rem] rounded-br-none bg-[#8C6A71] px-6 py-[13px] text-left text-white"
+          : "mr-auto max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] px-6 py-[13px] text-left text-white",
         "w-fit p-2"
       )}
       key={key}
@@ -81,40 +83,61 @@ function Chat() {
   ));
 
   return (
-    <div className="h-screen flex flex-col relative overflow-hidden w-full bg-[#2D354B] ">
-      <div className="flex justify-between p-5 items-center w-full">
-        <Icon
-          className="h-[32px] w-[32px] text-[#ADAEB3] lg:opacity-0 lg:pointer-events-none"
-          icon={"ion:chevron-back-circle-outline"}
-          onClick={() => nav("/")}
-        />
-        <div className="flex gap-3 items-center">
-          <div className="h-[63px] w-[63px] rounded-full overflow-hidden">
-            <img
-              src={DHSVU_LOGO}
-              alt="dhvsu"
-              className="w-full h-full object-center object-cover"
-            />
+    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-[#2D354B] xl:flex-row xl:gap-5 xl:p-10">
+      <div className="xl:flex xl:w-[30%] xl:flex-col">
+        <div className="flex w-full items-center justify-between p-5">
+          <Icon
+            className="h-[32px] w-[32px] text-[#ADAEB3] lg:pointer-events-none xl:hidden"
+            icon={"solar:logout-2-bold"}
+            onClick={() => signOut()}
+          />
+          <div className="flex w-full items-center justify-center gap-3">
+            <div className="h-[63px] w-[63px] overflow-hidden rounded-full">
+              <img
+                src={DHSVU_LOGO}
+                alt="dhvsu"
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-white">DHVChat</span>
+              <span className="text-sm text-[#ADAEB3]">AI Chat Assistant</span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-white font-bold">DHVChat</span>
-            <span className="text-[#ADAEB3] text-sm">AI Chat Assistant</span>
-          </div>
+          {/* <Icon
+            icon={"material-symbols:light-mode"}
+            className="h-[32px] w-[32px] text-[#ADAEB3]"
+          /> */}
         </div>
-        <Icon
-          icon={"material-symbols:light-mode"}
-          className="h-[32px] w-[32px] text-[#ADAEB3]"
-        />
+        {/* Side */}
+        <div className="hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 xl:flex">
+          <div className="flex w-full flex-col gap-3">
+            {["Facebook", "Twitter", "DHVSU Website"].map((item, key) => (
+              <button
+                key={key}
+                className="w-full rounded-md bg-slate-300 px-3 py-1"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => signOut()}
+            className="w-full rounded-md bg-white/80 px-3 py-1"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
-      <div className="h-80 w-80 bottom-0 right-[-100px] bg-[#35243D] rounded-full absolute "></div>
-      <div className="bg-[#202533] flex flex-col h-[85%] overflow-hidden bg-opacity-60 backdrop-filter relative backdrop-blur-3xl mt-auto rounded-t-[46px]">
+      {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}
+      <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-[#202533] bg-opacity-60 backdrop-blur-3xl backdrop-filter xl:h-full xl:flex-1 xl:rounded-md">
         <div
           ref={animateMessage}
-          className="flex-1 h-full p-5 overflow-y-auto flex flex-col gap-5 pb-[10px]"
+          className="flex h-full flex-1 flex-col gap-5 overflow-y-auto p-5 pb-[10px]"
         >
           {messageElements}
           {isLoading ? (
-            <div className="text-left bg-[#585C68] mr-auto max-w-[75%] px-6 rounded-[1.5rem] rounded-bl-none py-[13px] text-white  w-fit p-2">
+            <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] p-2 px-6 py-[13px]  text-left text-white">
               <Lottie
                 animationData={chatbot}
                 className="h-14 w-14 text-white "
@@ -124,24 +147,24 @@ function Chat() {
           <div ref={messageRef} />
         </div>
         <form
-          className="flex w-full p-4 bg-gradient-to-t from-[#202535]"
+          className="flex w-full bg-gradient-to-t from-[#202535] p-4"
           onSubmit={handleSend}
         >
-          <div className="bg-[#585C68] w-full flex h-[69px] rounded-[35px] overflow-hidden">
+          <div className="flex h-[69px] w-full overflow-hidden rounded-[35px] bg-[#585C68]">
             <input
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={e => setQuery(e.target.value)}
               value={query}
               type="text"
-              className="flex-1 bg-[#585C68] outline-none p-5 text-white"
+              className="flex-1 bg-[#585C68] p-5 text-white outline-none"
             />
             <button
               disabled={isLoading}
               type="submit"
-              className="w-[100px] rounded-[35px] p-1 text-white bg-[#8C6A71] flex flex-col justify-center items-center"
+              className="flex w-[100px] flex-col items-center justify-center rounded-[35px] bg-[#8C6A71] p-1 text-white"
             >
               <Icon
                 icon={"mingcute:send-line"}
-                className="text-white h-[35px] w-[35px]"
+                className="h-[35px] w-[35px] text-white"
               />
             </button>
           </div>

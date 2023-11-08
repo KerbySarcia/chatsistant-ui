@@ -3,13 +3,28 @@ import PATHS from "./common/routes";
 import LandingPage from "./pages/LandingPage";
 import Chat from "./pages/Chat";
 import Staff from "./pages/Staff";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
     <Routes>
-      <Route path={PATHS.LANDING_PAGE} element={<LandingPage />} />
-      <Route path={PATHS.CHAT_PAGE()} element={<Chat />} />
-      <Route path={PATHS.STAFF_PAGE} element={<Staff />} />
+      <Route path={"/"} element={<LandingPage />} />
+      <Route
+        path={"/chat/:id"}
+        element={
+          <ProtectedRoute role={["USER"]}>
+            <Chat />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={"/staff"}
+        element={
+          <ProtectedRoute role={["STAFF", "ADMIN"]}>
+            <Staff />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

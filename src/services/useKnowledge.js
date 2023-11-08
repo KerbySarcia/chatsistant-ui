@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import useApiHandler from "../hooks/useApiHandler";
 
 export default function useKnowledege() {
-  const { post, get } = useApiHandler();
+  const { post, get, deleteData } = useApiHandler();
 
   const addKnowledge = useCallback(
     async payload => {
@@ -18,8 +18,16 @@ export default function useKnowledege() {
     [get]
   );
 
+  const deleteKnowledge = useCallback(
+    async id => {
+      return await deleteData(`/knowledges/${id}`);
+    },
+    [deleteData]
+  );
+
   return {
     addKnowledge,
     getKnowledges,
+    deleteKnowledge,
   };
 }

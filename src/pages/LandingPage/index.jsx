@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Login from "../../components/auth/login";
 import SignUp from "../../components/auth/Signup";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import TRY_CHAT from "../../assets/images/convo.png";
 import FORM from "../../assets/images/form.png";
 import AVATAR from "../../assets/images/Avatar.png";
+import useSession from "../../hooks/useSession";
 
 const Button = ({ img, label, onClick }) => {
   return (
@@ -51,62 +52,76 @@ const FirstSection = () => {
 };
 
 const SecondSection = () => {
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+
   return (
-    <div
-      className="flex h-full w-full flex-col items-center justify-center rounded-t-[3rem]
-   bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem] md:py-10 lg:h-[40rem] lg:max-w-[35rem]"
-    >
-      <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
-        <div className="flex items-center gap-10">
-          <Button img={TRY_CHAT} label={"Try Now!"} onClick={() => {}} />
-          <Button img={FORM} label={"Sign up"} onClick={() => {}} />
-        </div>
-        <button
-          className=" flex min-h-[7rem] w-full items-center justify-center  rounded-[2rem]
-     bg-gray-600/20 font-productSansBlack transition hover:scale-110"
-        >
-          <div className="relative right-10 w-[50%]">
-            <div className="relative left-3 flex flex-col gap-1">
-              <h1 className="text-2xl text-white">About Us!</h1>
-              <span className="text-white/70">Learn about the creators</span>
-            </div>
-            <img
-              src={AVATAR}
-              alt="icon"
-              className="absolute -right-28 -top-14 h-[10rem] w-[10rem] object-contain lg:-right-36 lg:-top-20 lg:h-[12rem] lg:w-[12rem]"
-            />
+    <>
+      <Login isOpen={loginModalIsOpen} setIsOpen={setLoginModalIsOpen} />
+
+      <div
+        className="flex h-full w-full flex-col items-center justify-center rounded-t-[3rem]
+bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem] md:py-10 lg:h-[40rem] lg:max-w-[35rem]"
+      >
+        <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
+          <div className="flex items-center gap-10">
+            <Button img={TRY_CHAT} label={"Try Now!"} onClick={() => {}} />
+            <Button img={FORM} label={"Sign up"} onClick={() => {}} />
           </div>
-        </button>
-        <button className="w-full rounded-[2rem] bg-gray-600/20 py-5 font-productSansBlack text-[#BEBAE5CC] transition hover:scale-110 lg:text-3xl">
-          Login
-        </button>
+          <button
+            className=" flex min-h-[7rem] w-full items-center justify-center  rounded-[2rem]
+ bg-gray-600/20 font-productSansBlack transition hover:scale-110"
+          >
+            <div className="relative right-10 w-[50%]">
+              <div className="relative left-3 flex flex-col gap-1">
+                <h1 className="text-2xl text-white">About Us!</h1>
+                <span className="text-white/70">Learn about the creators</span>
+              </div>
+              <img
+                src={AVATAR}
+                alt="icon"
+                className="absolute -right-28 -top-14 h-[10rem] w-[10rem] object-contain lg:-right-36 lg:-top-20 lg:h-[12rem] lg:w-[12rem]"
+              />
+            </div>
+          </button>
+          <button
+            onClick={() => setLoginModalIsOpen(true)}
+            className="w-full rounded-[2rem] bg-gray-600/20 py-5 font-productSansBlack text-[#BEBAE5CC] transition hover:scale-110 lg:text-3xl"
+          >
+            Login
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 function LandingPage() {
   const nav = useNavigate();
-  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const { isLoading } = useSession();
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
+
+  if (isLoading) return <div className="h-screen w-full bg-white"></div>;
+
   return (
-    <div className="h-screen">
-      <div className="relative h-full w-full overflow-hidden">
-        <div className="h-full bg-primary/90 backdrop-blur-2xl backdrop-filter  md:flex md:items-center md:justify-center ">
-          <div className="flex h-full w-full flex-col items-center md:h-fit md:flex-row md:justify-center md:p-5 lg:gap-24">
-            <FirstSection />
-            <SecondSection />
+    <>
+      <div className="h-screen">
+        <div className="relative h-full w-full overflow-hidden">
+          <div className="h-full bg-primary/90 backdrop-blur-2xl backdrop-filter  md:flex md:items-center md:justify-center ">
+            <div className="flex h-full w-full flex-col items-center md:h-fit md:flex-row md:justify-center md:p-5 lg:gap-24">
+              <FirstSection />
+              <SecondSection />
+            </div>
           </div>
-        </div>
-        <div className="absolute -right-28 bottom-0 -z-10 h-[20rem] w-[20rem] rounded-full bg-[#37243E] lg:-bottom-[10rem] lg:h-[50rem] lg:w-[50rem]" />
-        <div className="absolute -left-28 -top-48 -z-10 h-[20rem] w-[20rem] rounded-full bg-[#37243E] lg:-top-[30rem] lg:h-[50rem] lg:w-[50rem]" />
-        <div className="absolute -bottom-[30rem] -z-10 h-[50rem] w-[60rem] rounded-full bg-[#37243E]" />
-        <div
-          className="absolute bottom-0 left-20 hidden h-[20rem] w-[50rem] rounded-tl-[10rem] rounded-tr-[20rem] bg-gray-600/20
+          <div className="absolute -right-28 bottom-0 -z-10 h-[20rem] w-[20rem] rounded-full bg-[#37243E] lg:-bottom-[10rem] lg:h-[50rem] lg:w-[50rem]" />
+          <div className="absolute -left-28 -top-48 -z-10 h-[20rem] w-[20rem] rounded-full bg-[#37243E] lg:-top-[30rem] lg:h-[50rem] lg:w-[50rem]" />
+          <div className="absolute -bottom-[30rem] -z-10 h-[50rem] w-[60rem] rounded-full bg-[#37243E]" />
+          <div
+            className="absolute bottom-0 left-20 hidden h-[20rem] w-[50rem] rounded-tl-[10rem] rounded-tr-[20rem] bg-gray-600/20
          shadow-2xl shadow-black 2xl:block"
-        />
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
