@@ -8,10 +8,12 @@ import Lottie from "lottie-react";
 import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import useSession from "../../hooks/useSession";
+import { isEmpty } from "lodash";
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [query, setQuery] = useState("");
   const { sendQuestion, getConversation, addMessage } = useChatService();
   const { id } = useParams();
@@ -57,8 +59,17 @@ function Chat() {
       console.log("chat =>", error);
       conversationResponse = data;
     } else {
-      const { data } = await addMessage({ message: query });
-      conversationResponse = data;
+      const aiResponse = await addMessage({ message: query });
+
+      if (!isEmpty(aiResponse?.error)) {
+        setErrorMessage(
+          "An error occured, please refresh the page and try again."
+        );
+        setIsLoading(false);
+
+        return;
+      }
+      conversationResponse = aiResponse?.data;
     }
 
     setConversations(prevConversations => [
@@ -136,6 +147,11 @@ function Chat() {
           className="flex h-full flex-1 flex-col gap-5 overflow-y-auto p-5 pb-[10px]"
         >
           {messageElements}
+          {errorMessage && (
+            <span className="rounded-md border border-red-400 px-3 py-1 text-red-400">
+              {errorMessage}
+            </span>
+          )}
           {isLoading ? (
             <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] p-2 px-6 py-[13px]  text-left text-white">
               <Lottie
@@ -154,6 +170,7 @@ function Chat() {
             <input
               onChange={e => setQuery(e.target.value)}
               value={query}
+              disabled={isLoading}
               type="text"
               className="flex-1 bg-[#585C68] p-5 text-white outline-none"
             />
