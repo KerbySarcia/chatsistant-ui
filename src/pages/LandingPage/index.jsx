@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "../../components/auth/Login";
-import SignUp from "../../components/auth/Signup";
+import SignUp from "../../components/auth/SignUp";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import TRY_CHAT from "../../assets/images/convo.png";
 import FORM from "../../assets/images/form.png";
