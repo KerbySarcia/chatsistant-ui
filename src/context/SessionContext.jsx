@@ -25,12 +25,12 @@ export default function SessionProvider({ children }) {
             return;
           }
           if (veriedSession?.role === "USER") {
-            nav(`/chat/${veriedSession?._id}`);
+            nav(`chat/${veriedSession?._id}`);
           } else if (
             veriedSession?.role === "STAFF" ||
             veriedSession?.role === "ADMIN"
           ) {
-            nav("/staff");
+            nav("staff");
           }
 
           setSession({ ...veriedSession });

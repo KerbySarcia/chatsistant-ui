@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "../../components/auth/Login";
-// import SignUp from "../../components/auth/Signup";
+import SignUp from "../../components/auth/Signup";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import TRY_CHAT from "../../assets/images/convo.png";
 import FORM from "../../assets/images/form.png";
@@ -53,10 +53,12 @@ const FirstSection = () => {
 
 const SecondSection = () => {
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
 
   return (
     <>
       <Login isOpen={loginModalIsOpen} setIsOpen={setLoginModalIsOpen} />
+      <SignUp isOpen={signUpModalIsOpen} setIsOpen={setSignUpModalIsOpen} />
 
       <div
         className="flex h-full w-full flex-col items-center justify-center rounded-t-[3rem]
@@ -65,7 +67,11 @@ bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem
         <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
           <div className="flex w-full items-center justify-center gap-10">
             <Button img={TRY_CHAT} label={"Facebook"} onClick={() => {}} />
-            <Button img={FORM} label={"Sign up"} onClick={() => {}} />
+            <Button
+              img={FORM}
+              label={"Sign up"}
+              onClick={() => setSignUpModalIsOpen(true)}
+            />
           </div>
           <button
             className=" flex min-h-[7rem] w-full items-center justify-center  rounded-[2rem]
