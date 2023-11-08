@@ -10,7 +10,7 @@ function App() {
     <Routes>
       <Route path={"/"} element={<LandingPage />} />
       <Route
-        path={"chat/:id"}
+        path={"/chat/:id"}
         element={
           <ProtectedRoute role={["USER"]}>
             <Chat />
@@ -18,7 +18,7 @@ function App() {
         }
       />
       <Route
-        path={"staff"}
+        path={"/staff"}
         element={
           <ProtectedRoute role={["STAFF", "ADMIN"]}>
             <Staff />
