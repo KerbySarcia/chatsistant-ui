@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import Login from "../../components/auth/login";
-import SignUp from "../../components/auth/Signup";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Login from "../../components/auth/Login";
+// import SignUp from "../../components/auth/Signup";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import TRY_CHAT from "../../assets/images/convo.png";
 import FORM from "../../assets/images/form.png";
@@ -63,8 +63,8 @@ const SecondSection = () => {
 bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem] md:py-10 lg:h-[40rem] lg:max-w-[35rem]"
       >
         <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
-          <div className="flex items-center gap-10">
-            <Button img={TRY_CHAT} label={"Try Now!"} onClick={() => {}} />
+          <div className="flex w-full items-center justify-center gap-10">
+            <Button img={TRY_CHAT} label={"Facebook"} onClick={() => {}} />
             <Button img={FORM} label={"Sign up"} onClick={() => {}} />
           </div>
           <button
