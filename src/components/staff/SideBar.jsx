@@ -2,6 +2,7 @@ import { RadioGroup } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
 import React from "react";
+import useSession from "../../hooks/useSession";
 
 const SIDEBAR_VALUES = [
   { value: "home", icon: "iconoir:home" },
@@ -15,6 +16,7 @@ const SIDEBAR_VALUES = [
 ];
 
 const SideBar = ({ value, setValue }) => {
+  const { signOut } = useSession();
   const radioGroupElements = SIDEBAR_VALUES.map((item, key) => (
     <RadioGroup.Option
       key={key}
@@ -41,7 +43,10 @@ const SideBar = ({ value, setValue }) => {
         <button className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl">
           <Icon icon={"iconamoon:mode-light-fill"} />
         </button>
-        <button className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl">
+        <button
+          onClick={() => signOut()}
+          className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl"
+        >
           <Icon icon={"majesticons:logout"} />
         </button>
       </div>

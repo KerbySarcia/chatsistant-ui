@@ -166,22 +166,22 @@ function Chat() {
           className="flex w-full bg-gradient-to-t from-[#202535] p-4"
           onSubmit={handleSend}
         >
-          <div className="flex h-[69px] w-full overflow-hidden rounded-[35px] bg-[#585C68]">
+          <div className="flex w-full overflow-hidden rounded-full bg-[#585C68] p-2 pl-8">
             <input
               onChange={e => setQuery(e.target.value)}
               value={query}
               disabled={isLoading}
               type="text"
-              className="flex-1 bg-[#585C68] p-5 text-white outline-none"
+              className="flex-1 bg-[#585C68] text-white outline-none"
             />
             <button
               disabled={isLoading}
               type="submit"
-              className="flex w-[100px] flex-col items-center justify-center rounded-[35px] bg-[#8C6A71] p-1 text-white"
+              className="group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-2 text-white hover:cursor-pointer"
             >
               <Icon
                 icon={"mingcute:send-line"}
-                className="h-[35px] w-[35px] text-white"
+                className="h-5 w-5 text-white transition-all group-hover:scale-110"
               />
             </button>
           </div>

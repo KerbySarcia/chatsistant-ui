@@ -5,6 +5,7 @@ import { Field, Form, Formik } from "formik";
 import signInSchema from "../../validation/signInSchema";
 import Lottie from "lottie-react";
 import LoginAnimation from "../../assets/lottie/animation_lnkidi4p.json";
+import LoadingSpinner from "../LoadingSpinner";
 
 // eslint-disable-next-line react/prop-types
 const Login = ({ isOpen, setIsOpen }) => {
@@ -13,18 +14,23 @@ const Login = ({ isOpen, setIsOpen }) => {
     password: "",
   };
   const [loginError, setLoginError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useSession();
 
-  const handleSubmit = async (data) => {
-    const { error } = await signIn(data);
-    console.log(error);
-    if (error) setLoginError(error);
+  const handleSubmit = async data => {
+    setIsLoading(true);
+    try {
+      const { error } = await signIn(data);
+      if (error) setLoginError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
-        className=" w-full h-full absolute top-0 z-50 flex justify-center items-center"
+        className=" absolute top-0 z-50 flex h-full w-full items-center justify-center"
         open={isOpen}
         onClose={() => setIsOpen(false)}
       >
@@ -37,7 +43,7 @@ const Login = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 backdrop-blur-sm bg-black/30" />
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
         </Transition.Child>
 
         <Transition.Child
@@ -49,12 +55,12 @@ const Login = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="bg-[#2D354B] rounded-xl p-4 flex max-w-[400px] w-full m-4 flex-col gap-4">
-            <Dialog.Title className="flex justify-center font-bold w-full">
+          <Dialog.Panel className="m-4 flex w-full max-w-[400px] flex-col gap-4 rounded-xl bg-[#2D354B] p-5">
+            <Dialog.Title className="flex w-full justify-center font-bold">
               <Lottie animationData={LoginAnimation} className="h-48 w-48" />
             </Dialog.Title>
             {loginError && (
-              <span className="p-1 w-full bg-red-200 border text-red-700 text-sm text-center border-red-700">
+              <span className="w-full border border-red-700 bg-red-200 p-1 text-center text-sm text-red-700">
                 {loginError}
               </span>
             )}
@@ -67,38 +73,44 @@ const Login = ({ isOpen, setIsOpen }) => {
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 px-2 focus:outline-blue-500"
                       id="email"
                       name="email"
                       placeholder="Email"
                       autoComplete="off"
+                      disabled={isLoading}
                     />
                     {errors.email && touched.email ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.email}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 px-2 focus:outline-blue-500"
                       type="password"
                       id="password"
                       name="password"
                       autoComplete="off"
                       placeholder="Password"
+                      disabled={isLoading}
                     />
                     {errors.password && touched.password ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.password}
                       </span>
                     ) : null}
                   </div>
                   <button
                     type="submit"
-                    className="bg-blue-500 rounded text-white p-1 font-productSansBlack"
+                    className="flex items-center justify-center rounded bg-blue-500 p-1 font-productSansBlack text-white"
                   >
-                    Sign In
+                    {isLoading ? (
+                      <LoadingSpinner className={"!h-4 !w-4"} />
+                    ) : (
+                      "Sign In"
+                    )}
                   </button>
                 </Form>
               )}
