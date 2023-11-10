@@ -8,7 +8,7 @@ export default {
         secondary: "#202535",
       },
       fontFamily: {
-        productSansBlack: ["ProductSansBlack"],
+        // productSansBlack: ["ProductSansBlack"],
       },
     },
   },
