@@ -8,6 +8,7 @@ import TRY_CHAT from "../../assets/images/convo.png";
 import FORM from "../../assets/images/form.png";
 import AVATAR from "../../assets/images/Avatar.png";
 import useSession from "../../hooks/useSession";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Button = ({ img, label, onClick }) => {
   return (
@@ -106,7 +107,12 @@ function LandingPage() {
   const { isLoading } = useSession();
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
 
-  if (isLoading) return <div className="h-screen w-full bg-white"></div>;
+  if (isLoading)
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-white">
+        <LoadingSpinner className={"!text-black"} />
+      </div>
+    );
 
   return (
     <>
