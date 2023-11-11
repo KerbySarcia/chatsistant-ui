@@ -109,8 +109,8 @@ function LandingPage() {
 
   if (isLoading)
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white">
-        <LoadingSpinner className={"!text-black"} />
+      <div className="flex h-screen w-full items-center justify-center bg-[#2D354B]">
+        <LoadingSpinner />
       </div>
     );
 
