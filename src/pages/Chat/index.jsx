@@ -9,10 +9,12 @@ import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import useSession from "../../hooks/useSession";
 import { isEmpty } from "lodash";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [messageLoading, setMessageLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [query, setQuery] = useState("");
   const { sendQuestion, getConversation, addMessage } = useChatService();
@@ -41,6 +43,7 @@ function Chat() {
       (async () => {
         const conversation = await getConversation(id);
         setConversations(conversation?.conversation_history);
+        setMessageLoading(false);
       })();
     }
   }, []);
@@ -142,26 +145,32 @@ function Chat() {
       </div>
       {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}
       <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-[#202533] bg-opacity-60 backdrop-blur-3xl backdrop-filter xl:h-full xl:flex-1 xl:rounded-md">
-        <div
-          ref={animateMessage}
-          className="flex h-full flex-1 flex-col gap-5 overflow-y-auto p-5 pb-[10px]"
-        >
-          {messageElements}
-          {errorMessage && (
-            <span className="rounded-md border border-red-400 px-3 py-1 text-red-400">
-              {errorMessage}
-            </span>
-          )}
-          {isLoading ? (
-            <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] p-2 px-6 py-[13px]  text-left text-white">
-              <Lottie
-                animationData={chatbot}
-                className="h-14 w-14 text-white "
-              />
-            </div>
-          ) : null}
-          <div ref={messageRef} />
-        </div>
+        {messageLoading ? (
+          <div className="flex h-full items-center justify-center">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div
+            ref={animateMessage}
+            className="flex h-full flex-1 flex-col gap-5 overflow-y-auto p-5 pb-[10px]"
+          >
+            {messageElements}
+            {errorMessage && (
+              <span className="rounded-md border border-red-400 px-3 py-1 text-red-400">
+                {errorMessage}
+              </span>
+            )}
+            {isLoading ? (
+              <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] p-2 px-6 py-[13px]  text-left text-white">
+                <Lottie
+                  animationData={chatbot}
+                  className="h-14 w-14 text-white "
+                />
+              </div>
+            ) : null}
+            <div ref={messageRef} />
+          </div>
+        )}
         <form
           className="flex w-full bg-gradient-to-t from-[#202535] p-4"
           onSubmit={handleSend}
@@ -170,18 +179,24 @@ function Chat() {
             <input
               onChange={e => setQuery(e.target.value)}
               value={query}
-              disabled={isLoading}
+              disabled={isLoading || errorMessage}
               type="text"
               className="flex-1 bg-[#585C68] text-white outline-none"
             />
             <button
-              disabled={isLoading}
+              disabled={isLoading || errorMessage}
               type="submit"
-              className="group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-2 text-white hover:cursor-pointer"
+              className={clsx(
+                errorMessage ? "opacity-50" : "hover:cursor-pointer",
+                "group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-2 text-white "
+              )}
             >
               <Icon
                 icon={"mingcute:send-line"}
-                className="h-5 w-5 text-white transition-all group-hover:scale-110"
+                className={clsx(
+                  !errorMessage && "group-hover:scale-110",
+                  "h-5 w-5 text-white transition-all "
+                )}
               />
             </button>
           </div>

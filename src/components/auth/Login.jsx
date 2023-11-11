@@ -103,6 +103,7 @@ const Login = ({ isOpen, setIsOpen }) => {
                     ) : null}
                   </div>
                   <button
+                    disabled={isLoading}
                     type="submit"
                     className="flex items-center justify-center rounded bg-blue-500 p-1 font-productSansBlack text-white"
                   >
