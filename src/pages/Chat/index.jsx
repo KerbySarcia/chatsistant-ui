@@ -33,9 +33,7 @@ function Chat() {
   }, [animateMessage]);
 
   useEffect(() => {
-    if (messageRef.current) {
-      scrollToBottom();
-    }
+    scrollToBottom();
   }, [conversations]);
 
   useEffect(() => {
@@ -65,9 +63,10 @@ function Chat() {
       const aiResponse = await addMessage({ message: query });
 
       if (!isEmpty(aiResponse?.error)) {
-        setErrorMessage(
-          "An error occured, please refresh the page and try again."
-        );
+        setConversations(prevConversations => [
+          ...prevConversations,
+          "Everybody gets tired at some point. Please slow down and come back after a minute. Wait lang anakputa -Kerby",
+        ]);
         setIsLoading(false);
 
         return;
