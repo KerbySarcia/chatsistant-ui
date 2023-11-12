@@ -6,10 +6,11 @@ import { Icon } from "@iconify/react";
 import autoAnimate from "@formkit/auto-animate";
 import Lottie from "lottie-react";
 import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
-import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import useSession from "../../hooks/useSession";
 import { isEmpty } from "lodash";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
+import LOGO from "../../assets/images/dhvsu-logo.png";
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
@@ -17,7 +18,12 @@ function Chat() {
   const [messageLoading, setMessageLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [query, setQuery] = useState("");
-  const { sendQuestion, getConversation, addMessage } = useChatService();
+  const {
+    sendQuestion,
+    getConversation,
+    addMessage,
+    updateConversationHistory,
+  } = useChatService();
   const { id } = useParams();
   const nav = useNavigate();
   const messageRef = useRef(null);
@@ -123,23 +129,50 @@ function Chat() {
           /> */}
         </div>
         {/* Side */}
-        <div className="hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 xl:flex">
+        <div className="font-productSansBlack hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 text-white xl:flex">
           <div className="flex w-full flex-col gap-3">
-            {["Facebook", "Twitter", "DHVSU Website"].map((item, key) => (
-              <button
-                key={key}
-                className="w-full rounded-md bg-slate-300 px-3 py-1"
-              >
-                {item}
+            <a
+              href="https://www.facebook.com/dhvsuofficeofadmissions"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-2">
+                <Icon icon={"bi:facebook"} className="text-lg" />
               </button>
-            ))}
+            </a>
+            <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
+              <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-2">
+                <img
+                  src={LOGO}
+                  alt="logo"
+                  className="h-5 w-5 object-cover object-center"
+                />
+              </button>
+            </a>
           </div>
-          <button
-            onClick={() => signOut()}
-            className="w-full rounded-md bg-white/80 px-3 py-1"
-          >
-            Sign out
-          </button>
+          <div className="flex w-full flex-col gap-5">
+            {conversations?.length > 0 ? (
+              <button
+                onClick={async () => {
+                  setMessageLoading(true);
+                  await updateConversationHistory(id, {
+                    conversation_history: [],
+                  });
+                  setConversations([]);
+                  setMessageLoading(false);
+                }}
+                className="w-full rounded-md bg-[#2D354B] px-3 py-1 duration-200 hover:bg-red-700/50"
+              >
+                Clear Conversation
+              </button>
+            ) : null}
+            <button
+              onClick={() => signOut()}
+              className="w-full rounded-md bg-[#2D354B] px-3 py-1 duration-200 hover:opacity-50"
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       </div>
       {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}

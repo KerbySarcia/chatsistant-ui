@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import useApiHandler from "../hooks/useApiHandler";
+import { pick } from "lodash";
 
 export default function useChatService() {
   const { get, post, put } = useApiHandler();
@@ -9,14 +10,14 @@ export default function useChatService() {
   }, [get]);
 
   const sendQuestion = useCallback(
-    async (payload) => {
+    async payload => {
       return await post("/knowledges/ask", payload);
     },
     [post]
   );
 
   const getConversation = useCallback(
-    async (id) => {
+    async id => {
       return await get(`/conversations/${id}`);
     },
     [get]
@@ -30,10 +31,20 @@ export default function useChatService() {
   );
 
   const addMessage = useCallback(
-    async (payload) => {
+    async payload => {
       return await post("/conversations", payload);
     },
     [post]
+  );
+
+  const updateConversationHistory = useCallback(
+    async (id, payload) => {
+      return await put(
+        `/conversations/${id}`,
+        pick(payload, ["conversation_history"])
+      );
+    },
+    [put]
   );
 
   return {
@@ -42,5 +53,6 @@ export default function useChatService() {
     getConversation,
     updateConversation,
     addMessage,
+    updateConversationHistory,
   };
 }
