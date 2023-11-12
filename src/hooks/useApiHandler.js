@@ -10,7 +10,6 @@ const useApiHandler = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    withCredentials: true,
   });
 
   const getAuthHeaders = useCallback(() => {
