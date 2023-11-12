@@ -57,6 +57,7 @@ const Card = ({
         isOpen={isOpenModalDirect}
         setIsOpen={setIsOpenModalDirect}
         user={user_email}
+        id={id}
       />
       <div className="flex w-full max-w-[600px] flex-col gap-5 rounded-md bg-black/30 p-5">
         <div className="flex w-full flex-col rounded-md bg-[#2C2A37] p-3">

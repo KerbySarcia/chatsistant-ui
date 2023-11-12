@@ -1,7 +1,7 @@
 import useApiHandler from "../hooks/useApiHandler";
 
 export default function useInquiryService() {
-  const { get, put } = useApiHandler();
+  const { get, put, post } = useApiHandler();
 
   const getAll = async params => {
     return await get("/inquiries", params);
@@ -15,8 +15,13 @@ export default function useInquiryService() {
     });
   };
 
+  const sendEmail = async payload => {
+    return await post("/users/send-email", payload);
+  };
+
   return {
     getAll,
     updateStatus,
+    sendEmail,
   };
 }

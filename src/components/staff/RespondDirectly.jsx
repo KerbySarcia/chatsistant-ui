@@ -1,36 +1,41 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
 import { Field, Form, Formik } from "formik";
 import clsx from "clsx";
-import { Resend } from "resend";
+import useInquiryService from "../../services/useInquiryService";
+import { InquiriesContext } from "../../pages/Staff/pages/RedirectedInquiries";
 
-const resend = new Resend(import.meta.env.VITE_APP_EMAIL_TOKEN);
-
-const RespondDirectly = ({ isOpen, setIsOpen, question, user }) => {
+const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const initialValues = {
     user: "cs.kerbymathewosarcia@gmail.com",
     answer: "",
   };
+  const inquiryService = useInquiryService();
+  const { inquiries, setInquiries } = useContext(InquiriesContext);
 
   const handleSubmit = async data => {
     try {
-      const responseEmail = await resend.emails.send({
+      const response = await inquiryService.sendEmail({
+        to: user,
         from: "chatsistant@gmail.com",
-        to: [data.user],
-        subject: "Admission",
-        html: (
-          <div className="">
-            <h1 className="rounded-md bg-black p-2">
-              Hello this Kerby Sarcia from addmission!
-            </h1>
-            <h2>Your Question: {question}</h2>
-            <h2>Answer: {data.answer}</h2>
-          </div>
-        ),
+        subject: "Addmission",
+        question: question,
+        answer: data.answer,
       });
+      await inquiryService.updateStatus(id, {
+        status: "DONE",
+        answer: data.answer,
+      });
+      setInquiries([
+        ...inquiries.map(inquiry =>
+          inquiry._id === id
+            ? { ...inquiry, status: "DONE", answer: data.answer }
+            : inquiry
+        ),
+      ]);
     } catch (error) {
       console.error(error);
     }
