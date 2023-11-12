@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import useApiHandler from "../hooks/useApiHandler";
+import { pick } from "lodash";
 
 export default function useKnowledege() {
-  const { post, get, deleteData } = useApiHandler();
+  const { post, get, deleteData, put } = useApiHandler();
 
   const addKnowledge = useCallback(
     async payload => {
@@ -18,6 +19,15 @@ export default function useKnowledege() {
     [get]
   );
 
+  const updateKnowledge = useCallback(
+    async payload => {
+      return await put(`/knowledges/${payload._id}`, {
+        knowledge: pick(payload, ["subject", "target", "information"]),
+      });
+    },
+    [put]
+  );
+
   const deleteKnowledge = useCallback(
     async id => {
       return await deleteData(`/knowledges/${id}`);
@@ -29,5 +39,6 @@ export default function useKnowledege() {
     addKnowledge,
     getKnowledges,
     deleteKnowledge,
+    updateKnowledge,
   };
 }

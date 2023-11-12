@@ -5,12 +5,18 @@ import { Field, Form, Formik } from "formik";
 import clsx from "clsx";
 import useInquiryService from "../../services/useInquiryService";
 import { InquiriesContext } from "../../pages/Staff/pages/RedirectedInquiries";
+import * as Yup from "yup";
+
+const respondDirectlySchema = Yup.object().shape({
+  user: Yup.string().required(),
+  answer: Yup.string().min(5, "Too short").required("Answer is required"),
+});
 
 const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const initialValues = {
-    user: "cs.kerbymathewosarcia@gmail.com",
+    user: user,
     answer: "",
   };
   const inquiryService = useInquiryService();
@@ -18,6 +24,7 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
 
   const handleSubmit = async data => {
     try {
+      setIsLoading(true);
       const response = await inquiryService.sendEmail({
         to: user,
         from: "chatsistant@gmail.com",
@@ -38,6 +45,8 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
       ]);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -73,7 +82,11 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
               <span className="text-lg">Question</span>
               <span>{question}</span>
             </Dialog.Title>
-            <Formik onSubmit={handleSubmit} initialValues={initialValues}>
+            <Formik
+              validationSchema={respondDirectlySchema}
+              onSubmit={handleSubmit}
+              initialValues={initialValues}
+            >
               {({ errors, touched }) => (
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
@@ -83,7 +96,7 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
                       id="user"
                       name="user"
                       disabled={true}
-                      value={"cs.kerbymathewosarcia@gmail.com"}
+                      value={user}
                     />
                   </div>
 

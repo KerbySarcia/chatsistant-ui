@@ -7,9 +7,10 @@ export default {
         primary: "#2D3549",
         secondary: "#202535",
       },
-      // fontFamily: {
-      //   // productSansBlack: ["ProductSansBlack"],
-      // },
+      fontFamily: {
+        productSansBlack: ["ProductSansBlack"],
+        productSans: ["ProductSans"],
+      },
     },
   },
   plugins: [],

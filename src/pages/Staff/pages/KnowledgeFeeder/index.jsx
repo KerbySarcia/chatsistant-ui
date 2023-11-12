@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import TextBox from "../../../../components/staff/forms/TextBox";
 import Dropdown from "../../../../components/staff/forms/Dropdown";
 import TextArea from "../../../../components/staff/forms/TextArea";
@@ -7,6 +7,7 @@ import useKnowledege from "../../../../services/useKnowledge";
 import { isEmpty } from "lodash";
 import clsx from "clsx";
 import autoAnimate from "@formkit/auto-animate";
+import LoadingSpinner from "../../../../components/LoadingSpinner";
 
 const KnowledgeFeeder = () => {
   const [dropdownValue, setDropdownValue] = useState("target");
@@ -19,7 +20,8 @@ const KnowledgeFeeder = () => {
     target: "",
     information: "",
   });
-  const { getKnowledges, addKnowledge, deleteKnowledge } = useKnowledege();
+  const { getKnowledges, addKnowledge, deleteKnowledge, updateKnowledge } =
+    useKnowledege();
   const parentAnimate = useRef(null);
 
   const isFeedButtonDisabled =
@@ -70,14 +72,27 @@ const KnowledgeFeeder = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    const newKnowledge = await addKnowledge(knowledgePayload);
-    setKnowledges([...knowledges, newKnowledge.data]);
-    setknowledgePayload({
-      subject: "",
-      target: "",
-      information: "",
-    });
-    setIsLoading(false);
+    try {
+      if (knowledgePayload?._id) {
+        const newKnowledge = await updateKnowledge(knowledgePayload);
+        setKnowledges([
+          ...knowledges.map(knowledge =>
+            knowledge._id === newKnowledge._id ? newKnowledge : knowledge
+          ),
+        ]);
+      } else {
+        const newKnowledge = await addKnowledge(knowledgePayload);
+        setKnowledges([newKnowledge.data, ...knowledges]);
+      }
+
+      setknowledgePayload({
+        subject: "",
+        target: "",
+        information: "",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const tableElemets = knowledges.map((knowledge, key) => (
@@ -91,9 +106,21 @@ const KnowledgeFeeder = () => {
       <td className="flex-1">{knowledge?.subject}</td>
       <td className="flex-1">{knowledge?.target}</td>
       <td className="flex-1">{knowledge?.information}</td>
-      <td>
-        <button>Edit</button>
-        <button onClick={() => handleDelete(knowledge?._id)}>Delete</button>
+      <td className="flex w-[100px] flex-col gap-1">
+        <button
+          onClick={() => {
+            setknowledgePayload(knowledge);
+          }}
+          className="rounded border border-white/30 bg-black/30 duration-200 hover:bg-blue-400"
+        >
+          Edit
+        </button>
+        <button
+          className=" rounded border border-white/30 bg-black/30 duration-200 hover:bg-red-400"
+          onClick={() => handleDelete(knowledge?._id)}
+        >
+          Delete
+        </button>
       </td>
     </tr>
   ));
@@ -102,13 +129,13 @@ const KnowledgeFeeder = () => {
     <>
       {isDeleteLoading && (
         <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-black/50">
-          <span className="text-white">Loading...</span>
+          <LoadingSpinner />
         </div>
       )}
       <div className="relative flex h-full w-full flex-col gap-5">
         <h1
-          className="w-full rounded-b-md rounded-t-lg bg-black/50 p-5 text-center 
-        font-productSansBlack text-xl text-white "
+          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-black/50 p-5 
+        text-center text-xl text-white "
         >
           Knowledge Feeder
         </h1>
@@ -119,7 +146,7 @@ const KnowledgeFeeder = () => {
               className="absolute left-0 top-0 flex h-full w-full flex-col gap-4 p-5 text-white"
             >
               <thead className="sticky top-0">
-                <tr className=" flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left font-productSansBlack">
+                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left">
                   <th className="flex-1">Subject</th>
                   <th className="flex-1">Target</th>
                   <th className="flex-1">Value</th>
@@ -190,18 +217,40 @@ const KnowledgeFeeder = () => {
                 name={"information"}
                 isDisabled={isLoading}
               />
-              <button
-                disabled={isFeedButtonDisabled || isLoading}
-                onClick={handleSubmit}
-                className={clsx(
-                  "rounded-md bg-[#4A5168] p-3 text-white",
-                  isFeedButtonDisabled || isLoading
-                    ? "opacity-50"
-                    : "opacity-100"
-                )}
-              >
-                Feed
-              </button>
+              <div className="flex w-full items-center gap-2">
+                <button
+                  disabled={isFeedButtonDisabled || isLoading}
+                  onClick={handleSubmit}
+                  className={clsx(
+                    "w-full rounded-md bg-[#4A5168] p-3 text-white",
+                    isFeedButtonDisabled || isLoading
+                      ? "opacity-50"
+                      : "opacity-100"
+                  )}
+                >
+                  {knowledgePayload?._id ? "Update" : "Feed"}
+                </button>
+                {knowledgePayload?._id ? (
+                  <button
+                    disabled={isFeedButtonDisabled || isLoading}
+                    onClick={() =>
+                      setknowledgePayload({
+                        subject: "",
+                        target: "",
+                        information: "",
+                      })
+                    }
+                    className={clsx(
+                      "w-full rounded-md bg-[#4A5168] p-3 text-white",
+                      isFeedButtonDisabled || isLoading
+                        ? "opacity-50"
+                        : "opacity-100"
+                    )}
+                  >
+                    Cancel
+                  </button>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

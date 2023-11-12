@@ -4,12 +4,12 @@
 
 @font-face {
   font-family: ProductSans;
-  src: url("/src//assets//fonts/Product\ Sans\ Regular.ttf");
+  src: url("/public/fonts/Product\ Sans\ Regular.ttf");
 }
 
 @font-face {
   font-family: ProductSansBlack;
-  src: url("/src//assets//fonts//FontsFree-Net-ProductSans-Black.ttf");
+  src: url("/public/fonts/FontsFree-Net-ProductSans-Black.ttf");
 }
 
 body{
