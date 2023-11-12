@@ -4,31 +4,40 @@ import clsx from "clsx";
 import React from "react";
 import useSession from "../../hooks/useSession";
 
-const SIDEBAR_VALUES = [
-  { value: "home", icon: "iconoir:home" },
-  { value: "knowledge-feeder", icon: "uil:brain" },
-  { value: "redirected-inquiries", icon: "tabler:message-question" },
-  { value: "analytics", icon: "solar:chart-outline" },
-  {
-    value: "account-settings",
-    icon: "material-symbols:settings-account-box-outline-rounded",
-  },
-];
-
 const SideBar = ({ value, setValue }) => {
   const { signOut } = useSession();
-  const radioGroupElements = SIDEBAR_VALUES.map((item, key) => (
-    <RadioGroup.Option
-      key={key}
-      value={item.value}
-      className={clsx(
-        "flex cursor-pointer items-center justify-center rounded-lg bg-white p-5 text-3xl text-black duration-150",
-        item.value === value ? "opacity-100" : "opacity-50"
-      )}
-    >
-      <Icon className="text-center" icon={item.icon} />
-    </RadioGroup.Option>
-  ));
+  const { session } = useSession();
+
+  const SIDEBAR_VALUES = [
+    { value: "home", icon: "iconoir:home" },
+    { value: "knowledge-feeder", icon: "uil:brain" },
+    { value: "redirected-inquiries", icon: "tabler:message-question" },
+
+    session?.role === "ADMIN" && {
+      value: "analytics",
+      icon: "solar:chart-outline",
+    },
+
+    session?.role === "ADMIN" && {
+      value: "account-settings",
+      icon: "material-symbols:settings-account-box-outline-rounded",
+    },
+  ];
+
+  const radioGroupElements = SIDEBAR_VALUES.map((item, key) =>
+    item ? (
+      <RadioGroup.Option
+        key={key}
+        value={item.value}
+        className={clsx(
+          "flex cursor-pointer items-center justify-center rounded-lg bg-white p-5 text-3xl text-black duration-150",
+          item.value === value ? "opacity-100" : "opacity-50"
+        )}
+      >
+        <Icon className="text-center" icon={item.icon} />
+      </RadioGroup.Option>
+    ) : null
+  );
   return (
     <div className="flex h-full w-20 flex-col justify-between">
       <RadioGroup
@@ -40,9 +49,9 @@ const SideBar = ({ value, setValue }) => {
       </RadioGroup>
 
       <div className="flex flex-col gap-5">
-        <button className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl">
+        {/* <button className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl">
           <Icon icon={"iconamoon:mode-light-fill"} />
-        </button>
+        </button> */}
         <button
           onClick={() => signOut()}
           className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl"

@@ -11,9 +11,11 @@ import KnowledgeFeeder from "./pages/KnowledgeFeeder";
 import RedirectedInquiries from "./pages/RedirectedInquiries";
 import Analytics from "./pages/Analytics";
 import AccountSettings from "./pages/AccountSettings";
+import useSession from "../../hooks/useSession";
 
 function Staff() {
   const [value, setValue] = useState("home");
+  const { signOut } = useSession();
   let renderComponent = <Home />;
 
   switch (value) {
@@ -37,12 +39,23 @@ function Staff() {
   }
 
   return (
-    <div className=" flex h-screen items-center gap-5 bg-gradient-to-t from-[#37243E]  to-[#3F4B69] p-5">
-      <SideBar value={value} setValue={setValue} />
-      <div className="flex h-full w-full rounded-xl  bg-white/10 p-5 backdrop-blur-sm">
-        {renderComponent}
+    <>
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-5 bg-[#3F4B69] text-white lg:hidden">
+        <span>Mobile View is not available 🫠</span>
+        <button
+          className="w-[100px] rounded-md bg-white p-2 text-[#3F4B69]"
+          onClick={() => signOut()}
+        >
+          Sign out
+        </button>
       </div>
-    </div>
+      <div className=" hidden h-screen items-center gap-5 bg-gradient-to-t  from-[#37243E] to-[#3F4B69] p-5 lg:flex">
+        <SideBar value={value} setValue={setValue} />
+        <div className="flex h-full w-full rounded-xl  bg-white/10 p-5 backdrop-blur-sm">
+          {renderComponent}
+        </div>
+      </div>
+    </>
   );
 }
 

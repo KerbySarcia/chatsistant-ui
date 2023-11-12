@@ -10,6 +10,7 @@ const useApiHandler = () => {
     headers: {
       "Content-Type": "application/json",
     },
+    withCredentials: true,
   });
 
   const getAuthHeaders = useCallback(() => {
@@ -59,7 +60,7 @@ const useApiHandler = () => {
   );
 
   const deleteData = useCallback(
-    async (url, data) => {
+    async (url, data = {}) => {
       const headers = getAuthHeaders();
       const response = await axiosInstance.delete(url, data, { headers });
       return response.data;

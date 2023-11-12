@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import useKnowledege from "../../../../services/useKnowledge";
 import LoadingSpinner from "../../../../components/LoadingSpinner";
 import useInquiryService from "../../../../services/useInquiryService";
+import useSession from "../../../../hooks/useSession";
 
 const Home = () => {
   const [knowledges, setKnowledges] = useState(null);
   const [numberOfPending, setNumberOfPending] = useState(null);
   const knowldegeService = useKnowledege();
   const inquiryService = useInquiryService();
+  const { session } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -33,7 +35,10 @@ const Home = () => {
     <div className="flex h-full w-full flex-col gap-5 p-10">
       <div className=" flex flex-col text-4xl text-white">
         <h1>
-          Hello, <span className="font-productSansBlack">Kerby Sarcia!</span>
+          Hello,{" "}
+          <span className="font-productSansBlack">
+            {session?.first_name + " " + session?.last_name}!
+          </span>
         </h1>
         <h2>Welcome to your Staff Dashboard.</h2>
       </div>
