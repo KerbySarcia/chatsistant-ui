@@ -9,6 +9,7 @@ import FORM from "../../assets/images/form.png";
 import AVATAR from "../../assets/images/Avatar.png";
 import useSession from "../../hooks/useSession";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import AboutUsModal from "../../components/AboutUsModal";
 
 const Button = ({ img, label, onClick }) => {
   return (
@@ -55,12 +56,13 @@ const FirstSection = () => {
 const SecondSection = () => {
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
+  const [aboutUsModal, setAboutUsModal] = useState(false);
 
   return (
     <>
       <Login isOpen={loginModalIsOpen} setIsOpen={setLoginModalIsOpen} />
       <SignUp isOpen={signUpModalIsOpen} setIsOpen={setSignUpModalIsOpen} />
-
+      <AboutUsModal isOpen={aboutUsModal} setIsOpen={setAboutUsModal} />
       <div
         className="flex h-full w-full flex-col items-center justify-center rounded-t-[3rem]
 bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem] md:py-10 lg:h-[40rem] lg:max-w-[35rem]"
@@ -85,7 +87,10 @@ bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem
             className=" font-productSansBlack flex min-h-[7rem] w-full items-center  justify-center
  rounded-[2rem] bg-gray-600/20 transition hover:scale-110"
           >
-            <div className="relative right-10 w-[50%]">
+            <div
+              onClick={() => setAboutUsModal(true)}
+              className="relative right-10 w-[50%]"
+            >
               <div className="relative left-3 flex flex-col gap-1">
                 <h1 className="text-2xl text-white">About Us!</h1>
                 <span className="text-white/70">Learn about the creators</span>
