@@ -89,49 +89,49 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full rounded border p-1 focus:outline-blue-500"
+                      className="w-full rounded border p-2 focus:outline-blue-500"
                       id="first_name"
                       name="first_name"
                       placeholder="First Name"
                       autoComplete="off"
                     />
                     {errors.first_name && touched.first_name ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.first_name}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full rounded border p-1 focus:outline-blue-500"
+                      className="w-full rounded border p-2 focus:outline-blue-500"
                       id="last_name"
                       name="last_name"
                       placeholder="Last Name"
                       autoComplete="off"
                     />
                     {errors.last_name && touched.last_name ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.last_name}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full rounded border p-1 focus:outline-blue-500"
+                      className="w-full rounded border p-2 focus:outline-blue-500"
                       id="email"
                       name="email"
                       placeholder="Email"
                       autoComplete="off"
                     />
                     {errors.email && touched.email ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.email}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full rounded border p-1 focus:outline-blue-500"
+                      className="w-full rounded border p-2 focus:outline-blue-500"
                       type="password"
                       id="password"
                       name="password"
@@ -139,7 +139,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                       placeholder="Password"
                     />
                     {errors.password && touched.password ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.password}
                       </span>
                     ) : null}
@@ -147,7 +147,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="font-productSansBlack flex justify-center rounded bg-blue-500 p-1 text-white"
+                    className="font-productSansBlack flex justify-center rounded bg-blue-500 p-2 text-white"
                   >
                     {isLoading ? <LoadingSpinner /> : <span>Sign Up</span>}
                   </button>

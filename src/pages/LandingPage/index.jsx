@@ -22,7 +22,7 @@ const Button = ({ img, label, onClick }) => {
         alt="icon"
         className="absolute -top-8 h-[7rem] w-[7rem] object-contain lg:-top-16 lg:h-[10rem] lg:w-[10rem]"
       />
-      <span className="relative top-2 font-productSansBlack text-white lg:text-2xl">
+      <span className="font-productSansBlack relative top-2 text-white lg:text-2xl">
         {label}
       </span>
     </button>
@@ -32,7 +32,7 @@ const Button = ({ img, label, onClick }) => {
 const FirstSection = () => {
   return (
     <div className="flex max-w-[40rem] flex-col items-center justify-center gap-5 p-10 md:mb-auto md:h-full md:py-0">
-      <div className="flex items-center gap-5 font-productSansBlack">
+      <div className="font-productSansBlack flex items-center gap-5">
         <img
           src={DHSVU_LOGO}
           alt="logo"
@@ -67,7 +67,14 @@ bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem
       >
         <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
           <div className="flex w-full items-center justify-center gap-10">
-            <Button img={TRY_CHAT} label={"Facebook"} onClick={() => {}} />
+            <a
+              href="https://www.facebook.com/dhvsuofficeofadmissions"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full"
+            >
+              <Button img={TRY_CHAT} label={"Facebook"} onClick={() => {}} />
+            </a>
             <Button
               img={FORM}
               label={"Sign up"}
@@ -75,8 +82,8 @@ bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem
             />
           </div>
           <button
-            className=" flex min-h-[7rem] w-full items-center justify-center  rounded-[2rem]
- bg-gray-600/20 font-productSansBlack transition hover:scale-110"
+            className=" font-productSansBlack flex min-h-[7rem] w-full items-center  justify-center
+ rounded-[2rem] bg-gray-600/20 transition hover:scale-110"
           >
             <div className="relative right-10 w-[50%]">
               <div className="relative left-3 flex flex-col gap-1">
@@ -92,7 +99,7 @@ bg-black/30 shadow-2xl shadow-black md:h-fit md:max-w-[25rem] md:rounded-b-[3rem
           </button>
           <button
             onClick={() => setLoginModalIsOpen(true)}
-            className="w-full rounded-[2rem] bg-gray-600/20 py-5 font-productSansBlack text-[#BEBAE5CC] transition hover:scale-110 lg:text-3xl"
+            className="font-productSansBlack w-full rounded-[2rem] bg-gray-600/20 py-5 text-[#BEBAE5CC] transition hover:scale-110 lg:text-3xl"
           >
             Login
           </button>

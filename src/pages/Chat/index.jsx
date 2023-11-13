@@ -12,6 +12,20 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import LOGO from "../../assets/images/dhvsu-logo.png";
 import Menu from "../../components/chat/Menu";
+import getThreeRandomElements from "../../../utils/GetRandomElements";
+
+const RANDOM_QUESTION = [
+  "When is the admission period for senior high school (grade 11)?",
+  "When is the admission period for laboratory high school or junior high school (grade 7)?",
+  "When is the admission period for 1st year college?",
+  "When is the admission period for graduate studies (masterate and doctorate) that are applicants for 1st trimester?",
+  "When is the admission period for transferees?",
+  "When is the admission test schedule for senior high school (grade 11)?",
+  "When is the admission test schedule for laboratory high school or junior high school (grade 7)?",
+  "When is the admission test schedule for 1st year college?",
+  "When is the admission test schedule for graduate studies (masterate and doctorate) that are applicants for 1st trimester?",
+  "When is the admission test schedule for shifters for incoming 2nd and 3rd year college for 1st semester, academic year 2023-2024?",
+];
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
@@ -250,21 +264,21 @@ function Chat() {
                 </div>
               ) : null}
               <div ref={messageRef} />
-              {isEmpty(conversations) ? (
+              {isEmpty(conversations) ||
+              (conversations.length === 1 &&
+                conversations[0].role === "assistant") ? (
                 <div className="mt-auto flex flex-col gap-2 md:flex-row">
-                  {[
-                    "When is the enrollment?",
-                    "Saan ang location ni DHVSU?",
-                    "When is the examination?",
-                  ].map((m, key) => (
-                    <button
-                      key={key}
-                      onClick={() => handleClickFirstTime(m)}
-                      className="flex-1 cursor-pointer rounded-md border border-[#4f535d] bg-[#373c4b] p-5 text-center text-sm text-white duration-200 hover:bg-[#686c78]"
-                    >
-                      {m}
-                    </button>
-                  ))}
+                  {[...getThreeRandomElements(RANDOM_QUESTION)].map(
+                    (m, key) => (
+                      <button
+                        key={key}
+                        onClick={() => handleClickFirstTime(m)}
+                        className="flex-1 cursor-pointer rounded-md border border-[#4f535d] bg-[#373c4b] p-5 text-center text-sm text-white duration-200 hover:bg-[#686c78]"
+                      >
+                        {m}
+                      </button>
+                    )
+                  )}
                 </div>
               ) : null}
             </div>

@@ -6,6 +6,8 @@ import signInSchema from "../../validation/signInSchema";
 import Lottie from "lottie-react";
 import LoginAnimation from "../../assets/lottie/animation_lnkidi4p.json";
 import LoadingSpinner from "../LoadingSpinner";
+import DHVSU from "../../assets/images/dabchatlogo.png";
+import { Icon } from "@iconify/react";
 
 // eslint-disable-next-line react/prop-types
 const Login = ({ isOpen, setIsOpen }) => {
@@ -13,6 +15,7 @@ const Login = ({ isOpen, setIsOpen }) => {
     email: "",
     password: "",
   };
+  const [isHide, setIsHide] = useState(true);
   const [loginError, setLoginError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useSession();
@@ -57,10 +60,15 @@ const Login = ({ isOpen, setIsOpen }) => {
         >
           <Dialog.Panel className="m-4 flex w-full max-w-[400px] flex-col gap-4 rounded-xl bg-[#2D354B] p-5">
             <Dialog.Title className="flex w-full justify-center font-bold">
-              <Lottie animationData={LoginAnimation} className="h-48 w-48" />
+              {/* <Lottie animationData={LoginAnimation} className="h-48 w-48" /> */}
+              <img
+                src={DHVSU}
+                alt="logo"
+                className="h-48 w-48 rounded-l-[0.625rem] rounded-r-[1.563rem] object-cover object-center"
+              />
             </Dialog.Title>
             {loginError && (
-              <span className="w-full border border-red-700 bg-red-200 p-1 text-center text-sm text-red-700">
+              <span className="w-full border border-red-400 bg-red-200 p-1 text-center text-sm text-red-700">
                 {loginError}
               </span>
             )}
@@ -70,34 +78,47 @@ const Login = ({ isOpen, setIsOpen }) => {
               onSubmit={handleSubmit}
             >
               {({ errors, touched }) => (
-                <Form className="flex flex-col gap-5">
+                <Form className="flex flex-col gap-5 ">
                   <div className="flex flex-col gap-1">
+                    <label htmlFor="email" className="text-white">
+                      Email
+                    </label>
                     <Field
-                      className="w-full rounded border p-1 px-2 focus:outline-blue-500"
+                      className="w-full rounded border p-2 focus:outline-blue-500"
                       id="email"
                       name="email"
-                      placeholder="Email"
                       autoComplete="off"
                       disabled={isLoading}
                     />
                     {errors.email && touched.email ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.email}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <Field
-                      className="w-full rounded border p-1 px-2 focus:outline-blue-500"
-                      type="password"
-                      id="password"
-                      name="password"
-                      autoComplete="off"
-                      placeholder="Password"
-                      disabled={isLoading}
-                    />
+                    <label htmlFor="password" className="text-white">
+                      Password
+                    </label>
+                    <div className="relative flex items-center justify-end">
+                      <Field
+                        className="w-full rounded border p-2 pr-8  focus:outline-blue-500"
+                        type={isHide ? "password" : "text"}
+                        id="password"
+                        name="password"
+                        autoComplete="off"
+                        disabled={isLoading}
+                      />
+                      <Icon
+                        icon={
+                          isHide ? "solar:eye-bold" : "mingcute:eye-close-fill"
+                        }
+                        onClick={() => setIsHide(prev => !prev)}
+                        className="absolute mr-3 cursor-pointer text-lg"
+                      />
+                    </div>
                     {errors.password && touched.password ? (
-                      <span className="text-xs italic text-red-500">
+                      <span className="text-xs italic text-red-400">
                         {errors.password}
                       </span>
                     ) : null}
@@ -105,7 +126,7 @@ const Login = ({ isOpen, setIsOpen }) => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="flex items-center justify-center rounded bg-blue-500 p-1 font-productSansBlack text-white"
+                    className="font-productSansBlack flex items-center justify-center rounded bg-blue-500 p-2 text-white duration-200 hover:opacity-50"
                   >
                     {isLoading ? (
                       <LoadingSpinner className={"!h-4 !w-4"} />
