@@ -10,6 +10,7 @@ const Home = () => {
   const [knowledges, setKnowledges] = useState(null);
   const [numberOfPending, setNumberOfPending] = useState(null);
   const [users, setUsers] = useState(null);
+  const [questions, setQuestions] = useState(null);
   const knowldegeService = useKnowledege();
   const inquiryService = useInquiryService();
   const userService = useUserService();
@@ -19,7 +20,9 @@ const Home = () => {
     (async () => {
       const responseKnowledge = await knowldegeService.getKnowledges();
       const responseInquiry = await inquiryService.getAll();
+      const responseQuestions = await inquiryService.getAllQuestionsCount();
       const responseUser = await userService.getUsers();
+      setQuestions(responseQuestions.length);
       setUsers(responseUser.filter(user => user.role === "USER").length);
       setKnowledges(responseKnowledge.items);
       setNumberOfPending(
@@ -29,7 +32,7 @@ const Home = () => {
     })();
   }, []);
 
-  if (!knowledges && !numberOfPending && !users)
+  if (!knowledges && !numberOfPending && !users && !questions)
     return (
       <div className="flex h-full w-full items-center justify-center">
         <LoadingSpinner />
@@ -71,7 +74,7 @@ const Home = () => {
         <div className="flex h-full w-full items-center justify-center gap-5 rounded-lg bg-black/30 p-5 text-white">
           <Icon icon={"solar:chart-outline"} className="text-[200px]" />
           <div className="flex flex-col ">
-            <span className="font-productSansBlack text-9xl">1137</span>
+            <span className="font-productSansBlack text-9xl">{questions}</span>
             <span className="text-2xl">
               Received inquiries by the DHVChat AI Chat Assistant
             </span>

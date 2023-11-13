@@ -157,9 +157,9 @@ const RedirectedInquiries = () => {
                 </Tab>
               ))}
             </div>
-            <button className="rounded-md bg-black/50 p-2 px-5 text-white">
+            {/* <button className="rounded-md bg-black/50 p-2 px-5 text-white">
               Sort By: Date
-            </button>
+            </button> */}
           </Tab.List>
           <Tab.Panels
             className={

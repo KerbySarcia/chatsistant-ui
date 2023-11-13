@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import useApiHandler from "../hooks/useApiHandler";
 
 export default function useInquiryService() {
@@ -19,9 +20,14 @@ export default function useInquiryService() {
     return await post("/users/send-email", payload);
   };
 
+  const getAllQuestionsCount = useCallback(async () => {
+    return await get("/inquiries/inquiries");
+  }, [get]);
+
   return {
     getAll,
     updateStatus,
     sendEmail,
+    getAllQuestionsCount,
   };
 }
