@@ -185,16 +185,16 @@ function Chat() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-2">
-                  <Icon icon={"bi:facebook"} className="text-lg" />
+                <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
+                  <Icon icon={"bi:facebook"} className="text-2xl" />
                 </button>
               </a>
               <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
-                <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-2">
+                <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-5 duration-200 hover:opacity-50">
                   <img
                     src={LOGO}
                     alt="logo"
-                    className="h-5 w-5 object-cover object-center"
+                    className="h-[24px] w-[24px] object-cover object-center"
                   />
                 </button>
               </a>
@@ -210,14 +210,14 @@ function Chat() {
                     setConversations([]);
                     setMessageLoading(false);
                   }}
-                  className="w-full rounded-md bg-[#2D354B] px-3 py-1 duration-200 hover:bg-red-700/50"
+                  className="w-full rounded-md bg-[#2D354B] p-4 duration-200 hover:bg-red-700/50"
                 >
                   Clear Conversation
                 </button>
               ) : null}
               <button
                 onClick={() => signOut()}
-                className="w-full rounded-md bg-[#2D354B] px-3 py-1 duration-200 hover:opacity-50"
+                className="w-full rounded-md bg-[#2D354B] p-4 duration-200 hover:opacity-50"
               >
                 Sign out
               </button>
@@ -250,7 +250,7 @@ function Chat() {
                 </div>
               ) : null}
               <div ref={messageRef} />
-              {conversations.length < 2 ? (
+              {isEmpty(conversations) ? (
                 <div className="mt-auto flex flex-col gap-2 md:flex-row">
                   {[
                     "When is the enrollment?",
@@ -279,7 +279,7 @@ function Chat() {
                 value={query}
                 disabled={isLoading || errorMessage}
                 type="text"
-                className="flex-1 bg-[#585C68] text-white outline-none"
+                className="flex-1 bg-[#585C68] pr-3 text-white outline-none"
               />
               <button
                 disabled={isLoading || errorMessage}
