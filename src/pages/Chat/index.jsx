@@ -29,6 +29,7 @@ const RANDOM_QUESTION = [
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
+  const [randomQuestion, setRandomQuestion] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [messageLoading, setMessageLoading] = useState(true);
@@ -56,6 +57,14 @@ function Chat() {
 
   useEffect(() => {
     scrollToBottom();
+    if (
+      (isEmpty(conversations) ||
+        (conversations.length === 1 &&
+          conversations[0].role === "assistant")) &&
+      isEmpty(randomQuestion)
+    ) {
+      setRandomQuestion(getThreeRandomElements(RANDOM_QUESTION));
+    }
   }, [conversations, messageRef.current]);
 
   useEffect(() => {
@@ -222,6 +231,7 @@ function Chat() {
                       conversation_history: [],
                     });
                     setConversations([]);
+                    setRandomQuestion([]);
                     setMessageLoading(false);
                   }}
                   className="w-full rounded-md bg-[#2D354B] p-4 duration-200 hover:bg-red-700/50"
@@ -268,17 +278,15 @@ function Chat() {
               (conversations.length === 1 &&
                 conversations[0].role === "assistant") ? (
                 <div className="mt-auto flex flex-col gap-2 md:flex-row">
-                  {[...getThreeRandomElements(RANDOM_QUESTION)].map(
-                    (m, key) => (
-                      <button
-                        key={key}
-                        onClick={() => handleClickFirstTime(m)}
-                        className="flex-1 cursor-pointer rounded-md border border-[#4f535d] bg-[#373c4b] p-5 text-center text-sm text-white duration-200 hover:bg-[#686c78]"
-                      >
-                        {m}
-                      </button>
-                    )
-                  )}
+                  {randomQuestion.map((m, key) => (
+                    <button
+                      key={key}
+                      onClick={() => handleClickFirstTime(m)}
+                      className="flex-1 cursor-pointer rounded-md border border-[#4f535d] bg-[#373c4b] p-5 text-center text-sm text-white duration-200 hover:bg-[#686c78]"
+                    >
+                      {m}
+                    </button>
+                  ))}
                 </div>
               ) : null}
             </div>
