@@ -172,7 +172,7 @@ function Chat() {
               </div>
             </div>
             <Icon
-              className="h-[32px] w-[32px] text-[#ADAEB3] lg:pointer-events-none xl:hidden"
+              className="h-[32px] w-[32px] text-[#ADAEB3] xl:pointer-events-none xl:hidden"
               icon={"entypo:dots-three-horizontal"}
               onClick={() => setIsOpenMenu(true)}
             />
@@ -286,7 +286,7 @@ function Chat() {
                 type="submit"
                 className={clsx(
                   errorMessage ? "opacity-50" : "hover:cursor-pointer",
-                  "group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-4 text-white lg:p-2 "
+                  "group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-4 text-white lg:p-2 lg:px-5 "
                 )}
               >
                 <Icon
