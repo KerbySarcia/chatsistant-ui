@@ -53,12 +53,12 @@ const Menu = ({
                 target="_blank"
                 rel="noreferrer"
               >
-                <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-2 text-white">
-                  <Icon icon={"bi:facebook"} className="text-lg" />
+                <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-4 text-white">
+                  <Icon icon={"bi:facebook"} className="text-xl" />
                 </button>
               </a>
               <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
-                <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-2">
+                <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-4">
                   <img
                     src={LOGO}
                     alt="logo"
@@ -76,14 +76,14 @@ const Menu = ({
                     setConversations([]);
                     setMessageLoading(false);
                   }}
-                  className="w-full rounded-md bg-[#475374] px-3 py-1 text-sm text-white duration-200 hover:bg-red-700/50"
+                  className="w-full rounded-md bg-[#475374] p-4 text-sm text-white duration-200 hover:bg-red-700/50"
                 >
                   Clear Conversation
                 </button>
               ) : null}
               <button
                 onClick={() => signOut()}
-                className="w-full rounded-md bg-[#475374] px-3 py-1 text-sm text-white duration-200 hover:opacity-50"
+                className="w-full rounded-md bg-[#475374] p-4 text-sm text-white duration-200 hover:opacity-50"
               >
                 Sign out
               </button>

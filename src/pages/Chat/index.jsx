@@ -201,7 +201,7 @@ function Chat() {
             />
           </div>
           {/* Side */}
-          <div className="font-productSansBlack hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 text-white xl:flex">
+          <div className=" hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 text-white xl:flex">
             <div className="flex w-full flex-col gap-3">
               <a
                 href="https://www.facebook.com/dhvsuofficeofadmissions"
@@ -301,7 +301,7 @@ function Chat() {
                 value={query}
                 disabled={isLoading || errorMessage}
                 type="text"
-                className="flex-1 bg-[#585C68] pr-3 text-white outline-none"
+                className="w-full bg-[#585C68] pr-3 text-white outline-none"
               />
               <button
                 disabled={isLoading || errorMessage}
