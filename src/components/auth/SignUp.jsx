@@ -6,8 +6,7 @@ import useSession from "../../hooks/useSession";
 import { Field, Form, Formik } from "formik";
 import signUpSchema from "../../validation/signUpSchema";
 import { isEmpty } from "lodash";
-import Lottie from "lottie-react";
-import LoadingAnimation from "../../assets/lottie/animation_lnkk9t58.json";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SignUp = ({ isOpen, setIsOpen }) => {
   const signUpInitialValues = {
@@ -21,7 +20,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
   const { singUp } = useAuthService();
   const { signIn } = useSession();
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     const { error } = await singUp(data);
     setIsLoading(true);
 
@@ -42,7 +41,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
-        className=" w-full h-full absolute top-0 z-50 flex justify-center items-center"
+        className=" absolute top-0 z-50 flex h-full w-full items-center justify-center"
         open={isOpen}
         onClose={() => {
           setIsOpen(false);
@@ -60,7 +59,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0  backdrop-blur-sm bg-black/30" />
+          <div className="fixed inset-0  bg-black/30 backdrop-blur-sm" />
         </Transition.Child>
 
         <Transition.Child
@@ -72,12 +71,12 @@ const SignUp = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="bg-[#2D354B] m-5 rounded-md p-4 max-w-[400px] w-full flex flex-col gap-4">
-            <Dialog.Title className="text-center text-white font-bold font-productSansBlack">
+          <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-[#2D354B] p-4">
+            <Dialog.Title className="font-productSansBlack text-center font-bold text-white">
               Create Account
             </Dialog.Title>
             {signUpError && (
-              <span className="p-1 w-full bg-red-200 border text-red-700 text-sm text-center border-red-700">
+              <span className="w-full border border-red-700 bg-red-200 p-1 text-center text-sm text-red-700">
                 {signUpError}
               </span>
             )}
@@ -90,49 +89,49 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 focus:outline-blue-500"
                       id="first_name"
                       name="first_name"
                       placeholder="First Name"
                       autoComplete="off"
                     />
                     {errors.first_name && touched.first_name ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.first_name}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 focus:outline-blue-500"
                       id="last_name"
                       name="last_name"
                       placeholder="Last Name"
                       autoComplete="off"
                     />
                     {errors.last_name && touched.last_name ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.last_name}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 focus:outline-blue-500"
                       id="email"
                       name="email"
                       placeholder="Email"
                       autoComplete="off"
                     />
                     {errors.email && touched.email ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.email}
                       </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Field
-                      className="w-full p-1 border rounded focus:outline-blue-500"
+                      className="w-full rounded border p-1 focus:outline-blue-500"
                       type="password"
                       id="password"
                       name="password"
@@ -140,7 +139,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                       placeholder="Password"
                     />
                     {errors.password && touched.password ? (
-                      <span className="text-red-500 text-xs italic">
+                      <span className="text-xs italic text-red-500">
                         {errors.password}
                       </span>
                     ) : null}
@@ -148,16 +147,9 @@ const SignUp = ({ isOpen, setIsOpen }) => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="bg-blue-500 rounded text-white p-1 font-productSansBlack flex justify-center"
+                    className="font-productSansBlack flex justify-center rounded bg-blue-500 p-1 text-white"
                   >
-                    {isLoading ? (
-                      <Lottie
-                        animationData={LoadingAnimation}
-                        className="h-10 w-10 p-0"
-                      />
-                    ) : (
-                      <span>Sign Up</span>
-                    )}
+                    {isLoading ? <LoadingSpinner /> : <span>Sign Up</span>}
                   </button>
                 </Form>
               )}
