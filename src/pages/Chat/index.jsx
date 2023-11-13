@@ -53,7 +53,7 @@ function Chat() {
 
   useEffect(() => {
     animateMessage.current && autoAnimate(animateMessage.current);
-  }, [animateMessage]);
+  }, [animateMessage.current]);
 
   useEffect(() => {
     scrollToBottom();
@@ -154,8 +154,8 @@ function Chat() {
     <div
       className={clsx(
         message.role === "assistant"
-          ? "mr-auto max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] px-6 py-[13px] text-left text-white"
-          : "ml-auto max-w-[60%] rounded-[1.5rem] rounded-br-none bg-[#8C6A71] px-6 py-[13px] text-left text-white",
+          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-[#585C68] px-6 py-[13px] text-left text-white"
+          : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#8C6A71] px-6 py-[13px] text-left text-white",
         "w-fit p-2"
       )}
       key={key}
