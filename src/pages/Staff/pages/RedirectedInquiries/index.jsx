@@ -51,6 +51,7 @@ const Card = ({
         question={question}
         isOpen={isOpenModal}
         setIsOpen={setIsOpenModal}
+        user={user_email}
       />
       <RespondDirectly
         question={question}
@@ -69,11 +70,11 @@ const Card = ({
             <span>{dateFormat(date)}</span>
           </div>
         </div>
-        <div className="flex h-full w-full flex-col rounded-md bg-[#2C2E3C] p-3 text-white/80">
+        <div className="flex h-full w-full flex-col break-words rounded-md bg-[#2C2E3C] p-3 text-white/80">
           <span>{question}</span>{" "}
         </div>
         {answer ? (
-          <div className="flex h-full w-full flex-col rounded-md bg-[#8C6A71] p-3 text-white/80">
+          <div className="flex h-full w-full flex-col break-words rounded-md bg-[#8C6A71] p-3 text-white/80">
             <span>{answer}</span>{" "}
           </div>
         ) : null}

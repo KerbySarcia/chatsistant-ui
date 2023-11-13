@@ -8,7 +8,7 @@ import useKnowledege from "../../services/useKnowledge";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { InquiriesContext } from "../../pages/Staff/pages/RedirectedInquiries";
 
-const FeedModal = ({ isOpen, setIsOpen, question, id }) => {
+const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const initialValues = {
@@ -26,6 +26,13 @@ const FeedModal = ({ isOpen, setIsOpen, question, id }) => {
       await knowledgeService.addKnowledge({
         ...data,
         information: `${data.subject} ${data.target} ${data.information}`,
+      });
+      const response = await inquiryService.sendEmail({
+        to: user,
+        from: "chatsistant@gmail.com",
+        subject: "Addmission",
+        question: question,
+        answer: data.information,
       });
       await inquiryService.updateStatus(id, {
         status: "DONE",
