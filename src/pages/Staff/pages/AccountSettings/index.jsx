@@ -5,6 +5,8 @@ import staffSchema from "../../../../validation/staffSchema";
 import useUserService from "../../../../services/useUserService";
 import useAuthService from "../../../../services/useAuthService";
 import { isEmpty } from "lodash";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AccountSettings = () => {
   const [initialValues, setInitialValues] = useState({
@@ -31,20 +33,28 @@ const AccountSettings = () => {
     await userService.deleteUser(id);
     setStaffs([...staffs.filter(staff => staff._id !== id)]);
   };
-  console.log(staffs);
+
   const handleSubmit = async data => {
     try {
       setIsLoading(true);
       let newStaff = {};
 
-      if (!isEmpty(newStaff?.error)) {
-        setIsLoading(false);
-        setErrorMesage(newStaff.error);
-        return;
-      }
-
       if (data?._id) {
         newStaff = await userService.updateUser(data?._id, data);
+        if (!isEmpty(newStaff?.error)) {
+          setIsLoading(false);
+          toast.error(newStaff?.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          return;
+        }
 
         setStaffs([
           ...staffs.map(staff => {
@@ -53,6 +63,21 @@ const AccountSettings = () => {
         ]);
       } else {
         newStaff = await authService.singUp(data);
+        if (!isEmpty(newStaff?.error)) {
+          setIsLoading(false);
+          toast.error(newStaff?.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          return;
+        }
+
         setStaffs([newStaff.data, ...staffs]);
       }
 
@@ -139,11 +164,12 @@ const AccountSettings = () => {
           <h1 className="font-productSans rounded-md bg-black/30 p-2 text-center text-white ">
             Add Staffs
           </h1>
-          {errorMessage ? (
+          <ToastContainer />
+          {/* {errorMessage ? (
             <h1 className="rounded-md bg-red-300 p-5 text-center text-sm text-red-800">
               {errorMessage}
             </h1>
-          ) : null}
+          ) : null} */}
           <div className="">
             <Formik
               enableReinitialize

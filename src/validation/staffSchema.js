@@ -2,7 +2,8 @@ import * as Yup from "yup";
 
 export default Yup.object().shape({
   password: Yup.string()
-    .min(5, "Password is too short")
+    .min(8, "minimum of 8 characters")
+    .max(20, "maxmimum of 25 characters")
     .required("Password is required"),
   first_name: Yup.string()
     .min(2, "First name is too short")

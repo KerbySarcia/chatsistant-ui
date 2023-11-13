@@ -8,6 +8,8 @@ import { isEmpty } from "lodash";
 import clsx from "clsx";
 import autoAnimate from "@formkit/auto-animate";
 import LoadingSpinner from "../../../../components/LoadingSpinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const KnowledgeFeeder = () => {
   const [dropdownValue, setDropdownValue] = useState("target");
@@ -15,6 +17,8 @@ const KnowledgeFeeder = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const [knowledgePayload, setknowledgePayload] = useState({
     subject: "",
     target: "",
@@ -75,6 +79,7 @@ const KnowledgeFeeder = () => {
     try {
       if (knowledgePayload?._id) {
         const newKnowledge = await updateKnowledge(knowledgePayload);
+
         setKnowledges([
           ...knowledges.map(knowledge =>
             knowledge._id === newKnowledge._id ? newKnowledge : knowledge
@@ -82,7 +87,33 @@ const KnowledgeFeeder = () => {
         ]);
       } else {
         const newKnowledge = await addKnowledge(knowledgePayload);
+
+        if (newKnowledge?.data?.status_code === 409) {
+          setIsLoading(false);
+          toast.error(newKnowledge?.data?.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          return;
+        }
+
         setKnowledges([newKnowledge.data, ...knowledges]);
+        toast.success("Successfully Added!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
 
       setknowledgePayload({
@@ -117,7 +148,19 @@ const KnowledgeFeeder = () => {
         </button>
         <button
           className=" rounded border border-white/30 bg-black/30 duration-200 hover:bg-red-400"
-          onClick={() => handleDelete(knowledge?._id)}
+          onClick={async () => {
+            await handleDelete(knowledge?._id);
+            toast.error("Successfully Deleted", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          }}
         >
           Delete
         </button>
@@ -132,6 +175,7 @@ const KnowledgeFeeder = () => {
           <LoadingSpinner />
         </div>
       )}
+      <ToastContainer />
       <div className="relative flex h-full w-full flex-col gap-5">
         <h1
           className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-black/50 p-5 
@@ -169,6 +213,11 @@ const KnowledgeFeeder = () => {
             </table>
           </div>
           <div className="flex h-full w-[30%] flex-col gap-5">
+            {errorMessage ? (
+              <h1 className="rounded-md bg-red-300 p-5 text-center text-sm text-red-800">
+                {errorMessage}
+              </h1>
+            ) : null}
             <div className="flex h-fit w-full flex-col gap-5 rounded-md bg-black/50 p-5 ">
               <TextBox
                 value={searchValue}

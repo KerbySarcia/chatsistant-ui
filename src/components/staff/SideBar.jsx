@@ -14,11 +14,6 @@ const SideBar = ({ value, setValue }) => {
     { value: "redirected-inquiries", icon: "tabler:message-question" },
 
     session?.role === "ADMIN" && {
-      value: "analytics",
-      icon: "solar:chart-outline",
-    },
-
-    session?.role === "ADMIN" && {
       value: "account-settings",
       icon: "material-symbols:settings-account-box-outline-rounded",
     },
@@ -49,9 +44,6 @@ const SideBar = ({ value, setValue }) => {
       </RadioGroup>
 
       <div className="flex flex-col gap-5">
-        {/* <button className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl">
-          <Icon icon={"iconamoon:mode-light-fill"} />
-        </button> */}
         <button
           onClick={() => signOut()}
           className="flex items-center justify-center rounded-lg bg-white p-5 text-3xl"
