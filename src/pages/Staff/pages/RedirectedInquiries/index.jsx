@@ -12,7 +12,7 @@ const Button = ({ onClick, label = "", icon = "", className }) => {
     <button
       onClick={onClick}
       className={clsx(
-        "flex w-full items-center justify-center gap-2 rounded-md bg-[#312E3F] p-3 text-xs text-white/60 2xl:text-base ",
+        "flex w-full items-center justify-center gap-2 rounded-md bg-[#312E3F] p-3 text-xs text-white/60 2xl:text-sm ",
         className
       )}
     >
