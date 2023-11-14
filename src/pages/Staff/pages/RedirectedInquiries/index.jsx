@@ -12,7 +12,7 @@ const Button = ({ onClick, label = "", icon = "", className }) => {
     <button
       onClick={onClick}
       className={clsx(
-        "flex w-full items-center justify-center gap-2 rounded-md bg-[#312E3F] p-3 text-xs text-white/60 2xl:text-sm ",
+        "flex w-full items-center justify-center gap-2 rounded-md p-3 text-xs dark:bg-[#312E3F] dark:text-white/60 2xl:text-sm ",
         className
       )}
     >
@@ -60,17 +60,17 @@ const Card = ({
         user={user_email}
         id={id}
       />
-      <div className="flex w-full max-w-[600px] flex-col gap-5 rounded-md bg-black/30 p-5">
-        <div className="flex w-full flex-col rounded-md bg-[#2C2A37] p-3">
-          <span className="font-productSansBlack text-white">
+      <div className="flex w-full max-w-[600px] flex-col gap-5 rounded-md bg-[#C7D3EE] p-5 dark:bg-black/30">
+        <div className="flex w-full flex-col rounded-md bg-[#E8E3F8] p-3 dark:bg-[#2C2A37]">
+          <span className="font-productSansBlack text-black/60 dark:text-white">
             From: {user_name}
           </span>
-          <div className="flex items-center justify-between text-sm text-white/60">
+          <div className="flex items-center justify-between text-sm text-black/40 dark:text-white/60">
             <span>Email: {user_email}</span>
             <span>{dateFormat(date)}</span>
           </div>
         </div>
-        <div className="flex h-full w-full flex-col break-words rounded-md bg-[#2C2E3C] p-3 text-white/80">
+        <div className="flex h-full w-full flex-col break-words rounded-md bg-[#DFE8FD] p-3 text-black/60 dark:bg-[#2C2E3C] dark:text-white/80">
           <span>{question}</span>{" "}
         </div>
         {answer ? (
@@ -93,17 +93,19 @@ const Card = ({
                   ),
                 ]);
               }}
-              className={"!bg-[#3D2E3F]"}
+              className={"!bg-[#F28E8E] !text-white dark:!bg-[#3D2E3F]"}
             />
             <Button
               label="Respond Directly"
               icon={"icon-park-outline:send-email"}
               onClick={handleDirectSend}
+              className={"!bg-[#8EABF2] !text-white dark:!bg-[#3D2E3F]"}
             />
             <Button
               label="Add Feed"
               icon={"ic:round-playlist-add"}
               onClick={handleAddFeed}
+              className={"!bg-[#8EABF2] !text-white dark:!bg-[#3D2E3F]"}
             />
           </div>
         ) : null}
@@ -130,8 +132,8 @@ const RedirectedInquiries = () => {
     <InquiriesContext.Provider value={{ inquiries, setInquiries }}>
       <div className="flex h-full w-full flex-col gap-5">
         <h1
-          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-black/50 p-5 
-        text-center text-xl text-white "
+          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-white p-5 text-center 
+        text-xl text-black/60 dark:bg-black/50 dark:text-white "
         >
           Redirected Inquiries
         </h1>
@@ -146,8 +148,10 @@ const RedirectedInquiries = () => {
                 <Tab
                   key={key}
                   className={clsx(
-                    "rounded-md bg-black/50 p-2 px-5 text-white duration-150",
-                    tabValue === key ? "opacity-100" : "opacity-50"
+                    "darktext-white rounded-md p-2 px-5 duration-150 dark:bg-black/50",
+                    tabValue === key
+                      ? " bg-[#8EABF2] text-white dark:opacity-100"
+                      : "bg-white/50 text-black/60 dark:text-white dark:opacity-50"
                   )}
                 >
                   <span>
@@ -163,7 +167,7 @@ const RedirectedInquiries = () => {
           </Tab.List>
           <Tab.Panels
             className={
-              " flex h-full w-full justify-center  overflow-y-auto rounded-md bg-black/50 p-5"
+              " flex h-full w-full justify-center  overflow-y-auto rounded-md bg-white p-5 dark:bg-black/50"
             }
           >
             <Tab.Panel

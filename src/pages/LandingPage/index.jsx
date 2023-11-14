@@ -51,7 +51,7 @@ const FirstSection = () => {
           </h2>
         </div>
       </div>
-      <p className="w-fit rounded-t-[1.875rem] rounded-br-[1.875rem] bg-white/60 p-5 font-bold text-black/50 dark:bg-black/30 dark:text-white/70 lg:w-full lg:text-2xl">
+      <p className="w-fit rounded-t-[1.875rem] rounded-br-[1.875rem] bg-white/60 p-5 pr-2 font-bold text-black/50 dark:bg-black/30 dark:text-white/70 lg:w-full lg:text-2xl">
         Your Intelligent University Admission Assistant On The Go!
       </p>
     </div>
@@ -143,7 +143,7 @@ function LandingPage() {
                 <Icon
                   icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
                   className={clsx(
-                    isDark ? "text-white" : "text-black",
+                    isDark ? "text-white" : "text-black/60",
                     "absolute right-0 top-0 m-5 cursor-pointer text-2xl"
                   )}
                 />

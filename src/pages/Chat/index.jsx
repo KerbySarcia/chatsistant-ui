@@ -156,7 +156,7 @@ function Chat() {
     <div
       className={clsx(
         message.role === "assistant"
-          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black dark:bg-[#585C68] dark:text-white"
+          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black/60 dark:bg-[#585C68] dark:text-white"
           : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#DC8B8B] px-6 py-[13px] text-left text-white dark:bg-[#8C6A71]",
         "w-fit p-2"
       )}
@@ -182,12 +182,9 @@ function Chat() {
         <div className="xl:flex xl:w-[30%] xl:flex-col">
           <div className="flex w-full items-center justify-between p-5">
             <Icon
-              onClick={() => handleToggle()}
-              icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
-              className={clsx(
-                isDark ? "text-white" : "text-black",
-                "cursor-pointer text-center text-3xl xl:hidden"
-              )}
+              className="h-[32px] w-[32px] text-white/80 dark:text-[#ADAEB3] xl:pointer-events-none xl:hidden"
+              icon={"entypo:dots-three-horizontal"}
+              onClick={() => setIsOpenMenu(true)}
             />
             <div className="flex w-full items-center justify-center gap-3">
               <div className="h-[63px] w-[63px] overflow-hidden rounded-full">
@@ -205,9 +202,12 @@ function Chat() {
               </div>
             </div>
             <Icon
-              className="h-[32px] w-[32px] text-white/80 dark:text-[#ADAEB3] xl:pointer-events-none xl:hidden"
-              icon={"entypo:dots-three-horizontal"}
-              onClick={() => setIsOpenMenu(true)}
+              onClick={() => handleToggle()}
+              icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
+              className={clsx(
+                isDark ? "text-white" : "text-black/60",
+                "cursor-pointer text-center text-3xl xl:hidden"
+              )}
             />
           </div>
           {/* Side */}
@@ -263,7 +263,7 @@ function Chat() {
                   <Icon
                     icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
                     className={clsx(
-                      isDark ? "text-white" : "text-black",
+                      isDark ? "text-white" : "text-black/60",
                       "w-full cursor-pointer text-center text-2xl"
                     )}
                   />
@@ -290,7 +290,7 @@ function Chat() {
                 </span>
               )}
               {isLoading ? (
-                <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black dark:bg-[#585C68] dark:text-white">
+                <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black/60 dark:bg-[#585C68] dark:text-white">
                   <Icon
                     icon={"eos-icons:three-dots-loading"}
                     className="text-4xl"
@@ -306,7 +306,8 @@ function Chat() {
                     <button
                       key={key}
                       onClick={() => handleClickFirstTime(m)}
-                      className="flex-1 cursor-pointer rounded-md border bg-white p-5 text-center text-sm duration-200 hover:opacity-50 disabled:bg-white dark:border-[#4f535d] dark:bg-[#373c4b] dark:text-white dark:hover:bg-[#686c78]"
+                      className="flex-1 cursor-pointer rounded-md border bg-white p-5 text-center text-sm text-black/60 duration-200 hover:opacity-50 disabled:bg-white dark:border-[#4f535d] 
+                       dark:bg-[#373c4b] dark:text-white dark:hover:bg-[#686c78]"
                     >
                       {m}
                     </button>

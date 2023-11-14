@@ -78,10 +78,12 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="m-4 flex max-h-[700px] w-full max-w-[400px] flex-col gap-4 rounded-xl bg-[#2D354B] p-5 text-white">
+          <Dialog.Panel className="m-4 flex max-h-[700px] w-full max-w-[400px] flex-col gap-4 rounded-xl bg-white p-5 text-black/60 dark:bg-[#2D354B] dark:text-white">
             <Dialog.Title className={"flex flex-col gap-1"}>
-              <span className="text-lg">Question</span>
-              <span>{question}</span>
+              <span className="text-lg text-black/60 dark:text-white">
+                Question
+              </span>
+              <span className="text-black/60 dark:text-white">{question}</span>
             </Dialog.Title>
             <Formik
               onSubmit={handleSubmit}
@@ -91,9 +93,14 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
               {({ errors, touched }) => (
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="subject">Subject</label>
+                    <label
+                      htmlFor="subject"
+                      className="text-black/60 dark:text-white"
+                    >
+                      Subject
+                    </label>
                     <Field
-                      className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 text-black/60 duration-200 focus:outline-[#323745] dark:bg-[#4A5168] dark:text-white"
                       id="subject"
                       name="subject"
                       disabled={isLoading || isSuccess}
@@ -105,9 +112,14 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="target">Target</label>
+                    <label
+                      htmlFor="target"
+                      className="text-black/60 dark:text-white"
+                    >
+                      Target
+                    </label>
                     <Field
-                      className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 text-black/60 duration-200 focus:outline-[#323745] dark:bg-[#4A5168] dark:text-white"
                       id="target"
                       name="target"
                       disabled={isLoading || isSuccess}
@@ -119,10 +131,15 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="information">Value</label>
+                    <label
+                      htmlFor="information"
+                      className="text-black/60 dark:text-white"
+                    >
+                      Value
+                    </label>
                     <Field
                       as="textarea"
-                      className="h-full w-full resize-none rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="h-full w-full resize-none rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 text-black/60 duration-200 focus:outline-[#323745] dark:bg-[#4A5168] dark:text-white"
                       id="information"
                       name="information"
                       disabled={isLoading || isSuccess}
@@ -151,7 +168,7 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center  rounded-md bg-[#4A5168] p-3 text-white"
+                    className="flex items-center justify-center rounded-md bg-gray-300 p-3 text-black/60 dark:bg-[#4A5168] dark:text-white"
                   >
                     Close
                   </button>

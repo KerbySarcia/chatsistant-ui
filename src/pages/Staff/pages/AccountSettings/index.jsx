@@ -105,22 +105,22 @@ const AccountSettings = () => {
   return (
     <div className="flex h-full w-full flex-col gap-5">
       <h1
-        className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-black/50 p-5 
-        text-center text-xl text-white "
+        className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-white p-5 text-center 
+        text-xl text-black/60 dark:bg-black/50 dark:text-white "
       >
         Account Settings
       </h1>
 
       <div className="flex h-full w-full gap-5">
-        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-black/50 p-5">
-          <h1 className="font-productSans rounded-md bg-black/30 p-2 text-center text-white ">
+        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
+          <h1 className="rounded-md bg-[#8EABF2] p-2 text-center text-white dark:bg-black/30 ">
             Staffs
           </h1>
 
           <div className="relative flex h-full w-full overflow-y-auto">
-            <table className="absolute left-0 top-0 flex h-full w-full flex-col gap-4  text-white">
+            <table className="absolute left-0 top-0 flex h-full w-full flex-col gap-4  text-black/60 dark:text-white">
               <thead className="sticky top-0">
-                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left">
+                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left dark:bg-[#3D4250]">
                   <th className="flex-1">Name</th>
                   <th className="flex-1">Email</th>
                   <th className="">Action</th>
@@ -130,7 +130,7 @@ const AccountSettings = () => {
                 {staffs?.map((staff, key) => (
                   <tr
                     key={key}
-                    className="flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left"
+                    className="flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#F7F7F7] p-5 text-left  dark:bg-[#3D4250]"
                   >
                     <td className="flex-1">
                       {staff.first_name + " " + staff.last_name}
@@ -143,13 +143,13 @@ const AccountSettings = () => {
                             ...staff,
                           });
                         }}
-                        className=" rounded border border-white/30 bg-black/30 duration-200 hover:bg-blue-400"
+                        className=" rounded border border-white/30 bg-[#8EABF2] text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(staff._id)}
-                        className=" rounded border border-white/30 bg-black/30 duration-200 hover:bg-red-400"
+                        className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
                       >
                         Delete
                       </button>
@@ -160,8 +160,8 @@ const AccountSettings = () => {
             </table>
           </div>
         </div>
-        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-black/50 p-5">
-          <h1 className="font-productSans rounded-md bg-black/30 p-2 text-center text-white ">
+        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
+          <h1 className="rounded-md bg-[#8EABF2] p-2 text-center text-white dark:bg-black/30 ">
             Add Staffs
           </h1>
           <ToastContainer />
@@ -178,12 +178,12 @@ const AccountSettings = () => {
               validationSchema={staffSchema}
             >
               {({ errors, touched }) => (
-                <Form className="flex flex-col gap-5 text-white">
+                <Form className="flex flex-col gap-5 text-black/60 dark:text-white">
                   <div className="flex gap-5">
                     <div className="flex w-full flex-col gap-1">
                       <label htmlFor="first_name">First Name</label>
                       <Field
-                        className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                        className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 duration-200 focus:outline-[#323745] dark:bg-[#4A5168]"
                         id="first_name"
                         name="first_name"
                         autoComplete="off"
@@ -198,7 +198,7 @@ const AccountSettings = () => {
                     <div className="flex w-full flex-col gap-1">
                       <label htmlFor="last_name">Last Name</label>
                       <Field
-                        className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                        className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 duration-200 focus:outline-[#323745] dark:bg-[#4A5168]"
                         id="last_name"
                         name="last_name"
                         autoComplete="off"
@@ -215,7 +215,7 @@ const AccountSettings = () => {
                   <div className="flex flex-col gap-1">
                     <label htmlFor="email">Email</label>
                     <Field
-                      className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 duration-200 focus:outline-[#323745] dark:bg-[#4A5168]"
                       id="email"
                       name="email"
                       autoComplete="off"
@@ -229,7 +229,7 @@ const AccountSettings = () => {
                     <label htmlFor="password">Password</label>
                     <Field
                       type="password"
-                      className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 duration-200 focus:outline-[#323745] dark:bg-[#4A5168]"
                       id="password"
                       name="password"
                       autoComplete="off"
@@ -245,7 +245,7 @@ const AccountSettings = () => {
                     <button
                       disabled={isLoading}
                       type="submit"
-                      className=" bg-[#4A5168]/ flex items-center justify-center rounded-md bg-white/30 p-3 font-bold text-white duration-200 hover:opacity-50"
+                      className=" bg-[#4A5168]/ flex items-center justify-center rounded-md bg-blue-300 p-3 font-bold text-white duration-200 hover:opacity-50 dark:bg-white/30"
                     >
                       {isLoading ? <LoadingSpinner /> : "Update Info"}
                     </button>
@@ -253,7 +253,7 @@ const AccountSettings = () => {
                     <button
                       disabled={isLoading}
                       type="submit"
-                      className=" bg-[#4A5168]/ flex items-center justify-center rounded-md bg-white/30 p-3 font-bold text-white duration-200 hover:opacity-50"
+                      className=" dark:bg-[#4A5168]/ flex items-center justify-center rounded-md bg-blue-300 p-3 font-bold text-white duration-200 hover:opacity-50 dark:bg-white/30"
                     >
                       {isLoading ? <LoadingSpinner /> : "Create Staff"}
                     </button>

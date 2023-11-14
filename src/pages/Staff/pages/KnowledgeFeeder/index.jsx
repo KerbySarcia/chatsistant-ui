@@ -130,8 +130,8 @@ const KnowledgeFeeder = () => {
     <tr
       key={key}
       className={clsx(
-        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left",
-        key % 2 !== 0 && "bg-[#323745]"
+        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left text-black/60 dark:text-white",
+        key % 2 !== 0 && "bg-[#F7F7F7] dark:bg-[#323745]"
       )}
     >
       <td className="flex-1">{knowledge?.subject}</td>
@@ -142,12 +142,12 @@ const KnowledgeFeeder = () => {
           onClick={() => {
             setknowledgePayload(knowledge);
           }}
-          className="rounded border border-white/30 bg-black/30 duration-200 hover:bg-blue-400"
+          className="rounded border border-white/30 bg-[#8EABF2] text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60"
         >
           Edit
         </button>
         <button
-          className=" rounded border border-white/30 bg-black/30 duration-200 hover:bg-red-400"
+          className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
           onClick={async () => {
             await handleDelete(knowledge?._id);
             toast.error("Successfully Deleted", {
@@ -178,19 +178,19 @@ const KnowledgeFeeder = () => {
       <ToastContainer />
       <div className="relative flex h-full w-full flex-col gap-5">
         <h1
-          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-black/50 p-5 
-        text-center text-xl text-white "
+          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-white p-5 text-center 
+        text-xl text-black/60 dark:bg-black/50 dark:text-white "
         >
           Knowledge Feeder
         </h1>
         <div className="flex h-full w-full items-center gap-5 overflow-y-auto">
-          <div className="relative flex h-full w-[70%] overflow-y-auto rounded-md bg-black/50 p-5 pt-0">
+          <div className="relative flex h-full w-[70%] overflow-y-auto rounded-md bg-white p-5 pt-0 dark:bg-black/50">
             <table
               ref={parentAnimate}
               className="absolute left-0 top-0 flex h-full w-full flex-col gap-4 p-5 text-white"
             >
               <thead className="sticky top-0">
-                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#3D4250] p-5 text-left">
+                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left text-black/60 dark:bg-[#3D4250] dark:text-white">
                   <th className="flex-1">Subject</th>
                   <th className="flex-1">Target</th>
                   <th className="flex-1">Value</th>
@@ -201,8 +201,10 @@ const KnowledgeFeeder = () => {
                 {!isEmpty(knowledges) ? (
                   tableElemets
                 ) : isLoading ? (
-                  <tr className="flex w-full justify-center">
-                    <td>Loading...</td>
+                  <tr className="flex h-full w-full justify-center">
+                    <td>
+                      <LoadingSpinner />
+                    </td>
                   </tr>
                 ) : (
                   <tr className="flex w-full justify-center">
@@ -218,7 +220,7 @@ const KnowledgeFeeder = () => {
                 {errorMessage}
               </h1>
             ) : null}
-            <div className="flex h-fit w-full flex-col gap-5 rounded-md bg-black/50 p-5 ">
+            <div className="flex h-fit w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50  ">
               <TextBox
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
@@ -236,7 +238,7 @@ const KnowledgeFeeder = () => {
                   onClick={handleSearch}
                   disabled={isLoading || !searchValue}
                   className={clsx(
-                    "flex h-[44px] items-center justify-center rounded-md bg-[#4A5168] p-4 text-xl text-white duration-150 hover:opacity-50",
+                    "flex h-[44px] items-center justify-center rounded-md bg-[#8EABF2] p-4 text-xl text-white duration-150 hover:opacity-50 dark:bg-[#4A5168]",
                     isLoading || !searchValue ? "opacity-50" : "opacity-100"
                   )}
                 >
@@ -244,7 +246,7 @@ const KnowledgeFeeder = () => {
                 </button>
               </div>
             </div>
-            <div className="flex h-full w-full flex-col gap-5 rounded-md bg-black/50 p-5">
+            <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
               <TextBox
                 value={knowledgePayload.subject}
                 onChange={handleChange}
@@ -271,7 +273,7 @@ const KnowledgeFeeder = () => {
                   disabled={isFeedButtonDisabled || isLoading}
                   onClick={handleSubmit}
                   className={clsx(
-                    "w-full rounded-md bg-[#4A5168] p-3 text-white",
+                    "w-full rounded-md bg-[#8EABF2] p-3 text-white dark:bg-[#4A5168]",
                     isFeedButtonDisabled || isLoading
                       ? "opacity-50"
                       : "opacity-100"

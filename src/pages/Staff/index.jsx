@@ -40,7 +40,7 @@ function Staff() {
 
   return (
     <>
-      <div className="flex h-screen w-full flex-col items-center justify-center gap-5 bg-[#3F4B69] text-white lg:hidden">
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-5 bg-[#3F4B69]  text-white lg:hidden">
         <span>Mobile View is not available 🫠</span>
         <button
           className="w-[100px] rounded-md bg-white p-2 text-[#3F4B69]"
@@ -49,10 +49,12 @@ function Staff() {
           Sign out
         </button>
       </div>
-      <div className=" hidden h-screen items-center gap-5 bg-gradient-to-t  from-[#37243E] to-[#3F4B69] p-5 lg:flex">
-        <SideBar value={value} setValue={setValue} />
-        <div className="flex h-full w-full rounded-xl  bg-white/10 p-5 backdrop-blur-sm">
-          {renderComponent}
+      <div className=" h-screen bg-blue-500 duration-200 dark:bg-gradient-to-t dark:from-[#37243E]  dark:to-[#3F4B69] ">
+        <div className=" hidden h-full items-center gap-5 bg-white/50 p-5 dark:bg-transparent lg:flex">
+          <SideBar value={value} setValue={setValue} />
+          <div className="flex h-full w-full rounded-xl bg-white/40  p-5 backdrop-blur-sm dark:bg-white/10">
+            {renderComponent}
+          </div>
         </div>
       </div>
     </>

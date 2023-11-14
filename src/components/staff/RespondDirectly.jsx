@@ -77,10 +77,12 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="m-4 flex max-h-[700px] w-full max-w-[400px] flex-col gap-4 rounded-xl bg-[#2D354B] p-5 text-white">
+          <Dialog.Panel className="m-4 flex max-h-[700px] w-full max-w-[400px] flex-col gap-4 rounded-xl bg-white p-5 text-black/60 dark:bg-[#2D354B] dark:text-white">
             <Dialog.Title className={"flex flex-col gap-1"}>
-              <span className="text-lg">Question</span>
-              <span>{question}</span>
+              <span className="text-lg text-black/60 dark:text-white">
+                Question
+              </span>
+              <span className="text-black/60 dark:text-white">{question}</span>
             </Dialog.Title>
             <Formik
               validationSchema={respondDirectlySchema}
@@ -90,9 +92,14 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
               {({ errors, touched }) => (
                 <Form className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="subject">To</label>
+                    <label
+                      htmlFor="subject "
+                      className="text-black/60 dark:text-white"
+                    >
+                      To
+                    </label>
                     <Field
-                      className="rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 text-black/60 duration-200 focus:outline-[#323745] dark:bg-[#4A5168] dark:text-white"
                       id="user"
                       name="user"
                       disabled={true}
@@ -101,10 +108,15 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="Answer">Answer</label>
+                    <label
+                      htmlFor="Answer"
+                      className="text-black/60 dark:text-white"
+                    >
+                      Answer
+                    </label>
                     <Field
                       as="textarea"
-                      className="h-full w-full resize-none rounded-md border-2 border-white/20 bg-[#4A5168] p-2 duration-200 focus:outline-[#323745]"
+                      className="h-full w-full resize-none rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 duration-200 focus:outline-[#323745] dark:bg-[#4A5168]"
                       id="answer"
                       name="answer"
                     />
@@ -132,7 +144,7 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center  rounded-md bg-[#4A5168] p-3 text-white"
+                    className="flex items-center justify-center  rounded-md bg-gray-300 p-3 text-black/60 dark:bg-[#4A5168] dark:text-white"
                   >
                     Close
                   </button>
