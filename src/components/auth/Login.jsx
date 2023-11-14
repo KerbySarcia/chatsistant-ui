@@ -58,13 +58,13 @@ const Login = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="m-4 flex w-full max-w-[400px] flex-col gap-4 rounded-xl bg-[#2D354B] p-5">
+          <Dialog.Panel className="m-4 flex w-full max-w-[400px] flex-col gap-4 rounded-xl bg-white p-5 dark:bg-[#2D354B]">
             <Dialog.Title className="flex w-full justify-center font-bold">
               {/* <Lottie animationData={LoginAnimation} className="h-48 w-48" /> */}
               <img
                 src={DHVSU}
                 alt="logo"
-                className="h-48 w-48 rounded-l-[0.625rem] rounded-r-[1.563rem] object-cover object-center"
+                className="h-48 w-48 rounded-l-[0.625rem] rounded-r-[1.563rem] object-cover object-center shadow-md"
               />
             </Dialog.Title>
             {loginError && (
@@ -80,11 +80,14 @@ const Login = ({ isOpen, setIsOpen }) => {
               {({ errors, touched }) => (
                 <Form className="flex flex-col gap-5 ">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="email" className="text-white">
+                    <label
+                      htmlFor="email"
+                      className="text-black dark:text-white"
+                    >
                       Email
                     </label>
                     <Field
-                      className="w-full rounded border p-2 focus:outline-blue-500"
+                      className="w-full rounded border p-2  focus:outline-blue-500"
                       id="email"
                       name="email"
                       autoComplete="off"
@@ -97,12 +100,15 @@ const Login = ({ isOpen, setIsOpen }) => {
                     ) : null}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="password" className="text-white">
+                    <label
+                      htmlFor="password"
+                      className="text-black dark:text-white"
+                    >
                       Password
                     </label>
                     <div className="relative flex items-center justify-end">
                       <Field
-                        className="w-full rounded border p-2 pr-8  focus:outline-blue-500"
+                        className="w-full rounded border p-2 pr-8 focus:outline-blue-500"
                         type={isHide ? "password" : "text"}
                         id="password"
                         name="password"

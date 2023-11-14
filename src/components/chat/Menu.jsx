@@ -43,8 +43,8 @@ const Menu = ({
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-[#2D354B] p-4">
-            <Dialog.Title className="font-productSansBlack text-center font-bold text-white">
+          <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-white/90 p-4 dark:bg-[#2D354B]">
+            <Dialog.Title className="font-productSansBlack text-center font-bold text-black dark:text-white">
               Menu
             </Dialog.Title>
             <div className="flex w-full flex-col gap-3">
@@ -76,14 +76,14 @@ const Menu = ({
                     setConversations([]);
                     setMessageLoading(false);
                   }}
-                  className="w-full rounded-md bg-[#475374] p-4 text-sm text-white duration-200 hover:bg-red-700/50"
+                  className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:bg-red-700/50 hover:text-white dark:bg-white"
                 >
                   Clear Conversation
                 </button>
               ) : null}
               <button
                 onClick={() => signOut()}
-                className="w-full rounded-md bg-[#475374] p-4 text-sm text-white duration-200 hover:opacity-50"
+                className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-white "
               >
                 Sign out
               </button>

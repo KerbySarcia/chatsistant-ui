@@ -13,6 +13,7 @@ import DHSVU_LOGO from "../../assets/images/dabchatlogo.png";
 import LOGO from "../../assets/images/dhvsu-logo.png";
 import Menu from "../../components/chat/Menu";
 import getThreeRandomElements from "../../../utils/GetRandomElements";
+import useDarkMode from "../../hooks/useDarkMode";
 
 const RANDOM_QUESTION = [
   "When is the admission period for senior high school (grade 11)?",
@@ -35,6 +36,7 @@ function Chat() {
   const [messageLoading, setMessageLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [query, setQuery] = useState("");
+  const { handleToggle, isDark } = useDarkMode();
   const {
     sendQuestion,
     getConversation,
@@ -154,13 +156,13 @@ function Chat() {
     <div
       className={clsx(
         message.role === "assistant"
-          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-[#585C68] px-6 py-[13px] text-left text-white"
-          : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#8C6A71] px-6 py-[13px] text-left text-white",
+          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black dark:bg-[#585C68] dark:text-white"
+          : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#DC8B8B] px-6 py-[13px] text-left text-white dark:bg-[#8C6A71]",
         "w-fit p-2"
       )}
       key={key}
     >
-      <span className={"text-white"}>{message.message}</span>
+      <span>{message.message}</span>
     </div>
   ));
 
@@ -176,9 +178,17 @@ function Chat() {
         updateConversationHistory={updateConversationHistory}
         setMessageLoading={setMessageLoading}
       />
-      <div className="relative flex h-screen w-full flex-col overflow-hidden bg-[#2D354B] xl:flex-row xl:gap-5 xl:p-10">
+      <div className="relative flex h-screen w-full flex-col overflow-hidden bg-blue-800/50 duration-200  dark:bg-[#2D354B] xl:flex-row xl:gap-5 xl:p-10">
         <div className="xl:flex xl:w-[30%] xl:flex-col">
           <div className="flex w-full items-center justify-between p-5">
+            <Icon
+              onClick={() => handleToggle()}
+              icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
+              className={clsx(
+                isDark ? "text-white" : "text-black",
+                "cursor-pointer text-center text-3xl xl:hidden"
+              )}
+            />
             <div className="flex w-full items-center justify-center gap-3">
               <div className="h-[63px] w-[63px] overflow-hidden rounded-full">
                 <img
@@ -189,19 +199,19 @@ function Chat() {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-white">DHVChat</span>
-                <span className="text-sm text-[#ADAEB3]">
+                <span className="text-sm text-white/70 dark:text-[#ADAEB3]">
                   AI Chat Assistant
                 </span>
               </div>
             </div>
             <Icon
-              className="h-[32px] w-[32px] text-[#ADAEB3] xl:pointer-events-none xl:hidden"
+              className="h-[32px] w-[32px] text-white/80 dark:text-[#ADAEB3] xl:pointer-events-none xl:hidden"
               icon={"entypo:dots-three-horizontal"}
               onClick={() => setIsOpenMenu(true)}
             />
           </div>
           {/* Side */}
-          <div className=" hidden h-full w-full flex-col items-center justify-between rounded-md bg-[#202533] p-5 text-white xl:flex">
+          <div className=" hidden h-full w-full flex-col items-center justify-between rounded-md bg-white/50 p-5 dark:bg-[#202533] xl:flex">
             <div className="flex w-full flex-col gap-3">
               <a
                 href="https://www.facebook.com/dhvsuofficeofadmissions"
@@ -209,7 +219,7 @@ function Chat() {
                 rel="noreferrer"
               >
                 <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
-                  <Icon icon={"bi:facebook"} className="text-2xl" />
+                  <Icon icon={"bi:facebook"} className="text-2xl text-white" />
                 </button>
               </a>
               <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
@@ -234,22 +244,36 @@ function Chat() {
                     setRandomQuestion([]);
                     setMessageLoading(false);
                   }}
-                  className="w-full rounded-md bg-[#2D354B] p-4 duration-200 hover:bg-red-700/50"
+                  className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:bg-red-700/50 hover:text-white dark:bg-[#2D354B] dark:text-white"
                 >
                   Clear Conversation
                 </button>
               ) : null}
-              <button
-                onClick={() => signOut()}
-                className="w-full rounded-md bg-[#2D354B] p-4 duration-200 hover:opacity-50"
-              >
-                Sign out
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => signOut()}
+                  className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
+                >
+                  Sign out
+                </button>
+                <button
+                  onClick={() => handleToggle()}
+                  className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
+                >
+                  <Icon
+                    icon={isDark ? "entypo:light-up" : "ic:round-dark-mode"}
+                    className={clsx(
+                      isDark ? "text-white" : "text-black",
+                      "w-full cursor-pointer text-center text-2xl"
+                    )}
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>
         {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}
-        <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-[#202533] bg-opacity-60 backdrop-blur-3xl backdrop-filter xl:h-full xl:flex-1 xl:rounded-md">
+        <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-white/50  bg-opacity-60 backdrop-blur-3xl backdrop-filter dark:bg-[#202533] xl:h-full xl:flex-1 xl:rounded-md">
           {messageLoading ? (
             <div className="flex h-full items-center justify-center">
               <LoadingSpinner />
@@ -266,7 +290,7 @@ function Chat() {
                 </span>
               )}
               {isLoading ? (
-                <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-[#585C68] p-2 px-6 py-[13px]  text-left text-white">
+                <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black dark:bg-[#585C68] dark:text-white">
                   <Icon
                     icon={"eos-icons:three-dots-loading"}
                     className="text-4xl"
@@ -282,7 +306,7 @@ function Chat() {
                     <button
                       key={key}
                       onClick={() => handleClickFirstTime(m)}
-                      className="flex-1 cursor-pointer rounded-md border border-[#4f535d] bg-[#373c4b] p-5 text-center text-sm text-white duration-200 hover:bg-[#686c78]"
+                      className="flex-1 cursor-pointer rounded-md border bg-white p-5 text-center text-sm duration-200 hover:opacity-50 disabled:bg-white dark:border-[#4f535d] dark:bg-[#373c4b] dark:text-white dark:hover:bg-[#686c78]"
                     >
                       {m}
                     </button>
@@ -292,23 +316,23 @@ function Chat() {
             </div>
           )}
           <form
-            className="flex w-full bg-gradient-to-t from-[#202535] p-4"
+            className="flex w-full  p-4 dark:bg-gradient-to-t dark:from-[#202535]"
             onSubmit={handleSend}
           >
-            <div className="flex w-full overflow-hidden rounded-full bg-[#585C68] p-2 pl-8">
+            <div className="flex w-full overflow-hidden rounded-full bg-white p-2 pl-8 dark:bg-[#585C68]">
               <input
                 onChange={e => setQuery(e.target.value)}
                 value={query}
                 disabled={isLoading || errorMessage}
                 type="text"
-                className="w-full bg-[#585C68] pr-3 text-white outline-none"
+                className="w-full bg-none pr-3  text-black outline-none dark:bg-[#585C68] dark:text-white"
               />
               <button
                 disabled={isLoading || errorMessage}
                 type="submit"
                 className={clsx(
                   errorMessage ? "opacity-50" : "hover:cursor-pointer",
-                  "group flex flex-col items-center justify-center rounded-full bg-[#8C6A71] p-4 text-white lg:p-2 lg:px-5 "
+                  "group flex flex-col items-center justify-center rounded-full bg-[#DC8B8B] p-4 text-white dark:bg-[#8C6A71] lg:p-2 lg:px-5 "
                 )}
               >
                 <Icon

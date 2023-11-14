@@ -71,8 +71,8 @@ const SignUp = ({ isOpen, setIsOpen }) => {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-[#2D354B] p-4">
-            <Dialog.Title className="font-productSansBlack text-center font-bold text-white">
+          <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-white p-4 dark:bg-[#2D354B]">
+            <Dialog.Title className="font-productSansBlack text-center font-bold text-black dark:text-white">
               Create Account
             </Dialog.Title>
             {signUpError && (
