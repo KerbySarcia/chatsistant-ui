@@ -26,7 +26,7 @@ const Button = ({ img, label, onClick }) => {
         alt="icon"
         className="absolute -top-8 h-[7rem] w-[7rem] object-contain lg:-top-16 lg:h-[10rem] lg:w-[10rem]"
       />
-      <span className="font-productSansBlack relative top-2 text-white lg:text-2xl">
+      <span className="font-productSansBlack relative top-2 text-black/60 dark:text-white lg:text-2xl">
         {label}
       </span>
     </button>
@@ -97,8 +97,12 @@ bg-[#F8F8F875] shadow-2xl dark:bg-black/30 md:h-fit md:max-w-[25rem] md:rounded-
               className="relative right-10 w-[50%]"
             >
               <div className="relative left-3 flex flex-col gap-1">
-                <h1 className="text-2xl text-white">About Us!</h1>
-                <span className="text-white/70">Learn about the creators</span>
+                <h1 className="text-2xl text-black/60 dark:text-white">
+                  About Us!
+                </h1>
+                <span className="text-black/50 dark:text-white/70">
+                  Learn about the creators
+                </span>
               </div>
               <img
                 src={AVATAR}

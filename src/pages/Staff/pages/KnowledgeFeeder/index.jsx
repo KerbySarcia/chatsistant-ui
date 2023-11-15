@@ -134,9 +134,9 @@ const KnowledgeFeeder = () => {
         key % 2 !== 0 && "bg-[#F7F7F7] dark:bg-[#323745]"
       )}
     >
-      <td className="flex-1">{knowledge?.subject}</td>
-      <td className="flex-1">{knowledge?.target}</td>
-      <td className="flex-1">{knowledge?.information}</td>
+      <td className="flex-1 break-words">{knowledge?.subject}</td>
+      <td className="flex-1 break-words">{knowledge?.target}</td>
+      <td className="flex-1 break-words">{knowledge?.information}</td>
       <td className="flex w-[100px] flex-col gap-1">
         <button
           onClick={() => {

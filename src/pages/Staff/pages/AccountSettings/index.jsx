@@ -34,7 +34,7 @@ const AccountSettings = () => {
     setStaffs([...staffs.filter(staff => staff._id !== id)]);
   };
 
-  const handleSubmit = async data => {
+  const handleSubmit = async (data, { resetForm }) => {
     try {
       setIsLoading(true);
       let newStaff = {};
@@ -80,6 +80,14 @@ const AccountSettings = () => {
 
         setStaffs([newStaff.data, ...staffs]);
       }
+
+      resetForm({
+        first_name: "",
+        last_name: "",
+        role: "STAFF",
+        email: "",
+        password: "",
+      });
 
       setInitialValues({
         first_name: "",

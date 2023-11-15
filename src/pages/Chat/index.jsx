@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import autoAnimate from "@formkit/auto-animate";
-import Lottie from "lottie-react";
-import chatbot from "../../assets/lottie/fmHK8Q4x31.json";
 import useSession from "../../hooks/useSession";
 import { isEmpty } from "lodash";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -14,6 +12,7 @@ import LOGO from "../../assets/images/dhvsu-logo.png";
 import Menu from "../../components/chat/Menu";
 import getThreeRandomElements from "../../../utils/GetRandomElements";
 import useDarkMode from "../../hooks/useDarkMode";
+import DHVSU_TRANSPARENT from "../../assets/images/dhvsu_logo_new.webp";
 
 const RANDOM_QUESTION = [
   "When is the admission period for senior high school (grade 11)?",
@@ -274,6 +273,13 @@ function Chat() {
         </div>
         {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}
         <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-white/50  bg-opacity-60 backdrop-blur-3xl backdrop-filter dark:bg-[#202533] xl:h-full xl:flex-1 xl:rounded-md">
+          <div className="absolute left-0 top-0 -z-10 flex h-full w-full items-center justify-center opacity-20">
+            <img
+              src={DHVSU_TRANSPARENT}
+              alt="logo-chat-transparent"
+              className="h-76 w-76 object-cover object-center"
+            />
+          </div>
           {messageLoading ? (
             <div className="flex h-full items-center justify-center">
               <LoadingSpinner />
