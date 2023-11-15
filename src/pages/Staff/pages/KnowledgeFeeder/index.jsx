@@ -86,7 +86,10 @@ const KnowledgeFeeder = () => {
           ),
         ]);
       } else {
-        const newKnowledge = await addKnowledge(knowledgePayload);
+        const newKnowledge = await addKnowledge({
+          ...knowledgePayload,
+          information: `${knowledgePayload.subject} - ${knowledgePayload.target} - ${knowledgePayload.information}`,
+        });
 
         if (newKnowledge?.data?.status_code === 409) {
           setIsLoading(false);
