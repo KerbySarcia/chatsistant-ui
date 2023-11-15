@@ -39,7 +39,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
             >
               About Us
             </Dialog.Title>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>Jose Gabriel R. Castillo</span>
@@ -48,7 +48,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>Kerby Mathew O. Sarcia</span>
@@ -57,7 +57,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>Aljon S. Santos</span>
@@ -66,7 +66,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>Randylin B. Bernardo</span>
@@ -75,7 +75,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>John Eric V. Manalo</span>
@@ -84,7 +84,7 @@ const AboutUsModal = ({ isOpen, setIsOpen }) => {
                 </span>
               </div>
             </div>
-            <div className="font-productSans flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
+            <div className=" flex items-center gap-2 rounded-md border border-gray-500 p-2 dark:border-white/20 ">
               <Icon icon={"tabler:user-filled"} className="text-3xl" />
               <div className="flex flex-col">
                 <span>Michael Joshua M. Balagtas</span>
