@@ -29,7 +29,7 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
         from: "chatsistant@gmail.com",
         subject: "Addmission",
         question: question,
-        answer: `${data.subject} ${data.target} ${data.value}`,
+        answer: data.value,
       });
       await inquiryService.updateStatus(id, {
         status: "DONE",
