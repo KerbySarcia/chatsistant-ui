@@ -152,16 +152,24 @@ function Chat() {
     setIsLoading(false);
   };
   const messageElements = conversations?.map((message, key) => (
-    <div
-      className={clsx(
-        message.role === "assistant"
-          ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black/60 dark:bg-[#585C68] dark:text-white"
-          : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#DC8B8B] px-6 py-[13px] text-left text-white dark:bg-[#8C6A71]",
-        "w-fit p-2"
+    <div className="flex items-end gap-2">
+      {message.role === "assistant" && (
+        <img
+          src={DHSVU_LOGO}
+          className="relative top-3 h-10 w-10 rounded-full object-contain object-center"
+        />
       )}
-      key={key}
-    >
-      <span>{message.message}</span>
+      <div
+        className={clsx(
+          message.role === "assistant"
+            ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black/60 dark:bg-[#585C68] dark:text-white"
+            : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#DC8B8B] px-6 py-[13px] text-left text-white dark:bg-[#8C6A71]",
+          "w-fit p-2"
+        )}
+        key={key}
+      >
+        <span>{message.message}</span>
+      </div>
     </div>
   ));
 
@@ -296,11 +304,18 @@ function Chat() {
                 </span>
               )}
               {isLoading ? (
-                <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black/60 dark:bg-[#585C68] dark:text-white">
-                  <Icon
-                    icon={"eos-icons:three-dots-loading"}
-                    className="text-4xl"
+                <div className="flex items-end gap-2">
+                  <img
+                    src={DHSVU_LOGO}
+                    className="relative top-3 h-10 w-10 rounded-full object-contain object-center"
                   />
+
+                  <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black/60 dark:bg-[#585C68] dark:text-white">
+                    <Icon
+                      icon={"eos-icons:three-dots-loading"}
+                      className="text-4xl"
+                    />
+                  </div>
                 </div>
               ) : null}
               <div ref={messageRef} />
