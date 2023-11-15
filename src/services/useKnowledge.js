@@ -22,7 +22,7 @@ export default function useKnowledege() {
   const updateKnowledge = useCallback(
     async payload => {
       return await put(`/knowledges/${payload._id}`, {
-        knowledge: pick(payload, ["subject", "target", "information"]),
+        knowledge: pick(payload, ["subject", "target", "value"]),
       });
     },
     [put]

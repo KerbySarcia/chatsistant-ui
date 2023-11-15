@@ -22,7 +22,7 @@ const KnowledgeFeeder = () => {
   const [knowledgePayload, setknowledgePayload] = useState({
     subject: "",
     target: "",
-    information: "",
+    value: "",
   });
   const { getKnowledges, addKnowledge, deleteKnowledge, updateKnowledge } =
     useKnowledege();
@@ -31,7 +31,7 @@ const KnowledgeFeeder = () => {
   const isFeedButtonDisabled =
     !knowledgePayload.subject ||
     !knowledgePayload.target ||
-    !knowledgePayload.information;
+    !knowledgePayload.value;
 
   useEffect(() => {
     if (!searchValue) {
@@ -79,17 +79,23 @@ const KnowledgeFeeder = () => {
     try {
       if (knowledgePayload?._id) {
         const newKnowledge = await updateKnowledge(knowledgePayload);
-
         setKnowledges([
           ...knowledges.map(knowledge =>
             knowledge._id === newKnowledge._id ? newKnowledge : knowledge
           ),
         ]);
-      } else {
-        const newKnowledge = await addKnowledge({
-          ...knowledgePayload,
-          information: `${knowledgePayload.subject} - ${knowledgePayload.target} - ${knowledgePayload.information}`,
+        toast.success("Successfully Updated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
         });
+      } else {
+        const newKnowledge = await addKnowledge(knowledgePayload);
 
         if (newKnowledge?.data?.status_code === 409) {
           setIsLoading(false);
@@ -122,7 +128,18 @@ const KnowledgeFeeder = () => {
       setknowledgePayload({
         subject: "",
         target: "",
-        information: "",
+        value: "",
+      });
+    } catch (err) {
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
       });
     } finally {
       setIsLoading(false);
@@ -139,7 +156,7 @@ const KnowledgeFeeder = () => {
     >
       <td className="flex-1 break-words">{knowledge?.subject}</td>
       <td className="flex-1 break-words">{knowledge?.target}</td>
-      <td className="flex-1 break-words">{knowledge?.information}</td>
+      <td className="flex-1 break-words">{knowledge.value}</td>
       <td className="flex w-[100px] flex-col gap-1">
         <button
           onClick={() => {
@@ -170,7 +187,7 @@ const KnowledgeFeeder = () => {
       </td>
     </tr>
   ));
-
+  console.log(knowledgePayload);
   return (
     <>
       {isDeleteLoading && (
@@ -235,7 +252,7 @@ const KnowledgeFeeder = () => {
                   label={"Search in"}
                   selectedValue={dropdownValue}
                   setSelectedValue={setDropdownValue}
-                  options={["target", "subject", "information"]}
+                  options={["target", "subject", "value"]}
                 />
                 <button
                   onClick={handleSearch}
@@ -265,10 +282,10 @@ const KnowledgeFeeder = () => {
                 isDisabled={isLoading}
               />
               <TextArea
-                value={knowledgePayload.information}
+                value={knowledgePayload.value}
                 onChange={handleChange}
                 label={"Value"}
-                name={"information"}
+                name={"value"}
                 isDisabled={isLoading}
               />
               <div className="flex w-full items-center gap-2">
@@ -291,7 +308,7 @@ const KnowledgeFeeder = () => {
                       setknowledgePayload({
                         subject: "",
                         target: "",
-                        information: "",
+                        value: "",
                       })
                     }
                     className={clsx(

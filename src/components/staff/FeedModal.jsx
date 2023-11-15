@@ -14,7 +14,7 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
   const initialValues = {
     subject: "",
     target: "",
-    information: "",
+    value: "",
   };
   const { inquiries, setInquiries } = useContext(InquiriesContext);
   const inquiryService = useInquiryService();
@@ -23,25 +23,22 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
   const handleSubmit = async data => {
     try {
       setIsLoading(true);
-      await knowledgeService.addKnowledge({
-        ...data,
-        information: `${data.subject} ${data.target} ${data.information}`,
-      });
+      await knowledgeService.addKnowledge(data);
       const response = await inquiryService.sendEmail({
         to: user,
         from: "chatsistant@gmail.com",
         subject: "Addmission",
         question: question,
-        answer: `${data.subject} ${data.target} ${data.information}`,
+        answer: `${data.subject} ${data.target} ${data.value}`,
       });
       await inquiryService.updateStatus(id, {
         status: "DONE",
-        answer: data.information,
+        answer: data.value,
       });
       setInquiries([
         ...inquiries.map(inquiry =>
           inquiry._id === id
-            ? { ...inquiry, status: "DONE", answer: data.information }
+            ? { ...inquiry, status: "DONE", answer: data.value }
             : inquiry
         ),
       ]);
@@ -132,7 +129,7 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <label
-                      htmlFor="information"
+                      htmlFor="value"
                       className="text-black/60 dark:text-white"
                     >
                       Value
@@ -140,14 +137,12 @@ const FeedModal = ({ isOpen, setIsOpen, question, id, user }) => {
                     <Field
                       as="textarea"
                       className="h-full w-full resize-none rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 text-black/60 duration-200 focus:outline-[#323745] dark:bg-[#4A5168] dark:text-white"
-                      id="information"
-                      name="information"
+                      id="value"
+                      name="value"
                       disabled={isLoading || isSuccess}
                     />
-                    {errors.information && touched.information ? (
-                      <div className="text-xs text-red-400">
-                        {errors.information}
-                      </div>
+                    {errors.value && touched.value ? (
+                      <div className="text-xs text-red-400">{errors.value}</div>
                     ) : null}
                   </div>
                   <button
