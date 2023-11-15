@@ -20,14 +20,14 @@ const Dropdown = ({ selectedValue, options = [], setSelectedValue, label }) => {
         <Listbox.Button className="flex w-full items-center justify-between rounded-md border-2 border-white/20 bg-[#E8E8E8] p-2 capitalize dark:bg-[#4A5168]">
           <span className="text-black/60 dark:text-white">{selectedValue}</span>
           <Icon
-            className="text-white dark:text-white/20"
+            className="text-gray-500 dark:text-white/20"
             icon={"ph:caret-up-down-bold"}
           />
         </Listbox.Button>
       </div>
       <Listbox.Options
         className={
-          "absolute mt-2 w-full overflow-hidden rounded-md border-2 border-white/50 bg-[#8EABF2] text-white dark:bg-[#4A5168]"
+          "absolute z-10 mt-2 w-full overflow-hidden rounded-md border-2 border-white/50 bg-[#8EABF2] text-white dark:bg-[#4A5168]"
         }
       >
         {options.map((option, key) => (

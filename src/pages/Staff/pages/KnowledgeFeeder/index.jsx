@@ -11,6 +11,7 @@ import LoadingSpinner from "../../../../components/LoadingSpinner";
 import { ToastContainer, toast } from "react-toastify";
 import useDarkMode from "../../../../hooks/useDarkMode";
 import "react-toastify/dist/ReactToastify.css";
+import DropdownSearch from "../../../../components/staff/knowledge-feeder/DropdownSearch";
 
 const KnowledgeFeeder = () => {
   const [dropdownValue, setDropdownValue] = useState("target");
@@ -19,6 +20,8 @@ const KnowledgeFeeder = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [subjects, setSubjects] = useState(null);
+  const [targets, setTargets] = useState(null);
   const { isDark } = useDarkMode();
 
   const [knowledgePayload, setknowledgePayload] = useState({
@@ -26,8 +29,14 @@ const KnowledgeFeeder = () => {
     target: "",
     value: "",
   });
-  const { getKnowledges, addKnowledge, deleteKnowledge, updateKnowledge } =
-    useKnowledege();
+  const {
+    getKnowledges,
+    addKnowledge,
+    deleteKnowledge,
+    updateKnowledge,
+    getSubjects,
+    getTargets,
+  } = useKnowledege();
   const parentAnimate = useRef(null);
 
   const isFeedButtonDisabled =
@@ -49,6 +58,17 @@ const KnowledgeFeeder = () => {
   useEffect(() => {
     parentAnimate.current && autoAnimate(parentAnimate.current);
   }, [parentAnimate]);
+
+  useEffect(() => {
+    (async () => {
+      const subjectsReponse = await getSubjects();
+      const targetResponse = await getTargets();
+      setSubjects(
+        Array.from(new Set(subjectsReponse.map(item => item.subject)))
+      );
+      setTargets(Array.from(new Set(targetResponse.map(item => item.target))));
+    })();
+  }, []);
 
   const handleChange = e => {
     setknowledgePayload(prevValues => ({
@@ -269,20 +289,36 @@ const KnowledgeFeeder = () => {
               </div>
             </div>
             <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
-              <TextBox
+              {/* <TextBox
                 value={knowledgePayload.subject}
                 onChange={handleChange}
                 label={"Subject"}
                 name={"subject"}
                 isDisabled={isLoading}
+              /> */}
+              <DropdownSearch
+                options={subjects}
+                selectedValue={knowledgePayload.subject}
+                setSelectedValue={v =>
+                  setknowledgePayload(prev => ({ ...prev, subject: v }))
+                }
+                label="Subject"
               />
-              <TextArea
+              <DropdownSearch
+                options={targets}
+                selectedValue={knowledgePayload.target}
+                setSelectedValue={v =>
+                  setknowledgePayload(prev => ({ ...prev, target: v }))
+                }
+                label="Target"
+              />
+              {/* <TextArea
                 value={knowledgePayload.target}
                 onChange={handleChange}
                 label={"Target"}
                 name={"target"}
                 isDisabled={isLoading}
-              />
+              /> */}
               <TextArea
                 value={knowledgePayload.value}
                 onChange={handleChange}

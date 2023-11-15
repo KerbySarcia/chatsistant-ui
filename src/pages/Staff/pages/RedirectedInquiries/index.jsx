@@ -1,4 +1,4 @@
-import { Tab } from "@headlessui/react";
+import { Listbox, Tab } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -19,6 +19,43 @@ const Button = ({ onClick, label = "", icon = "", className }) => {
       <Icon icon={icon} className="text-lg" />
       <span>{label}</span>
     </button>
+  );
+};
+
+const DateSort = ({ dateSort, setDateSort }) => {
+  return (
+    <Listbox
+      as={"div"}
+      onChange={setDateSort}
+      className={"flex flex-col gap-1"}
+    >
+      <Listbox.Button
+        className={
+          "w-[200px] rounded-md bg-white p-1 text-black/60 dark:bg-[#2C2E3C] dark:text-white"
+        }
+      >
+        {dateSort ? dateSort : "Sort By Date"}
+      </Listbox.Button>
+      <div className="relative">
+        <Listbox.Options
+          className={
+            "absolute flex w-[200px] flex-col rounded-md border bg-white dark:bg-gray-600 "
+          }
+        >
+          {["Ascending", "Descending"].map((option, key) => (
+            <Listbox.Option
+              value={option}
+              className={
+                "cursor-pointer p-3 text-center text-black/60 hover:bg-gray-100 dark:text-white dark:hover:text-black/60"
+              }
+              key={key}
+            >
+              {option}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </div>
+    </Listbox>
   );
 };
 
@@ -120,6 +157,7 @@ const RedirectedInquiries = () => {
   const [tabValue, setTabValue] = useState(0);
   const [inquiries, setInquiries] = useState(null);
   const inquiryService = useInquiryService();
+  const [dateSort, setDateSort] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -128,6 +166,20 @@ const RedirectedInquiries = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (inquiries && dateSort === "Ascending") {
+      setInquiries([
+        ...inquiries.sort((a, b) => new Date(b.date) - new Date(a.date)),
+      ]);
+    }
+
+    if (inquiries && dateSort === "Descending") {
+      setInquiries([
+        ...inquiries.sort((a, b) => new Date(a.date) - new Date(b.date)),
+      ]);
+    }
+  }, [dateSort]);
+  console.log(inquiries);
   return (
     <InquiriesContext.Provider value={{ inquiries, setInquiries }}>
       <div className="flex h-full w-full flex-col gap-5">
@@ -161,9 +213,7 @@ const RedirectedInquiries = () => {
                 </Tab>
               ))}
             </div>
-            {/* <button className="rounded-md bg-black/50 p-2 px-5 text-white">
-              Sort By: Date
-            </button> */}
+            <DateSort dateSort={dateSort} setDateSort={setDateSort} />
           </Tab.List>
           <Tab.Panels
             className={

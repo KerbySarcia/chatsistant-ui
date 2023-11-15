@@ -35,10 +35,20 @@ export default function useKnowledege() {
     [deleteData]
   );
 
+  const getSubjects = useCallback(async () => {
+    return await get("/knowledges/subject");
+  }, [get]);
+
+  const getTargets = useCallback(async () => {
+    return await get("/knowledges/target");
+  }, [get]);
+
   return {
     addKnowledge,
     getKnowledges,
     deleteKnowledge,
     updateKnowledge,
+    getSubjects,
+    getTargets,
   };
 }
