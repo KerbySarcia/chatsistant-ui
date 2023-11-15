@@ -6,6 +6,7 @@ import useUserService from "../../../../services/useUserService";
 import useAuthService from "../../../../services/useAuthService";
 import { isEmpty } from "lodash";
 import { ToastContainer, toast } from "react-toastify";
+import useDarkMode from "../../../../hooks/useDarkMode";
 import "react-toastify/dist/ReactToastify.css";
 
 const AccountSettings = () => {
@@ -21,6 +22,7 @@ const AccountSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userService = useUserService();
   const authService = useAuthService();
+  const { isDark } = useDarkMode();
 
   useEffect(() => {
     (async () => {
@@ -51,7 +53,7 @@ const AccountSettings = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: isDark ? "dark" : "light",
           });
           return;
         }
@@ -61,6 +63,16 @@ const AccountSettings = () => {
             return staff._id === data._id ? newStaff : staff;
           }),
         ]);
+        toast("Successfully Updated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDark ? "dark" : "light",
+        });
       } else {
         newStaff = await authService.singUp(data);
         if (!isEmpty(newStaff?.error)) {
@@ -73,12 +85,23 @@ const AccountSettings = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: isDark ? "dark" : "light",
           });
           return;
         }
 
         setStaffs([newStaff.data, ...staffs]);
+
+        toast("Successfully Added!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDark ? "dark" : "light",
+        });
       }
 
       resetForm({
@@ -156,7 +179,19 @@ const AccountSettings = () => {
                         Edit
                       </button>
                       <button
-                        onClick={() => handleDelete(staff._id)}
+                        onClick={async () => {
+                          handleDelete(staff._id);
+                          toast("Successfully Deleted!", {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: isDark ? "dark" : "light",
+                          });
+                        }}
                         className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
                       >
                         Delete

@@ -156,7 +156,7 @@ function Chat() {
       {message.role === "assistant" && (
         <img
           src={DHSVU_LOGO}
-          className="relative top-3 h-10 w-10 rounded-full object-contain object-center"
+          className="h-10 w-10 rounded-full object-contain object-center"
         />
       )}
       <div
@@ -281,11 +281,11 @@ function Chat() {
         </div>
         {/* <div className="absolute bottom-0 right-[-100px] h-80 w-80 rounded-full bg-[#35243D] "></div> */}
         <div className="relative mt-auto flex h-[85%] flex-col overflow-hidden rounded-t-[46px] bg-white/50  bg-opacity-60 backdrop-blur-3xl backdrop-filter dark:bg-[#202533] xl:h-full xl:flex-1 xl:rounded-md">
-          <div className="absolute left-0 top-0 -z-10 flex h-full w-full items-center justify-center opacity-20">
+          <div className="absolute left-0 top-0 -z-10 flex h-full w-full items-center justify-center opacity-10">
             <img
               src={DHVSU_TRANSPARENT}
               alt="logo-chat-transparent"
-              className="h-76 w-76 object-cover object-center"
+              className="h-96 w-96 object-cover object-center"
             />
           </div>
           {messageLoading ? (
@@ -307,7 +307,7 @@ function Chat() {
                 <div className="flex items-end gap-2">
                   <img
                     src={DHSVU_LOGO}
-                    className="relative top-3 h-10 w-10 rounded-full object-contain object-center"
+                    className=" h-10 w-10 rounded-full object-contain object-center"
                   />
 
                   <div className="mr-auto w-fit max-w-[75%] rounded-[1.5rem] rounded-bl-none bg-white p-2 px-6 py-[13px]  text-left text-black/60 dark:bg-[#585C68] dark:text-white">

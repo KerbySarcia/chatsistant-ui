@@ -40,7 +40,7 @@ const FirstSection = () => {
         <img
           src={DHSVU_LOGO}
           alt="logo"
-          className="h-[7rem] w-[7rem] rounded-l-[0.625rem] rounded-r-[1.563rem] object-contain lg:h-[10rem] lg:w-[10rem]"
+          className="h-[7rem] w-[7rem] rounded-r-full rounded-bl-[3000px] rounded-tl-full object-contain shadow lg:h-[10rem] lg:w-[10rem]"
         />
         <div className="flex flex-col gap-1 ">
           <h1 className="text-3xl font-bold text-black/60 dark:text-white lg:text-6xl">
