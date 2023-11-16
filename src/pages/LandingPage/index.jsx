@@ -13,6 +13,8 @@ import AboutUsModal from "../../components/AboutUsModal";
 import useDarkMode from "../../hooks/useDarkMode";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
+import { ToastContainer, toast } from "react-toastify";
+import ForgotPassword from "../../components/auth/ForgotPassword";
 
 const Button = ({ img, label, onClick }) => {
   return (
@@ -62,12 +64,24 @@ const SecondSection = () => {
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
   const [aboutUsModal, setAboutUsModal] = useState(false);
+  const [forgotPasswordModal, setforgotPassword] = useState(false);
 
   return (
     <>
-      <Login isOpen={loginModalIsOpen} setIsOpen={setLoginModalIsOpen} />
+      <ToastContainer />
+      <Login
+        isOpen={loginModalIsOpen}
+        setIsOpen={setLoginModalIsOpen}
+        setPasswordModal={setforgotPassword}
+      />
       <SignUp isOpen={signUpModalIsOpen} setIsOpen={setSignUpModalIsOpen} />
       <AboutUsModal isOpen={aboutUsModal} setIsOpen={setAboutUsModal} />
+      <ForgotPassword
+        toast={toast}
+        isOpen={forgotPasswordModal}
+        setIsOpen={setforgotPassword}
+        setIsOpenLogin={setLoginModalIsOpen}
+      />
       <div
         className="flex h-full w-full flex-col items-center justify-center rounded-t-[3rem]
 bg-[#F8F8F875] shadow-2xl dark:bg-black/30 md:h-fit md:max-w-[25rem] md:rounded-b-[3rem] md:py-10 lg:h-[40rem] lg:max-w-[35rem]"

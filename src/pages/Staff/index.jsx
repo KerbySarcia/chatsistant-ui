@@ -49,7 +49,7 @@ function Staff() {
           Sign out
         </button>
       </div>
-      <div className=" h-screen bg-blue-500 duration-200 dark:bg-gradient-to-t dark:from-[#37243E]  dark:to-[#3F4B69] ">
+      <div className="h-screen bg-blue-500 duration-200 dark:bg-gradient-to-t dark:from-[#37243E]  dark:to-[#3F4B69] ">
         <div className=" hidden h-full items-center gap-5 bg-white/50 p-5 dark:bg-transparent lg:flex">
           <SideBar value={value} setValue={setValue} />
           <div className="flex h-full w-full rounded-xl bg-white/40  p-5 backdrop-blur-sm dark:bg-white/10">

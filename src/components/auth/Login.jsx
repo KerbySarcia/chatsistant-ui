@@ -10,7 +10,7 @@ import DHVSU from "../../assets/images/dabchatlogo.png";
 import { Icon } from "@iconify/react";
 
 // eslint-disable-next-line react/prop-types
-const Login = ({ isOpen, setIsOpen }) => {
+const Login = ({ isOpen, setIsOpen, setPasswordModal }) => {
   const loginInitialValues = {
     email: "",
     password: "",
@@ -33,7 +33,7 @@ const Login = ({ isOpen, setIsOpen }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
-        className=" absolute top-0 z-50 flex h-full w-full items-center justify-center"
+        className=" absolute top-0 z-10 flex h-full w-full items-center justify-center"
         open={isOpen}
         onClose={() => setIsOpen(false)}
       >
@@ -128,6 +128,15 @@ const Login = ({ isOpen, setIsOpen }) => {
                         {errors.password}
                       </span>
                     ) : null}
+                    <span
+                      onClick={() => {
+                        setIsOpen(false);
+                        setPasswordModal(true);
+                      }}
+                      className="cursor-pointer text-xs text-black/90 dark:text-white/50"
+                    >
+                      Forgot Password?
+                    </span>
                   </div>
                   <button
                     disabled={isLoading}

@@ -26,9 +26,25 @@ export default function useUserService() {
     [put]
   );
 
+  const forgotPassword = useCallback(
+    async payload => {
+      return await put("/users", payload);
+    },
+    [put]
+  );
+
+  const emailCheck = useCallback(
+    async payload => {
+      return await put("/users/email/email-checker", payload);
+    },
+    [put]
+  );
+
   return {
     getUsers,
     deleteUser,
     updateUser,
+    forgotPassword,
+    emailCheck,
   };
 }
