@@ -265,7 +265,7 @@ function Chat() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <button className="flex w-full items-center justify-center gap-5 rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
+                <button className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
                   <Icon icon={"bi:facebook"} className="text-2xl text-white" />
                   <span className="font-productSansBlack text-white">
                     Admission Facebook
@@ -273,7 +273,7 @@ function Chat() {
                 </button>
               </a>
               <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
-                <button className="flex w-full items-center justify-center gap-5 rounded-md bg-[#a6304d] p-5 duration-200 hover:opacity-50">
+                <button className="flex w-full items-center justify-center gap-2 rounded-md bg-[#a6304d] p-5 duration-200 hover:opacity-50">
                   <img
                     src={LOGO}
                     alt="logo"
