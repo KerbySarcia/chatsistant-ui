@@ -28,7 +28,7 @@ const Button = ({ img, label, onClick }) => {
         alt="icon"
         className="absolute -top-8 h-[7rem] w-[7rem] object-contain lg:-top-16 lg:h-[10rem] lg:w-[10rem]"
       />
-      <span className="font-productSansBlack relative top-2 text-black/60 dark:text-white lg:text-2xl">
+      <span className="relative top-2 font-productSansBlack text-black/60 dark:text-white lg:text-2xl">
         {label}
       </span>
     </button>
@@ -38,7 +38,7 @@ const Button = ({ img, label, onClick }) => {
 const FirstSection = () => {
   return (
     <div className="flex max-w-[40rem] flex-col items-center justify-center gap-5 p-10 md:mb-auto md:h-full md:py-0">
-      <div className="font-productSansBlack flex items-center gap-5">
+      <div className="flex items-center gap-5 font-productSansBlack">
         <img
           src={DHSVU_LOGO}
           alt="logo"
@@ -65,6 +65,7 @@ const SecondSection = () => {
   const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
   const [aboutUsModal, setAboutUsModal] = useState(false);
   const [forgotPasswordModal, setforgotPassword] = useState(false);
+  const nav = useNavigate();
 
   return (
     <>
@@ -88,14 +89,11 @@ bg-[#F8F8F875] shadow-2xl dark:bg-black/30 md:h-fit md:max-w-[25rem] md:rounded-
       >
         <div className="max-w-[20rem]. flex w-full flex-col gap-5 p-5 lg:gap-14 lg:p-10">
           <div className="flex w-full items-center justify-center gap-10">
-            <a
-              href="https://www.facebook.com/dhvsuofficeofadmissions"
-              target="_blank"
-              rel="noreferrer"
-              className="w-full"
-            >
-              <Button img={TRY_CHAT} label={"Facebook"} onClick={() => {}} />
-            </a>
+            <Button
+              img={TRY_CHAT}
+              label={"Try Now!"}
+              onClick={() => nav("/try")}
+            />
             <Button
               img={FORM}
               label={"Sign up"}
@@ -103,8 +101,8 @@ bg-[#F8F8F875] shadow-2xl dark:bg-black/30 md:h-fit md:max-w-[25rem] md:rounded-
             />
           </div>
           <button
-            className=" font-productSansBlack flex min-h-[7rem] w-full items-center  justify-center
- rounded-[2rem] bg-white/30 shadow-md transition hover:scale-110 dark:bg-gray-600/20"
+            className=" flex min-h-[7rem] w-full items-center justify-center  rounded-[2rem]
+ bg-white/30 font-productSansBlack shadow-md transition hover:scale-110 dark:bg-gray-600/20"
           >
             <div
               onClick={() => setAboutUsModal(true)}
@@ -127,7 +125,7 @@ bg-[#F8F8F875] shadow-2xl dark:bg-black/30 md:h-fit md:max-w-[25rem] md:rounded-
           </button>
           <button
             onClick={() => setLoginModalIsOpen(true)}
-            className="font-productSansBlack w-full rounded-[2rem] bg-white/30 py-5 text-[#9A94D9] shadow-md transition hover:scale-110 dark:bg-gray-600/20 dark:text-[#BEBAE5CC] lg:text-3xl"
+            className="w-full rounded-[2rem] bg-white/30 py-5 font-productSansBlack text-[#9A94D9] shadow-md transition hover:scale-110 dark:bg-gray-600/20 dark:text-[#BEBAE5CC] lg:text-3xl"
           >
             Login
           </button>

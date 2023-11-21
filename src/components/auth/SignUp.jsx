@@ -14,6 +14,7 @@ import random from "random-string-generator";
 import { ToastContainer, toast } from "react-toastify";
 import useDarkMode from "../../hooks/useDarkMode";
 import useInquiryService from "../../services/useInquiryService";
+import { Icon } from "@iconify/react";
 
 const StepTwo = ({ holdOtp, credentials }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +75,7 @@ const StepTwo = ({ holdOtp, credentials }) => {
           <button
             disabled={isLoading}
             type="submit"
-            className="font-productSansBlack flex items-center justify-center rounded bg-blue-500 p-2 text-white duration-200 hover:opacity-50"
+            className="flex items-center justify-center rounded bg-blue-500 p-2 font-productSansBlack text-white duration-200 hover:opacity-50"
           >
             {isLoading ? (
               <LoadingSpinner className={"!h-4 !w-4"} />
@@ -93,11 +94,14 @@ const StepOne = ({ next, setCredentials, setHoldOtp }) => {
   const inquiryService = useInquiryService();
   const [signUpError, setSignUpError] = useState(null);
   const { isDark } = useDarkMode();
+  const [isHide, setIsHide] = useState(true);
+  const [isHideConfirmPassword, setIsHideConfirmPassword] = useState(true);
   const userService = useUserService();
   return (
     <Formik
       initialValues={{
         password: "",
+        confirm_password: "",
         first_name: "",
         last_name: "",
         email: "",
@@ -189,24 +193,59 @@ const StepOne = ({ next, setCredentials, setHoldOtp }) => {
             ) : null}
           </div>
           <div className="flex flex-col gap-1">
-            <Field
-              className="w-full rounded border p-2 focus:outline-blue-500"
-              type="password"
-              id="password"
-              name="password"
-              autoComplete="off"
-              placeholder="Password"
-            />
+            <div className="relative flex items-center justify-end">
+              <Field
+                className="w-full rounded border p-2 pr-8 focus:outline-blue-500"
+                type={isHide ? "password" : "text"}
+                id="password"
+                name="password"
+                autoComplete="off"
+                disabled={isLoading}
+                placeholder="Password"
+              />
+              <Icon
+                icon={isHide ? "solar:eye-bold" : "mingcute:eye-close-fill"}
+                onClick={() => setIsHide(prev => !prev)}
+                className="absolute mr-3 cursor-pointer text-lg"
+              />
+            </div>
             {errors.password && touched.password ? (
               <span className="text-xs italic text-red-400">
                 {errors.password}
               </span>
             ) : null}
           </div>
+          <div className="flex flex-col gap-1">
+            <div className="relative flex items-center justify-end">
+              <Field
+                className="w-full rounded border p-2 pr-8 focus:outline-blue-500"
+                type={isHideConfirmPassword ? "password" : "text"}
+                id="confirm_password"
+                name="confirm_password"
+                autoComplete="off"
+                placeholder="Confirm Password"
+                disabled={isLoading}
+              />
+              <Icon
+                icon={
+                  isHideConfirmPassword
+                    ? "solar:eye-bold"
+                    : "mingcute:eye-close-fill"
+                }
+                onClick={() => setIsHideConfirmPassword(prev => !prev)}
+                className="absolute mr-3 cursor-pointer text-lg"
+              />
+            </div>
+            {errors.confirm_password && touched.confirm_password ? (
+              <span className="text-xs italic text-red-400">
+                {errors.confirm_password}
+              </span>
+            ) : null}
+          </div>
           <button
             disabled={isLoading}
             type="submit"
-            className="font-productSansBlack flex justify-center rounded bg-blue-500 p-2 text-white"
+            className="flex justify-center rounded bg-blue-500 p-2 font-productSansBlack text-white"
           >
             {isLoading ? <LoadingSpinner /> : <span>Sign Up</span>}
           </button>
@@ -265,7 +304,7 @@ const SignUp = ({ isOpen, setIsOpen }) => {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="m-5 flex w-full max-w-[400px] flex-col gap-4 rounded-md bg-white p-4 dark:bg-[#2D354B]">
-              <Dialog.Title className="font-productSansBlack text-center font-bold text-black dark:text-white">
+              <Dialog.Title className="text-center font-productSansBlack font-bold text-black dark:text-white">
                 Create Account
               </Dialog.Title>
 

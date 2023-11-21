@@ -209,7 +209,6 @@ const KnowledgeFeeder = () => {
       </td>
     </tr>
   ));
-  console.log(knowledgePayload);
   return (
     <>
       {isDeleteLoading && (
@@ -220,7 +219,7 @@ const KnowledgeFeeder = () => {
       <ToastContainer />
       <div className="relative flex h-full w-full flex-col gap-5">
         <h1
-          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-white p-5 text-center 
+          className="w-full rounded-b-md rounded-t-lg bg-white p-5 text-center font-productSansBlack 
         text-xl text-black/60 dark:bg-black/50 dark:text-white "
         >
           Knowledge Feeder
@@ -232,7 +231,7 @@ const KnowledgeFeeder = () => {
               className="absolute left-0 top-0 flex h-full w-full flex-col gap-4   text-white"
             >
               <thead className="sticky top-0 bg-white p-5 pb-0 dark:bg-[#3D4250] dark:pt-0">
-                <tr className=" font-productSansBlack flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left text-black/60 dark:bg-[#3D4250] dark:text-white">
+                <tr className=" flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left font-productSansBlack text-black/60 dark:bg-[#3D4250] dark:text-white">
                   <th className="flex-1">Subject</th>
                   <th className="flex-1">Target</th>
                   <th className="flex-1">Value</th>

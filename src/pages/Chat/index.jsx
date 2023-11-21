@@ -13,6 +13,8 @@ import Menu from "../../components/chat/Menu";
 import getThreeRandomElements from "../../../utils/GetRandomElements";
 import useDarkMode from "../../hooks/useDarkMode";
 import DHVSU_TRANSPARENT from "../../assets/images/dhvsu_logo_new.webp";
+import useKnowledege from "../../services/useKnowledge";
+import { ToastContainer, toast } from "react-toastify";
 
 const RANDOM_QUESTION = [
   "When is the admission period for senior high school (grade 11)?",
@@ -28,7 +30,6 @@ const RANDOM_QUESTION = [
 ];
 
 function Chat() {
-  const [conversations, setConversations] = useState([]);
   const [randomQuestion, setRandomQuestion] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -43,9 +44,12 @@ function Chat() {
     updateConversationHistory,
   } = useChatService();
   const { id } = useParams();
+  const [conversations, setConversations] = useState([]);
+
   const nav = useNavigate();
   const messageRef = useRef(null);
   const animateMessage = useRef(null);
+  const knowledgeService = useKnowledege();
   const { signOut, session } = useSession();
 
   const scrollToBottom = () => {
@@ -69,7 +73,7 @@ function Chat() {
   }, [conversations, messageRef.current]);
 
   useEffect(() => {
-    if (id !== "try-now") {
+    if (id) {
       (async () => {
         const conversation = await getConversation(id);
 
@@ -77,16 +81,51 @@ function Chat() {
 
         setMessageLoading(false);
       })();
+    } else {
+      setConversations([
+        {
+          message:
+            "Hello User! Please note that using the chat assistant as a guest limits your experience. Please sign up to use the following features: Chat History, No Word Count Limit on Inquiries, Inquiry Redirection.",
+          role: "assistant",
+        },
+      ]);
+      setMessageLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (query.length === 32 && !id) {
+      toast.error(
+        "You have reached the maximum amount of characters(32), signup to remove character limit.",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: isDark ? "dark" : "light",
+        }
+      );
+    }
+  }, [query]);
 
   const handleClickFirstTime = async userClicked => {
     setIsLoading(true);
     setConversations(prev => [...prev, { message: userClicked, role: "user" }]);
     setQuery("");
     let conversationResponse = [];
+    let aiResponse = null;
 
-    const aiResponse = await addMessage({ message: userClicked });
+    if (id) {
+      aiResponse = await addMessage({ message: userClicked });
+    } else {
+      aiResponse = await knowledgeService.getTry({
+        conversations: conversations,
+        question: userClicked,
+      });
+    }
 
     if (!isEmpty(aiResponse?.error)) {
       setConversations(prevConversations => [
@@ -119,12 +158,13 @@ function Chat() {
     setQuery("");
     let conversationResponse = [];
 
-    if (id === "try-now") {
-      const { data, error } = await sendQuestion({
+    if (!id) {
+      const aiResponse = await knowledgeService.getTry({
+        conversations: conversations,
         question: query,
       });
-      console.log("chat =>", error);
-      conversationResponse = data;
+
+      conversationResponse = aiResponse?.data;
     } else {
       const aiResponse = await addMessage({ message: query });
 
@@ -152,8 +192,8 @@ function Chat() {
     setIsLoading(false);
   };
   const messageElements = conversations?.map((message, key) => (
-    <div className="flex items-end gap-2">
-      {message.role === "assistant" && (
+    <div key={key} className="flex items-end gap-2">
+      {message?.role === "assistant" && (
         <img
           src={DHSVU_LOGO}
           className="h-10 w-10 rounded-full object-contain object-center"
@@ -161,12 +201,11 @@ function Chat() {
       )}
       <div
         className={clsx(
-          message.role === "assistant"
+          message?.role === "assistant"
             ? "mr-auto max-w-[75%] break-words rounded-[1.5rem] rounded-bl-none bg-white px-6 py-[13px] text-left text-black/60 dark:bg-[#585C68] dark:text-white"
             : "ml-auto max-w-[60%] break-words rounded-[1.5rem] rounded-br-none bg-[#DC8B8B] px-6 py-[13px] text-left text-white dark:bg-[#8C6A71]",
           "w-fit p-2"
         )}
-        key={key}
       >
         <span>{message.message}</span>
       </div>
@@ -175,6 +214,7 @@ function Chat() {
 
   return (
     <>
+      <ToastContainer />
       <Menu
         isOpen={isOpenMenu}
         setIsOpen={setIsOpenMenu}
@@ -225,17 +265,23 @@ function Chat() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <button className="flex w-full items-center justify-center rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
+                <button className="flex w-full items-center justify-center gap-5 rounded-md bg-blue-500 p-5 duration-200 hover:opacity-50">
                   <Icon icon={"bi:facebook"} className="text-2xl text-white" />
+                  <span className="font-productSansBlack text-white">
+                    Admission Facebook
+                  </span>
                 </button>
               </a>
               <a href="https://dhvsu.edu.ph/" target="_blank" rel="noreferrer">
-                <button className="flex w-full items-center justify-center rounded-md bg-[#a6304d] p-5 duration-200 hover:opacity-50">
+                <button className="flex w-full items-center justify-center gap-5 rounded-md bg-[#a6304d] p-5 duration-200 hover:opacity-50">
                   <img
                     src={LOGO}
                     alt="logo"
                     className="h-[24px] w-[24px] object-cover object-center"
                   />
+                  <span className="font-productSansBlack text-white">
+                    DHVSU Website
+                  </span>
                 </button>
               </a>
             </div>
@@ -244,9 +290,10 @@ function Chat() {
                 <button
                   onClick={async () => {
                     setMessageLoading(true);
-                    await updateConversationHistory(id, {
-                      conversation_history: [],
-                    });
+                    id &&
+                      (await updateConversationHistory(id, {
+                        conversation_history: [],
+                      }));
                     setConversations([]);
                     setRandomQuestion([]);
                     setMessageLoading(false);
@@ -257,12 +304,21 @@ function Chat() {
                 </button>
               ) : null}
               <div className="flex gap-2">
-                <button
-                  onClick={() => signOut()}
-                  className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
-                >
-                  Sign out
-                </button>
+                {id ? (
+                  <button
+                    onClick={() => signOut()}
+                    className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
+                  >
+                    Sign out
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => nav("/")}
+                    className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
+                  >
+                    Back
+                  </button>
+                )}
                 <button
                   onClick={() => handleToggle()}
                   className="w-full rounded-md bg-white/50 p-4 text-[#9A94D9] shadow duration-200 hover:opacity-50 dark:bg-[#2D354B] dark:text-white"
@@ -345,6 +401,7 @@ function Chat() {
               <input
                 onChange={e => setQuery(e.target.value)}
                 value={query}
+                maxLength={!id ? 32 : undefined}
                 disabled={isLoading || errorMessage}
                 type="text"
                 className="w-full bg-none pr-3  text-black outline-none dark:bg-[#585C68] dark:text-white"

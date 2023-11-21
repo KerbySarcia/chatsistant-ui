@@ -43,6 +43,13 @@ export default function useKnowledege() {
     return await get("/knowledges/target");
   }, [get]);
 
+  const getTry = useCallback(
+    async payload => {
+      return await post("/knowledges/try", payload);
+    },
+    [post]
+  );
+
   return {
     addKnowledge,
     getKnowledges,
@@ -50,5 +57,6 @@ export default function useKnowledege() {
     updateKnowledge,
     getSubjects,
     getTargets,
+    getTry,
   };
 }

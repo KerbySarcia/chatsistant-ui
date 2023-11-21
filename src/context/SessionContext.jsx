@@ -1,7 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import useAuthService from "../services/useAuthService";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
 
 export const SessionContext = createContext({});
@@ -9,13 +9,19 @@ export const SessionContext = createContext({});
 export default function SessionProvider({ children }) {
   const [session, setSession] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const location = useLocation();
+  const { pathname } = location;
   const { login, verifyAuth } = useAuthService();
   const nav = useNavigate();
 
   useEffect(() => {
     const fetchAndVerifySession = async () => {
       const storedSession = Cookies.get("session");
+      if (pathname === "/try") {
+        setIsLoading(false);
+        return;
+      }
+
       if (storedSession) {
         try {
           const veriedSession = await verifyAuth();
@@ -41,7 +47,6 @@ export default function SessionProvider({ children }) {
       } else {
         nav("/");
       }
-
       setIsLoading(false);
     };
     fetchAndVerifySession();
