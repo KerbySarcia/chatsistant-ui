@@ -18,9 +18,11 @@ function Staff() {
   const { signOut } = useSession();
   let renderComponent = <Home />;
 
+  const handleNav = name => setValue(name);
+
   switch (value) {
     case "home":
-      renderComponent = <Home />;
+      renderComponent = <Home handleNav={handleNav} />;
       break;
     case "knowledge-feeder":
       renderComponent = <KnowledgeFeeder />;

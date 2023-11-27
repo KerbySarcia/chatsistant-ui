@@ -207,7 +207,7 @@ function Chat() {
           "w-fit p-2"
         )}
       >
-        <span>{message.message}</span>
+        <span className="whitespace-pre-line">{message.message}</span>
       </div>
     </div>
   ));

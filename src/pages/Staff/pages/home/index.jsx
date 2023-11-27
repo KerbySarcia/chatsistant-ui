@@ -6,7 +6,7 @@ import useInquiryService from "../../../../services/useInquiryService";
 import useSession from "../../../../hooks/useSession";
 import useUserService from "../../../../services/useUserService";
 
-const Home = () => {
+const Home = ({ handleNav }) => {
   const [knowledges, setKnowledges] = useState(null);
   const [numberOfPending, setNumberOfPending] = useState(null);
   const [users, setUsers] = useState(null);
@@ -51,7 +51,10 @@ const Home = () => {
         <h2>Welcome to your Staff Dashboard.</h2>
       </div>
       <div className="flex items-center gap-5">
-        <div className="flex h-full w-full items-center justify-center gap-5 rounded-lg bg-[#8EABF2] p-5 text-white duration-300 dark:bg-black/30">
+        <div
+          onClick={() => handleNav("knowledge-feeder")}
+          className="flex h-full w-full cursor-pointer items-center justify-center gap-5 rounded-lg bg-[#8EABF2] p-5 text-white duration-300 dark:bg-black/30"
+        >
           <Icon icon={"uil:brain"} className="text-9xl" />
           <div className="flex flex-col ">
             <span className="font-productSansBlack text-7xl">
@@ -60,7 +63,10 @@ const Home = () => {
             <span className="text-2xl">Registered Information</span>
           </div>
         </div>
-        <div className="flex h-full w-full items-center justify-center gap-5 rounded-lg bg-[#F28E8E] p-5 text-white duration-300 dark:bg-black/30">
+        <div
+          onClick={() => handleNav("redirected-inquiries")}
+          className="flex h-full w-full cursor-pointer items-center justify-center gap-5 rounded-lg bg-[#F28E8E] p-5 text-white duration-300 dark:bg-black/30"
+        >
           <Icon icon={"tabler:message-question"} className="text-9xl" />
           <div className="flex flex-col ">
             <span className="font-productSansBlack text-7xl">

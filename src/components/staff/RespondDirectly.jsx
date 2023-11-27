@@ -43,6 +43,7 @@ const RespondDirectly = ({ isOpen, setIsOpen, question, user, id }) => {
             : inquiry
         ),
       ]);
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
     } finally {

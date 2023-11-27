@@ -141,7 +141,7 @@ const Login = ({ isOpen, setIsOpen, setPasswordModal }) => {
                   <button
                     disabled={isLoading}
                     type="submit"
-                    className="font-productSansBlack flex items-center justify-center rounded bg-blue-500 p-2 text-white duration-200 hover:opacity-50"
+                    className="flex items-center justify-center rounded bg-blue-500 p-2 font-productSansBlack text-white duration-200 hover:opacity-50"
                   >
                     {isLoading ? (
                       <LoadingSpinner className={"!h-4 !w-4"} />

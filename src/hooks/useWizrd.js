@@ -15,10 +15,15 @@ const useWizrd = max => {
     } else setIndex(max);
   };
 
+  const goto = num => {
+    setIndex(num);
+  };
+
   return {
     index,
     prev,
     next,
+    goto,
   };
 };
 
