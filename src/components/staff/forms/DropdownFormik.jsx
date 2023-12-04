@@ -12,7 +12,7 @@ const DropdownFormik = ({ options = [], label, name }) => {
       onChange={value => field.onChange({ target: { value, name } })}
       as={"div"}
       name={name}
-      className={"relative w-full"}
+      className={"relative w-full text-xs lg:text-base"}
     >
       <div className="flex flex-col gap-2">
         <Listbox.Label

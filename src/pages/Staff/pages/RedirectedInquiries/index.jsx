@@ -27,16 +27,16 @@ const DateSort = ({ dateSort, setDateSort }) => {
     <Listbox
       as={"div"}
       onChange={setDateSort}
-      className={"flex flex-col gap-1"}
+      className={"flex w-full flex-col items-center gap-1 p-1 lg:p-0"}
     >
       <Listbox.Button
         className={
-          "w-[200px] rounded-md bg-white p-1 text-black/60 dark:bg-[#2C2E3C] dark:text-white"
+          "w-full rounded-md bg-white p-1 text-black/60 dark:bg-[#2C2E3C] dark:text-white lg:w-[200px]"
         }
       >
         {dateSort ? dateSort : "Sort By Date"}
       </Listbox.Button>
-      <div className="relative">
+      <div className="relative flex justify-center">
         <Listbox.Options
           className={
             "absolute flex w-[200px] flex-col rounded-md border bg-white dark:bg-gray-600 "
@@ -99,12 +99,16 @@ const Card = ({
       />
       <div className="flex w-full max-w-[600px] flex-col gap-5 rounded-md bg-[#C7D3EE] p-5 dark:bg-black/30">
         <div className="flex w-full flex-col rounded-md bg-[#E8E3F8] p-3 dark:bg-[#2C2A37]">
-          <span className="font-productSansBlack text-black/60 dark:text-white">
+          <span className="overflow-hidden text-ellipsis font-productSansBlack text-black/60 dark:text-white">
             From: {user_name}
           </span>
-          <div className="flex items-center justify-between text-sm text-black/40 dark:text-white/60">
-            <span>Email: {user_email}</span>
-            <span>{dateFormat(date)}</span>
+          <div className="flex flex-col justify-between text-sm text-black/40 dark:text-white/60 md:flex-row md:items-center">
+            <span className="overflow-hidden text-ellipsis">
+              Email: {user_email}
+            </span>
+            <span className="overflow-hidden text-ellipsis">
+              {dateFormat(date)}
+            </span>
           </div>
         </div>
         <div className="flex h-full w-full flex-col break-words rounded-md bg-[#DFE8FD] p-3 text-black/60 dark:bg-[#2C2E3C] dark:text-white/80">
@@ -179,19 +183,23 @@ const RedirectedInquiries = () => {
       ]);
     }
   }, [dateSort]);
-  console.log(inquiries);
+
   return (
     <InquiriesContext.Provider value={{ inquiries, setInquiries }}>
-      <div className="flex h-full w-full flex-col gap-5">
+      <div className="flex h-screen w-full flex-col gap-5 lg:h-full">
         <h1
-          className="font-productSansBlack w-full rounded-b-md rounded-t-lg bg-white p-5 text-center 
+          className="w-full rounded-b-md rounded-t-lg bg-white p-5 text-center font-productSansBlack 
         text-xl text-black/60 dark:bg-black/50 dark:text-white "
         >
           Redirected Inquiries
         </h1>
         <Tab.Group onChange={setTabValue}>
-          <Tab.List className={"flex items-center justify-between gap-5"}>
-            <div className="flex items-center gap-5">
+          <Tab.List
+            className={
+              "flex flex-col items-center justify-between gap-5 lg:flex-row"
+            }
+          >
+            <div className="flex w-full flex-col items-center gap-1 lg:flex-row  lg:gap-5">
               {[
                 { name: "Pending", id: "PENDING" },
                 { name: "Responded", id: "DONE" },
@@ -200,7 +208,7 @@ const RedirectedInquiries = () => {
                 <Tab
                   key={key}
                   className={clsx(
-                    "darktext-white rounded-md p-2 px-5 duration-150 dark:bg-black/50",
+                    "darktext-white w-full rounded-md p-2 px-5 duration-150 dark:bg-black/50 lg:w-fit",
                     tabValue === key
                       ? " bg-[#8EABF2] text-white dark:opacity-100"
                       : "bg-white/50 text-black/60 dark:text-white dark:opacity-50"

@@ -17,6 +17,8 @@ import { Icon } from "@iconify/react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import useSession from "../../../../hooks/useSession";
+import AddUserModal from "../../../../components/staff/account-settings/AddUserModal";
+import OptionModal from "../../../../components/staff/account-settings/OptionModal";
 
 const AccountSettings = () => {
   const [initialValues, setInitialValues] = useState({
@@ -27,7 +29,10 @@ const AccountSettings = () => {
     password: "",
   });
   const [staffs, setStaffs] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [addUserModal, setAddUserModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [optionModal, setOptionModal] = useState(false);
   const userService = useUserService();
   const authService = useAuthService();
   const inquiryService = useInquiryService();
@@ -53,6 +58,15 @@ const AccountSettings = () => {
   const handleDelete = async id => {
     await userService.deleteUser(id);
     setStaffs([...staffs.filter(staff => staff._id !== id)]);
+  };
+
+  const openAddModal = () => setAddUserModal(true);
+  const closeAddModal = () => setAddUserModal(false);
+  const closeOptionModal = () => setOptionModal(false);
+  const openOptionModal = staff => {
+    if (window.innerWidth > 1024) return;
+    setInitialValues({ ...staff });
+    setOptionModal(true);
   };
 
   const handleSubmit = async (data, { resetForm }) => {
@@ -336,103 +350,131 @@ const AccountSettings = () => {
 
   if (!staffs)
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center">
         <LoadingSpinner />
       </div>
     );
 
   return (
-    <div className="flex h-full w-full flex-col gap-5">
-      <h1
-        className="w-full rounded-b-md rounded-t-lg bg-white p-5 text-center font-productSansBlack 
+    <>
+      <AddUserModal
+        staffs={staffs}
+        setStaffs={setStaffs}
+        closeModal={closeAddModal}
+        isOpen={addUserModal}
+      />
+      <OptionModal
+        closeModal={closeOptionModal}
+        isOpen={optionModal}
+        userId={userId}
+        deleteKnowledge={handleDelete}
+        openEditModal={() => {}}
+        userPayload={initialValues}
+        setUserPayload={setInitialValues}
+      />
+      <div className="flex h-full w-full flex-col gap-5">
+        <h1
+          className="w-full rounded-b-md rounded-t-lg bg-white p-5 text-center font-productSansBlack 
         text-xl text-black/60 dark:bg-black/50 dark:text-white "
-      >
-        Account Settings
-      </h1>
+        >
+          Account Settings
+        </h1>
 
-      <div className="flex h-full w-full gap-5">
-        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
-          <h1 className="rounded-md bg-[#8EABF2] p-2 text-center text-white dark:bg-black/30 ">
-            Staffs
-          </h1>
+        <div className="flex h-screen w-full gap-5 lg:h-full">
+          <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
+            <div className="flex items-center justify-between rounded-md bg-[#8EABF2] p-5 dark:bg-black/30">
+              <h1
+                className="w-full text-center
+                      font-productSansBlack text-xl text-black/60  dark:text-white"
+              >
+                Staffs
+              </h1>
+              <Icon
+                icon={"fluent:add-16-filled"}
+                onClick={openAddModal}
+                className="rounded-full bg-white p-1 text-xl lg:hidden"
+              />
+            </div>
 
-          <div className="relative flex h-full w-full overflow-y-auto">
-            <table className="absolute left-0 top-0 flex h-full w-full flex-col gap-4  text-black/60 dark:text-white">
-              <thead className="sticky top-0">
-                <tr className=" flex w-full items-center justify-between rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left font-productSansBlack dark:bg-[#3D4250]">
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th className="">Action</th>
-                </tr>
-              </thead>
-              <tbody className="flex flex-col gap-5">
-                {staffs?.map((staff, key) => (
-                  <tr
-                    key={key}
-                    className="flex w-full items-start justify-between rounded-b-md rounded-t-lg bg-[#F7F7F7] p-5 text-left  dark:bg-[#3D4250]"
-                  >
-                    <Tippy content={staff.first_name + " " + staff.last_name}>
-                      <td className="max-w-[50px] cursor-default overflow-hidden text-ellipsis">
-                        {staff.first_name + " " + staff.last_name}
-                      </td>
-                    </Tippy>
-                    <Tippy content={staff.email}>
-                      <td className="max-w-[150px] cursor-default overflow-hidden text-ellipsis">
-                        {staff.email}
-                      </td>
-                    </Tippy>
-                    <td className="">{staff.role}</td>
-                    <td className="flex w-[100px] flex-col gap-1 text-sm">
-                      <button
-                        onClick={() => {
-                          setInitialValues({
-                            ...staff,
-                          });
-                        }}
-                        className=" rounded border border-white/30 bg-[#8EABF2] text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={async () => {
-                          handleDelete(staff._id);
-                          toast("Successfully Deleted!", {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: isDark ? "dark" : "light",
-                          });
-                        }}
-                        className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
-                      >
-                        Delete
-                      </button>
-                    </td>
+            <div className="relative flex h-full w-full overflow-y-auto">
+              <table className="absolute left-0 top-0 flex h-full w-full flex-col gap-4  text-black/60 dark:text-white">
+                <thead className="sticky top-0">
+                  <tr className=" flex w-full items-center justify-between rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left font-productSansBlack dark:bg-[#3D4250]">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th className="hidden lg:block">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="flex flex-col gap-5">
+                  {staffs?.map((staff, key) => (
+                    <tr
+                      key={key}
+                      onClick={() => openOptionModal(staff)}
+                      className="flex w-full items-start justify-between rounded-b-md rounded-t-lg bg-[#F7F7F7] p-5 text-left dark:bg-[#3D4250] "
+                    >
+                      <Tippy content={staff.first_name + " " + staff.last_name}>
+                        <td className="max-w-[50px] cursor-default overflow-hidden text-ellipsis text-xs lg:text-base">
+                          {staff.first_name + " " + staff.last_name}
+                        </td>
+                      </Tippy>
+                      <Tippy content={staff.email}>
+                        <td className="max-w-[150px] cursor-default overflow-hidden text-ellipsis text-xs lg:text-base">
+                          {staff.email}
+                        </td>
+                      </Tippy>
+                      <td className=" text-xs lg:text-base">{staff.role}</td>
+                      <td className="hidden w-[100px] flex-col gap-1 text-sm lg:flex">
+                        <button
+                          onClick={() => {
+                            setInitialValues({
+                              ...staff,
+                            });
+                          }}
+                          className=" rounded border border-white/30 bg-[#8EABF2] text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={async () => {
+                            handleDelete(staff._id);
+                            toast("Successfully Deleted!", {
+                              position: "top-right",
+                              autoClose: 5000,
+                              hideProgressBar: false,
+                              closeOnClick: true,
+                              pauseOnHover: true,
+                              draggable: true,
+                              progress: undefined,
+                              theme: isDark ? "dark" : "light",
+                            });
+                          }}
+                          className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div className="flex h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50">
-          <h1 className="rounded-md bg-[#8EABF2] p-2 text-center text-white dark:bg-black/30 ">
-            Add Staffs
-          </h1>
-          <ToastContainer />
-          {/* {errorMessage ? (
+          <div className="hidden h-full w-full flex-col gap-5 rounded-md bg-white p-5 dark:bg-black/50 lg:flex">
+            <h1 className="rounded-md bg-[#8EABF2] p-2 text-center text-white dark:bg-black/30 ">
+              Add Staffs
+            </h1>
+            <ToastContainer />
+            {/* {errorMessage ? (
             <h1 className="rounded-md bg-red-300 p-5 text-center text-sm text-red-800">
               {errorMessage}
             </h1>
           ) : null} */}
-          <div className="">{Stepper[index]}</div>
+            <div className="">{Stepper[index]}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

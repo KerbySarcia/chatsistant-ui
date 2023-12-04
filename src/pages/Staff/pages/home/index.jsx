@@ -34,14 +34,14 @@ const Home = ({ handleNav }) => {
 
   if (!knowledges && !numberOfPending && !users && !questions)
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center">
         <LoadingSpinner />
       </div>
     );
 
   return (
-    <div className="flex h-full w-full flex-col gap-5 p-10 ">
-      <div className=" flex flex-col text-4xl text-black/60 dark:text-white">
+    <div className="flex h-full w-full flex-col gap-5 lg:p-10 ">
+      <div className=" flex flex-col text-black/60 dark:text-white lg:text-4xl">
         <h1>
           Hello,{" "}
           <span className="font-productSansBlack">
@@ -50,7 +50,7 @@ const Home = ({ handleNav }) => {
         </h1>
         <h2>Welcome to your Staff Dashboard.</h2>
       </div>
-      <div className="flex items-center gap-5">
+      <div className="flex flex-col items-center gap-5 lg:flex-row">
         <div
           onClick={() => handleNav("knowledge-feeder")}
           className="flex h-full w-full cursor-pointer items-center justify-center gap-5 rounded-lg bg-[#8EABF2] p-5 text-white duration-300 dark:bg-black/30"
@@ -76,12 +76,14 @@ const Home = ({ handleNav }) => {
           </div>
         </div>
       </div>
-      <div className="flex h-full gap-5">
+      <div className="flex h-full flex-col gap-5 lg:flex-row">
         <div className="flex h-full w-full items-center justify-center gap-5 rounded-lg bg-[#908EF2] p-5 text-white duration-300 dark:bg-black/30">
           <Icon icon={"solar:chart-outline"} className="text-[200px]" />
           <div className="flex flex-col ">
-            <span className="font-productSansBlack text-9xl">{questions}</span>
-            <span className="text-2xl">
+            <span className="font-productSansBlack text-7xl lg:text-9xl">
+              {questions}
+            </span>
+            <span className="text-xl lg:text-2xl">
               Received inquiries by the DHVChat AI Chat Assistant
             </span>
           </div>

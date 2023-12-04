@@ -13,8 +13,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 const SideBar = ({ value, setValue }) => {
-  const { signOut } = useSession();
-  const { session } = useSession();
+  const { signOut, session } = useSession();
   const { handleToggle, isDark } = useDarkMode();
 
   const SIDEBAR_VALUES = [
@@ -48,7 +47,7 @@ const SideBar = ({ value, setValue }) => {
     ) : null
   );
   return (
-    <div className="flex h-full w-20 flex-col justify-between ">
+    <div className="hidden h-full w-20 flex-col justify-between lg:flex">
       <RadioGroup
         value={value}
         onChange={setValue}

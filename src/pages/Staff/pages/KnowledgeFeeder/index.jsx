@@ -12,6 +12,9 @@ import { ToastContainer, toast } from "react-toastify";
 import useDarkMode from "../../../../hooks/useDarkMode";
 import "react-toastify/dist/ReactToastify.css";
 import DropdownSearch from "../../../../components/staff/knowledge-feeder/DropdownSearch";
+import Options from "../../../../components/staff/knowledge-feeder/Modals/Options";
+import EditModal from "../../../../components/staff/knowledge-feeder/Modals/EditModal";
+import AddModal from "../../../../components/staff/knowledge-feeder/Modals/AddModal";
 
 const KnowledgeFeeder = () => {
   const [dropdownValue, setDropdownValue] = useState("target");
@@ -22,13 +25,21 @@ const KnowledgeFeeder = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [subjects, setSubjects] = useState(null);
   const [targets, setTargets] = useState(null);
+  const [addModal, setAddModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [optionModal, setOptionModal] = useState(false);
+  const [optionValues, setOptionValues] = useState({
+    subject: "",
+    target: "",
+    value: "",
+  });
   const { isDark } = useDarkMode();
-
   const [knowledgePayload, setknowledgePayload] = useState({
     subject: "",
     target: "",
     value: "",
   });
+
   const {
     getKnowledges,
     addKnowledge,
@@ -94,6 +105,40 @@ const KnowledgeFeeder = () => {
     const deletedKnowledge = await deleteKnowledge(id);
     setKnowledges(knowledges.filter(knowledge => knowledge?._id !== id));
     setIsDeleteLoading(false);
+  };
+
+  const openEditModal = () => {
+    setEditModal(true);
+    closeOptionModal();
+  };
+  const openAddModal = () => setAddModal(true);
+  const closeAddModal = () => setAddModal(false);
+  const closeEditModal = () => setEditModal(false);
+  const openOptionModal = () => setOptionModal(true);
+  const closeOptionModal = () => setOptionModal(false);
+  const handleClickOption = options => {
+    openOptionModal();
+    setOptionValues(options);
+    setknowledgePayload({ ...options, _id: options.id });
+  };
+
+  const handleDeleteKnowledge = async id => {
+    await handleDelete(id);
+    toast.error("Successfully Deleted", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: isDark ? "dark" : "light",
+    });
+    setknowledgePayload({
+      subject: "",
+      target: "",
+      value: "",
+    });
   };
 
   const handleSubmit = async () => {
@@ -170,45 +215,48 @@ const KnowledgeFeeder = () => {
 
   const tableElemets = knowledges.map((knowledge, key) => (
     <tr
+      onClick={() =>
+        handleClickOption({
+          value: knowledge?.value,
+          subject: knowledge?.subject,
+          target: knowledge?.target,
+          id: knowledge?._id,
+        })
+      }
       key={key}
       className={clsx(
-        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left text-black/60 dark:text-white",
+        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left text-black/60 dark:text-white lg:pointer-events-none",
         key % 2 !== 0 && "bg-[#F7F7F7] dark:bg-[#323745]"
       )}
     >
-      <td className="flex-1 break-words">{knowledge?.subject}</td>
-      <td className="flex-1 break-words">{knowledge?.target}</td>
-      <td className="flex-1 break-words">{knowledge.value}</td>
-      <td className="flex w-[100px] flex-col gap-1">
+      <td className="flex-1 overflow-hidden text-ellipsis break-words text-xs lg:text-base">
+        {knowledge?.subject}
+      </td>
+      <td className="flex-1 overflow-hidden text-ellipsis break-words text-xs lg:text-base">
+        {knowledge?.target}
+      </td>
+      <td className="flex-1 overflow-hidden text-ellipsis break-words text-xs lg:text-base">
+        {knowledge?.value}
+      </td>
+      <td className="hidden w-[100px] flex-col gap-1 lg:flex">
         <button
           onClick={() => {
             setknowledgePayload(knowledge);
           }}
-          className="rounded border border-white/30 bg-[#8EABF2] text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60"
+          className="rounded border border-white/30 bg-[#8EABF2] text-xs text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
         >
           Edit
         </button>
         <button
-          className=" rounded border border-white/30 bg-[#F28E8E] text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60"
-          onClick={async () => {
-            await handleDelete(knowledge?._id);
-            toast.error("Successfully Deleted", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: isDark ? "dark" : "light",
-            });
-          }}
+          className=" rounded border border-white/30 bg-[#F28E8E] text-xs text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
+          onClick={() => handleDeleteKnowledge(knowledge?._id)}
         >
           Delete
         </button>
       </td>
     </tr>
   ));
+
   return (
     <>
       {isDeleteLoading && (
@@ -217,25 +265,65 @@ const KnowledgeFeeder = () => {
         </div>
       )}
       <ToastContainer />
-      <div className="relative flex h-full w-full flex-col gap-5">
-        <h1
-          className="w-full rounded-b-md rounded-t-lg bg-white p-5 text-center font-productSansBlack 
-        text-xl text-black/60 dark:bg-black/50 dark:text-white "
-        >
-          Knowledge Feeder
-        </h1>
+      <AddModal
+        closeModal={closeAddModal}
+        isOpen={addModal}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isFeedButtonDisabled={isFeedButtonDisabled}
+        isLoading={isLoading}
+        knowledgePayload={knowledgePayload}
+        setknowledgePayload={setknowledgePayload}
+        subjects={subjects}
+        targets={targets}
+      />
+      <EditModal
+        closeModal={closeEditModal}
+        isOpen={editModal}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isFeedButtonDisabled={isFeedButtonDisabled}
+        isLoading={isLoading}
+        knowledgePayload={knowledgePayload}
+        setknowledgePayload={setknowledgePayload}
+        subjects={subjects}
+        targets={targets}
+      />
+      <Options
+        isOpen={optionModal}
+        closeModal={closeOptionModal}
+        knowledge={optionValues}
+        deleteKnowledge={handleDeleteKnowledge}
+        openEditModal={openEditModal}
+        setknowledgePayload={setknowledgePayload}
+      />
+
+      <div className="relative flex h-screen w-full flex-col gap-5 lg:h-full">
+        <div className="flex items-center justify-between rounded-b-md  rounded-t-lg bg-white p-5 dark:bg-black/50">
+          <h1
+            className="w-full text-center
+          font-productSansBlack text-xl text-black/60  dark:text-white "
+          >
+            Knowledge Feeder
+          </h1>
+          <Icon
+            icon={"fluent:add-16-filled"}
+            onClick={openAddModal}
+            className="rounded-full bg-gray-200 p-1 text-xl dark:bg-white lg:hidden"
+          />
+        </div>
         <div className="flex h-full w-full items-center gap-5 overflow-y-auto">
-          <div className="relative flex h-full w-[70%] overflow-y-auto rounded-md bg-white p-5 pt-0 dark:bg-black/50">
+          <div className="relative flex h-full w-full overflow-y-auto rounded-md bg-white p-5 pt-0 dark:bg-black/50 lg:w-[70%]">
             <table
               ref={parentAnimate}
               className="absolute left-0 top-0 flex h-full w-full flex-col gap-4   text-white"
             >
               <thead className="sticky top-0 bg-white p-5 pb-0 dark:bg-[#3D4250] dark:pt-0">
                 <tr className=" flex w-full items-center justify-between gap-5 rounded-b-md rounded-t-lg bg-[#E8E8E8] p-5 text-left font-productSansBlack text-black/60 dark:bg-[#3D4250] dark:text-white">
-                  <th className="flex-1">Subject</th>
-                  <th className="flex-1">Target</th>
-                  <th className="flex-1">Value</th>
-                  <th className="">Actions</th>
+                  <th className="flex-1 text-xs lg:text-base">Subject</th>
+                  <th className="flex-1 text-xs lg:text-base">Target</th>
+                  <th className="flex-1 text-xs lg:text-base">Value</th>
+                  <th className="hidden lg:block">Actions</th>
                 </tr>
               </thead>
               <tbody className=" p-5 ">
@@ -248,14 +336,14 @@ const KnowledgeFeeder = () => {
                     </td>
                   </tr>
                 ) : (
-                  <tr className="flex w-full justify-center">
+                  <tr className="flex w-full justify-center text-xs lg:text-base">
                     <td>Knowledge is empty</td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-          <div className="flex h-full w-[30%] flex-col gap-5">
+          <div className="hidden h-full w-[30%] flex-col gap-5 lg:flex">
             {errorMessage ? (
               <h1 className="rounded-md bg-red-300 p-5 text-center text-sm text-red-800">
                 {errorMessage}
