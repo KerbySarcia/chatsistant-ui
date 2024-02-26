@@ -243,12 +243,12 @@ const KnowledgeFeeder = () => {
           onClick={() => {
             setknowledgePayload(knowledge);
           }}
-          className="rounded border border-white/30 bg-[#8EABF2] text-xs text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
+          className="pointer-events-auto rounded border border-white/30 bg-[#8EABF2] text-xs text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
         >
           Edit
         </button>
         <button
-          className=" rounded border border-white/30 bg-[#F28E8E] text-xs text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
+          className="pointer-events-auto rounded border border-white/30 bg-[#F28E8E] text-xs text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
           onClick={() => handleDeleteKnowledge(knowledge?._id)}
         >
           Delete
