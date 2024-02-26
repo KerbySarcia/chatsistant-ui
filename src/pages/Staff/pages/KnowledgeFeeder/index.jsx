@@ -16,6 +16,31 @@ import Options from "../../../../components/staff/knowledge-feeder/Modals/Option
 import EditModal from "../../../../components/staff/knowledge-feeder/Modals/EditModal";
 import AddModal from "../../../../components/staff/knowledge-feeder/Modals/AddModal";
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 const KnowledgeFeeder = () => {
   const [dropdownValue, setDropdownValue] = useState("target");
   const [knowledges, setKnowledges] = useState([]);
@@ -28,6 +53,7 @@ const KnowledgeFeeder = () => {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [optionModal, setOptionModal] = useState(false);
+  const { width } = useWindowDimensions();
   const [optionValues, setOptionValues] = useState({
     subject: "",
     target: "",
@@ -65,7 +91,7 @@ const KnowledgeFeeder = () => {
       })();
     }
   }, [searchValue]);
-
+  console.log(width);
   useEffect(() => {
     parentAnimate.current && autoAnimate(parentAnimate.current);
   }, [parentAnimate]);
@@ -215,17 +241,19 @@ const KnowledgeFeeder = () => {
 
   const tableElemets = knowledges.map((knowledge, key) => (
     <tr
-      onClick={() =>
-        handleClickOption({
-          value: knowledge?.value,
-          subject: knowledge?.subject,
-          target: knowledge?.target,
-          id: knowledge?._id,
-        })
-      }
+      onClick={() => {
+        if (width < 1024) {
+          handleClickOption({
+            value: knowledge?.value,
+            subject: knowledge?.subject,
+            target: knowledge?.target,
+            id: knowledge?._id,
+          });
+        }
+      }}
       key={key}
       className={clsx(
-        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left text-black/60 dark:text-white lg:pointer-events-none",
+        "flex w-full justify-between gap-5 rounded-b-md rounded-t-lg p-5 text-left text-black/60 dark:text-white",
         key % 2 !== 0 && "bg-[#F7F7F7] dark:bg-[#323745]"
       )}
     >
@@ -243,12 +271,12 @@ const KnowledgeFeeder = () => {
           onClick={() => {
             setknowledgePayload(knowledge);
           }}
-          className="pointer-events-auto rounded border border-white/30 bg-[#8EABF2] text-xs text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
+          className="rounded border border-white/30 bg-[#8EABF2] text-xs text-white duration-200 hover:bg-blue-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
         >
           Edit
         </button>
         <button
-          className="pointer-events-auto rounded border border-white/30 bg-[#F28E8E] text-xs text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
+          className="rounded border border-white/30 bg-[#F28E8E] text-xs text-white duration-200 hover:bg-red-400 dark:bg-black/30 dark:text-white/60 lg:text-base"
           onClick={() => handleDeleteKnowledge(knowledge?._id)}
         >
           Delete
